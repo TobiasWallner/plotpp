@@ -1,4 +1,4 @@
-Plot++
+PPlot
 ===
 
 A plotting library for C++ that uses Gnuplot as a backend.
