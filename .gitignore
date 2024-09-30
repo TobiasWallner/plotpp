@@ -1,0 +1,10 @@
+build*/
+.vs/
+Makefile
+*.fig
+*.html
+*.jpg
+*.pdf
+*.png
+*.tex
+*.webp
