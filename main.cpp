@@ -493,6 +493,9 @@ public:
 
 // http://gnuplot.info/docs/Overview.html
 
+// TODO: put classes and functions into their own files
+// TODO: put opstream into its own GitHub repo
+
 int main() {
 	
 	std::vector<double> x(20);
