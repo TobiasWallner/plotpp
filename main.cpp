@@ -49,7 +49,7 @@ std::ostream& operator<<(std::ostream& stream, const Text& text){
 }
 
 enum class Terminal{
-	Default,
+	NONE,
 	cairolatex, 	// LaTeX picture environment using graphicx package and Cairo backend
 	canvas, 		// HTML Canvas object
 	cgm, 			// Computer Graphics Metafile
@@ -91,7 +91,14 @@ enum class Terminal{
 
 std::string_view to_command(Terminal t){
 	switch(t){
-		case Terminal::Default : return "";
+		case Terminal::NONE : {
+			std::stringstream message;
+			message << "Error in funtion: " << __FUNCTION__ << "\n"
+					<< "  in file: " << __FILE__ << "\n"
+					<< "  at line: " << __LINE__ << "\n"
+					<< "  message: NONE is not a valid terminal\n";
+			throw std::runtime_error(message.str());
+		} break;
 		case Terminal::cairolatex : return "cairolatex";
 		case Terminal::canvas : return "canvas";
 		case Terminal::cgm : return "cgm";
@@ -139,7 +146,7 @@ std::string_view to_command(Terminal t){
 }
 
 enum class SaveAsFileType{
-	Default, 
+	NONE, 
 	tex, 
 	cgm,
 	pdf,
@@ -158,21 +165,21 @@ enum class SaveAsFileType{
 
 Terminal to_terminal(SaveAsFileType t){
 	switch(t){
-		case SaveAsFileType::Default: return Terminal::Default;
-        case SaveAsFileType::tex: return Terminal::cairolatex;
-        case SaveAsFileType::cgm: return Terminal::cgm;
-        case SaveAsFileType::pdf: return Terminal::pdfcairo;
-        case SaveAsFileType::dxf: return Terminal::dxf;
-        case SaveAsFileType::emf: return Terminal::emf;
-        case SaveAsFileType::eps: return Terminal::epscairo;
-        case SaveAsFileType::fig: return Terminal::fig;
-        case SaveAsFileType::gif: return Terminal::gif;
+		case SaveAsFileType::NONE: return Terminal::NONE;
+        case SaveAsFileType::tex:  return Terminal::cairolatex;
+        case SaveAsFileType::cgm:  return Terminal::cgm;
+        case SaveAsFileType::pdf:  return Terminal::pdfcairo;
+        case SaveAsFileType::dxf:  return Terminal::dxf;
+        case SaveAsFileType::emf:  return Terminal::emf;
+        case SaveAsFileType::eps:  return Terminal::epscairo;
+        case SaveAsFileType::fig:  return Terminal::fig;
+        case SaveAsFileType::gif:  return Terminal::gif;
         case SaveAsFileType::jpeg: return Terminal::jpeg;
-        case SaveAsFileType::png: return Terminal::png;
-        case SaveAsFileType::svg: return Terminal::svg;
+        case SaveAsFileType::png:  return Terminal::png;
+        case SaveAsFileType::svg:  return Terminal::svg;
         case SaveAsFileType::webp: return Terminal::webp;
         case SaveAsFileType::html: return Terminal::canvas;
-        case SaveAsFileType::txt: return Terminal::dumb;
+        case SaveAsFileType::txt:  return Terminal::dumb;
 	}
 	std::stringstream message;
 	message << "Error in funtion: " << __FUNCTION__ << "\n"
@@ -184,7 +191,14 @@ Terminal to_terminal(SaveAsFileType t){
 
 std::string_view to_file_ending(SaveAsFileType t){
 	switch(t){
-		case SaveAsFileType::Default : return "";
+		case SaveAsFileType::NONE : {
+			std::stringstream message;
+			message << "Error in funtion: " << __FUNCTION__ << "\n"
+					<< "  in file: " << __FILE__ << "\n"
+					<< "  at line: " << __LINE__ << "\n"
+					<< "  message: NONE is not a valid filetype\n";
+			throw std::runtime_error(message.str());
+		} break;
         case SaveAsFileType::tex: return ".tex";
         case SaveAsFileType::cgm: return ".cgm";
         case SaveAsFileType::pdf: return ".pdf";
@@ -208,8 +222,8 @@ std::string_view to_file_ending(SaveAsFileType t){
 	throw std::runtime_error(message.str());
 }
 
-SaveAsFileType from_filename(std::string_view filename){
-	if(filename.ends_with(to_file_ending(SaveAsFileType::tex)))       return SaveAsFileType::tex;
+SaveAsFileType filetype_from_filename(std::string_view filename){
+	if(filename.ends_with(".tex"))       return SaveAsFileType::tex;
 	else if(filename.ends_with(".cgm"))  return SaveAsFileType::cgm;
 	else if(filename.ends_with(".pdf"))  return SaveAsFileType::pdf;
 	else if(filename.ends_with(".dxf"))  return SaveAsFileType::dxf;
@@ -217,14 +231,14 @@ SaveAsFileType from_filename(std::string_view filename){
 	else if(filename.ends_with(".eps"))  return SaveAsFileType::eps;
 	else if(filename.ends_with(".fig"))  return SaveAsFileType::fig;
 	else if(filename.ends_with(".gif"))  return SaveAsFileType::gif;
-	else if(filename.ends_with(".jpg")) return SaveAsFileType::jpeg;
+	else if(filename.ends_with(".jpg"))  return SaveAsFileType::jpeg;
 	else if(filename.ends_with(".jpeg")) return SaveAsFileType::jpeg;
 	else if(filename.ends_with(".png"))  return SaveAsFileType::png;
 	else if(filename.ends_with(".svg"))  return SaveAsFileType::svg;
 	else if(filename.ends_with(".webp")) return SaveAsFileType::webp;
 	else if(filename.ends_with(".html")) return SaveAsFileType::html;
 	else if(filename.ends_with(".txt"))  return SaveAsFileType::txt;
-	else return SaveAsFileType::Default;
+	else                                 return SaveAsFileType::NONE;
 }
 
 enum class DashType{
@@ -254,6 +268,7 @@ std::string_view to_command(DashType dt){
 enum class PlotType{
 	LinePlot,
 	PointPlot,
+	ImageFilePlot,
 };
 
 class IPlot{
@@ -314,7 +329,7 @@ public:
 		, ylabel(ylabel)
 	{}
 	
-	void show(Terminal terminal = Terminal::Default, bool debug=false){
+	void show(Terminal terminal = Terminal::NONE, bool debug=false){
 		if(debug){
 			_plot(std::cout, terminal);
 		}else{
@@ -323,12 +338,12 @@ public:
 		}
 	}
 	
-	void save(std::string filename = "", SaveAsFileType filetype=SaveAsFileType::Default, Terminal terminal = Terminal::Default){
+	void save(std::string filename = "", SaveAsFileType filetype=SaveAsFileType::NONE, Terminal terminal = Terminal::NONE){
 		if(filename.empty()) filename = title;
 		
-		if(filetype == SaveAsFileType::Default){
-			filetype = from_filename(filename);
-			if(filetype == SaveAsFileType::Default){
+		if(filetype == SaveAsFileType::NONE){
+			filetype = filetype_from_filename(filename);
+			if(filetype == SaveAsFileType::NONE){
 				filetype = SaveAsFileType::png;
 				filename += ".png";
 			}
@@ -336,7 +351,7 @@ public:
 				filename += to_file_ending(filetype);
 		}
 		
-		if(terminal == Terminal::Default){
+		if(terminal == Terminal::NONE){
 			terminal = to_terminal(filetype);	
 		}
 		
@@ -347,11 +362,11 @@ public:
 protected:
 	void _plot(
 		std::ostream& stream, 
-		Terminal terminal = Terminal::Default,
+		Terminal terminal = Terminal::NONE,
 		std::string saveAs = "")
 	{
 		if(!title.empty()) stream << "set title " << title << "\n";
-		if(terminal != Terminal::Default) stream << "set terminal " << to_command(terminal) << "\n";
+		if(terminal != Terminal::NONE) stream << "set terminal " << to_command(terminal) << "\n";
 		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
 		if(!xlabel.empty()) stream << "set xlabel " << xlabel << "\n";
 		if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
@@ -372,7 +387,6 @@ protected:
 		stream.flush();
 	}
 };
-
 
 class LinePlot : public IPlot{
 public:
@@ -491,6 +505,114 @@ public:
 	}
 };
 
+enum class ImageFileType{
+	NONE,
+	png, 
+	jpeg,
+	webp,
+	gif,
+};
+
+std::string_view to_string(ImageFileType filetype){
+	switch(filetype){
+		case ImageFileType::NONE : {
+			std::stringstream message;
+			message << "Error in funtion: " << __FUNCTION__ << "\n"
+					<< "  in file: " << __FILE__ << "\n"
+					<< "  at line: " << __LINE__ << "\n"
+					<< "  message: NONE is not a valid filetype\n";
+			throw std::runtime_error(message.str());
+		} break;
+		case ImageFileType::png : return "png";
+		case ImageFileType::jpeg : return "jpeg";
+		case ImageFileType::webp : return "webp";
+		case ImageFileType::gif : return "gif";
+	}
+	std::stringstream message;
+	message << "Error in funtion: " << __FUNCTION__ << "\n"
+			<< "  in file: " << __FILE__ << "\n"
+			<< "  at line: " << __LINE__ << "\n"
+			<< "  message: missing switch case\n";
+	throw std::runtime_error(message.str());
+}
+
+ImageFileType image_filetype_from_filename(std::string_view filename){
+	std::cout << filename << std::endl;
+	if(filename.ends_with(".png"))       return ImageFileType::png;
+	else if(filename.ends_with(".jpeg")) return ImageFileType::jpeg;
+	else if(filename.ends_with(".jpg"))  return ImageFileType::jpeg;
+	else if(filename.ends_with(".webp")) return ImageFileType::webp;
+	else if(filename.ends_with(".gif"))  return ImageFileType::gif;
+	else                                 return ImageFileType::NONE;
+}
+
+
+class ImageFilePlot : public IPlot {
+	public:
+	std::string filename;
+	ImageFileType filetype;
+	
+	ImageFilePlot(std::string filename, Text title="")
+		: IPlot(PlotType::ImageFilePlot, title)
+		, filename(std::move(filename))
+		, filetype(image_filetype_from_filename(this->filename))
+	{
+		if(filetype == ImageFileType::NONE){
+			std::stringstream message;
+			message << "Error in funtion: " << __FUNCTION__ << "\n"
+					<< "  in file: " << __FILE__ << "\n"
+					<< "  at line: " << __LINE__ << "\n"
+					<< "  message: NONE is not a valid filetype\n";
+			throw std::runtime_error(message.str());
+		}
+	}
+	
+	ImageFilePlot(std::string filename, ImageFileType filetype, Text title = "")
+		: IPlot(PlotType::ImageFilePlot, std::move(title))
+		, filename(std::move(filename))
+		, filetype((filetype == ImageFileType::NONE) ? image_filetype_from_filename(filename) : filetype)
+	{
+		if(filetype == ImageFileType::NONE){
+			std::stringstream message;
+			message << "Error in funtion: " << __FUNCTION__ << "\n"
+					<< "  in file: " << __FILE__ << "\n"
+					<< "  at line: " << __LINE__ << "\n"
+					<< "  message: NONE is not a valid filetype\n";
+			throw std::runtime_error(message.str());
+		}
+	}
+	
+	virtual void print_config(std::ostream& stream) {
+		stream << " '" << this->filename << "' binary filetype=" << to_string(this->filetype) 
+				<< " with rgbalpha title '" << this->IPlot::title.str << "'";
+	}
+	
+	virtual void print_data([[maybe_unused]]std::ostream& stream){}
+	
+};
+
+template<class T>
+class HeatmapPot : IPlot{
+	/*TODO*/
+	
+	std::unique_ptr<T> _matrix;
+	T const * ptr = nullptr;
+	
+	HeatmapPot(T&& matrix, (*at)(size_t row, size_t column), size_t rows, size_t columns) {}
+	HeatmapPot(T const * matrix, (*at)(size_t row, size_t column), size_t rows, size_t columns) {}
+
+	
+};
+
+/*
+class ImageRGBPlot : IPlot{
+	//TODO
+	
+
+};
+*/
+
+
 // http://gnuplot.info/docs/Overview.html
 
 // TODO: put classes and functions into their own files
@@ -502,15 +624,16 @@ int main() {
 	for(size_t i=0; i < x.size(); ++i) x[i] = i;
 	
 	std::vector<double> y1(20);
-	for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i;
+	for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
 	
 	std::vector<double> y2(20);
-	for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i);
+	for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i)*30;
 	
 	Figure fig("Title");
 	fig.legend = true;
-	fig.add(LinePlot(x, y1, "1/x"));
-	fig.add(PointPlot(x, y2, "1/x^2"));
+	fig.add(ImageFilePlot("test_image_32x32.png"));
+	fig.add(LinePlot(x, y1, "1/x*30"));
+	fig.add(PointPlot(x, y2, "1/x^2*30"));
 	fig.show();
 	
     return 0;
