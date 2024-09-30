@@ -6,6 +6,8 @@ A plotting library for C++ that uses Gnuplot as a backend.
 Supported plotting types:
 --- 
 
-* Line Plots
+* Lines
 
-* Point Plots
+* Points
+
+* Image from file
