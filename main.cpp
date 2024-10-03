@@ -575,15 +575,43 @@ class ImageFilePlot : public IPlot {
 	
 };
 
-template<class T>
+template<class T, size_t ROWS=0, size_t COLS=0>
 class HeatmapPlot : public IPlot{
+	const T (&_matrix)[ROWS][COLS];
+public:
+	
+	HeatmapPlot(const T (&array)[ROWS][COLS], Text title)
+		: IPlot(std::move(title))
+		, _matrix(array)
+	{}
+	
+	virtual void print_config(std::ostream& stream) {
+		stream << "'-' matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
+	}
+	
+	virtual void print_data([[maybe_unused]]std::ostream& stream){
+		stream << "# Data for " << this->IPlot::title.str << "\n";
+		for(size_t col=0; col < COLS; ++col){
+			for(size_t row=0; row < ROWS; ++row){
+				stream << _matrix[row][col] << ' ';
+			}
+			stream << '\n';
+		}
+		stream << "e\n";
+	}
+	
+};
+
+template<class T>
+class HeatmapPlot<T, 0, 0> : public IPlot{
 	T const * _matrix = nullptr;
 	size_t _rows = 0;
 	size_t _columns = 0;
 	double (*_at)(T const * matrix, size_t row, size_t col);
+	
 public:
 
-	HeatmapPlot(T const * matrix, size_t rows, size_t columns, double (*at)(T const * matrix, size_t row, size_t col), Text title = "")
+	HeatmapPlot(T const * matrix, size_t rows, size_t columns, double (*at)(T const * matrix, size_t row, size_t col), Text title="")
 		: IPlot(std::move(title))
 		, _matrix(matrix)
 		, _rows(rows)
@@ -607,6 +635,8 @@ public:
 	}
 	
 };
+
+
 
 /*
 class ImageRGBPlot : IPlot{
@@ -651,12 +681,12 @@ int main() {
 	fig.legend = true;
 	
 	fig.add(ImageFilePlot("test_image_32x32.png"));
-	fig.add(HeatmapPlot(&array, 4, 3, at, "Heatmap"));
+	fig.add(HeatmapPlot(array, "Heatmap"));
 	fig.add(LinePlot(x, y1, "1/x*30"));
 	fig.add(PointPlot(x, y2, "1/x^2*30"));
 	
 	
-	fig.show();
+	fig.show(Terminal::NONE, false);
 	
 	
     return 0;
