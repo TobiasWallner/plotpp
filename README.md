@@ -7,7 +7,6 @@ Supported plotting types:
 --- 
 
 * Lines
-
 * Points
-
 * Image from file
+* Heatmap/matrix plot

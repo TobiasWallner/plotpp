@@ -265,29 +265,15 @@ std::string_view to_command(DashType dt){
 	throw std::runtime_error(message.str());
 }
 
-enum class PlotType{
-	LinePlot,
-	PointPlot,
-	ImageFilePlot,
-};
-
 class IPlot{
 public:
-	IPlot(PlotType pt) 
-		: plotType(pt)
-	{}
-	
-	IPlot(PlotType pt, Text title) 
-		: plotType(pt)
-		, title(title)
-	{}
-
+	IPlot() = default;
+	IPlot(Text title) : title(std::move(title)){}
 	virtual ~IPlot(){}
 	
 	virtual void print_config(std::ostream& stream) = 0;
 	virtual void print_data(std::ostream& stream) = 0;
 	
-	PlotType plotType;
 	Text title;
 };
 
@@ -399,19 +385,18 @@ public:
 public:
 	
 	LinePlot(std::vector<double> x, std::vector<double> y)
-		: IPlot(PlotType::LinePlot)
-		, x(std::move(x))
+		: x(std::move(x))
 		, y(std::move(y))
 		{}
 		
 	LinePlot(std::vector<double> x, std::vector<double> y, Text title)
-		: IPlot(PlotType::LinePlot, title)
+		: IPlot(std::move(title))
 		, x(std::move(x))
 		, y(std::move(y))
 	{}
 	
 	LinePlot(std::vector<double> x, std::vector<double> y, const char* title)
-		: IPlot(PlotType::LinePlot, title)
+		: IPlot(std::move(title))
 		, x(std::move(x))
 		, y(std::move(y))
 	{}
@@ -467,19 +452,18 @@ public:
 public:
 	
 	PointPlot(std::vector<double> x, std::vector<double> y)
-		: IPlot(PlotType::PointPlot)
-		, x(std::move(x))
+		: x(std::move(x))
 		, y(std::move(y))
 		{}
 		
 	PointPlot(std::vector<double> x, std::vector<double> y, Text title)
-		: IPlot(PlotType::PointPlot, title)
+		: IPlot(title)
 		, x(std::move(x))
 		, y(std::move(y))
 	{}
 	
 	PointPlot(std::vector<double> x, std::vector<double> y, const char* title)
-		: IPlot(PlotType::PointPlot, title)
+		: IPlot(title)
 		, x(std::move(x))
 		, y(std::move(y))
 	{}
@@ -553,7 +537,7 @@ class ImageFilePlot : public IPlot {
 	ImageFileType filetype;
 	
 	ImageFilePlot(std::string filename, Text title="")
-		: IPlot(PlotType::ImageFilePlot, title)
+		: IPlot(std::move(title))
 		, filename(std::move(filename))
 		, filetype(image_filetype_from_filename(this->filename))
 	{
@@ -568,7 +552,7 @@ class ImageFilePlot : public IPlot {
 	}
 	
 	ImageFilePlot(std::string filename, ImageFileType filetype, Text title = "")
-		: IPlot(PlotType::ImageFilePlot, std::move(title))
+		: IPlot(std::move(title))
 		, filename(std::move(filename))
 		, filetype((filetype == ImageFileType::NONE) ? image_filetype_from_filename(filename) : filetype)
 	{
@@ -592,15 +576,35 @@ class ImageFilePlot : public IPlot {
 };
 
 template<class T>
-class HeatmapPot : IPlot{
-	/*TODO*/
-	
-	std::unique_ptr<T> _matrix;
-	T const * ptr = nullptr;
-	
-	HeatmapPot(T&& matrix, (*at)(size_t row, size_t column), size_t rows, size_t columns) {}
-	HeatmapPot(T const * matrix, (*at)(size_t row, size_t column), size_t rows, size_t columns) {}
+class HeatmapPlot : public IPlot{
+	T const * _matrix = nullptr;
+	size_t _rows = 0;
+	size_t _columns = 0;
+	double (*_at)(T const * matrix, size_t row, size_t col);
+public:
 
+	HeatmapPlot(T const * matrix, size_t rows, size_t columns, double (*at)(T const * matrix, size_t row, size_t col), Text title = "")
+		: IPlot(std::move(title))
+		, _matrix(matrix)
+		, _rows(rows)
+		, _columns(columns)
+		, _at(at)
+	{}
+	
+	virtual void print_config(std::ostream& stream) {
+		stream << "'-' matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
+	}
+	
+	virtual void print_data([[maybe_unused]]std::ostream& stream){
+		stream << "# Data for " << this->IPlot::title.str << "\n";
+		for(size_t col=0; col < this->_columns; ++col){
+			for(size_t row=0; row < this->_rows; ++row){
+				stream << (this->_at)(this->_matrix, row, col) << ' ';
+			}
+			stream << '\n';
+		}
+		stream << "e\n";
+	}
 	
 };
 
@@ -618,6 +622,12 @@ class ImageRGBPlot : IPlot{
 // TODO: put classes and functions into their own files
 // TODO: put opstream into its own GitHub repo
 
+
+template<size_t c, size_t r>
+double at(double const (*array)[r][c], size_t row, size_t col){
+	return (*array)[row][col];
+}
+
 int main() {
 	
 	std::vector<double> x(20);
@@ -629,12 +639,25 @@ int main() {
 	std::vector<double> y2(20);
 	for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i)*30;
 	
+	double array[/*rows*/4][/*columns*/3] = {
+		{1, 2, 3},
+		{11, 12, 13},
+		{21, 22, 23},
+		{31, 32, 33}
+	};
+	
+	
 	Figure fig("Title");
 	fig.legend = true;
+	
 	fig.add(ImageFilePlot("test_image_32x32.png"));
+	fig.add(HeatmapPlot(&array, 4, 3, at, "Heatmap"));
 	fig.add(LinePlot(x, y1, "1/x*30"));
 	fig.add(PointPlot(x, y2, "1/x^2*30"));
+	
+	
 	fig.show();
+	
 	
     return 0;
 }
