@@ -7,7 +7,7 @@
 opstreambuf::opstreambuf(char const * process) {
 	#ifdef WIN32
 	fprocess = _popen(process, "w");
-	#elif 
+	#else
 	fprocess = popen(process, "w");
 	#endif
 	if(process == nullptr){
@@ -21,7 +21,7 @@ opstreambuf::opstreambuf(char const * process) {
 opstreambuf::~opstreambuf(){
 	#ifdef WIN32
 	_pclose(fprocess);
-	#elif 
+	#else
 	pclose(fprocess);
 	#endif
 }
