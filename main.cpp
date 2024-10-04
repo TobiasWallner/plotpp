@@ -1,5 +1,8 @@
 #include "opstream.hpp"
 #include <iostream>
+#include <iterator>
+#include <type_traits>
+#include <utility>
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -87,7 +90,6 @@ enum class Terminal{
 	windows, 		// Microsoft Windows
 	wxt, 			// wxWidgets cross-platform interactive terminal
 };
-
 
 std::string_view to_command(Terminal t){
 	switch(t){
@@ -271,8 +273,8 @@ public:
 	IPlot(Text title) : title(std::move(title)){}
 	virtual ~IPlot(){}
 	
-	virtual void print_config(std::ostream& stream) = 0;
-	virtual void print_data(std::ostream& stream) = 0;
+	virtual void print_config(std::ostream& stream) const = 0;
+	virtual void print_data(std::ostream& stream) const  = 0;
 	
 	Text title;
 };
@@ -374,28 +376,20 @@ protected:
 	}
 };
 
+
+template<class Container>
 class LinePlot : public IPlot{
 public:
-	std::vector<double> x;
-	std::vector<double> y;
+	Container x;
+	Container y;
+	
 	DashType dashType = DashType::solid;
 	float lineWidth = 1.5;
 	/*TODO: LineColor*/
 	
 public:
 	
-	LinePlot(std::vector<double> x, std::vector<double> y)
-		: x(std::move(x))
-		, y(std::move(y))
-		{}
-		
-	LinePlot(std::vector<double> x, std::vector<double> y, Text title)
-		: IPlot(std::move(title))
-		, x(std::move(x))
-		, y(std::move(y))
-	{}
-	
-	LinePlot(std::vector<double> x, std::vector<double> y, const char* title)
+	LinePlot(Container x, Container y, Text title="")
 		: IPlot(std::move(title))
 		, x(std::move(x))
 		, y(std::move(y))
@@ -407,15 +401,17 @@ public:
 	LinePlot& operator=(LinePlot&&) = default;
 	
 	
-	virtual void print_config(std::ostream& stream) {
+	virtual void print_config(std::ostream& stream) const {
 		stream << " '-' using 1:2 with lines lw " << this->lineWidth << " " 
 				<< to_command(this->dashType) << " title '" << this->IPlot::title.str << "'";
 	}
 	
-	virtual void print_data(std::ostream& stream){
+	virtual void print_data(std::ostream& stream) const {
 		stream << "# Data for " << this->IPlot::title.str << "\n";
-		for (size_t i = 0; i < std::min(x.size(), y.size()); ++i) {
-			stream << x[i] << ' ' << y[i] << "\n";
+		auto xItr = std::begin(x);
+		auto yItr = std::begin(y);
+		for (; xItr != std::end(x) && yItr != std::end(y); (void)++xItr, (void)++yItr) {
+			stream << *xItr << ' ' << *yItr << "\n";
 		}
 		stream << "e\n";
 	}
@@ -441,29 +437,19 @@ enum class PointType : int {
 	HeptagonFilled = 15
 };
 
+template<class Container>
 class PointPlot : public IPlot{
 public:
-	std::vector<double> x;
-	std::vector<double> y;
+	Container x;
+	Container y;
 	PointType pointType = PointType::CircleFilled;
 	float pointSize = 1.0;
 	/*TODO: LineColor*/
 	
 public:
-	
-	PointPlot(std::vector<double> x, std::vector<double> y)
-		: x(std::move(x))
-		, y(std::move(y))
-		{}
-		
-	PointPlot(std::vector<double> x, std::vector<double> y, Text title)
-		: IPlot(title)
-		, x(std::move(x))
-		, y(std::move(y))
-	{}
-	
-	PointPlot(std::vector<double> x, std::vector<double> y, const char* title)
-		: IPlot(title)
+
+	PointPlot(Container x, Container y, Text title="")
+		: IPlot(std::move(title))
 		, x(std::move(x))
 		, y(std::move(y))
 	{}
@@ -474,13 +460,13 @@ public:
 	PointPlot& operator=(PointPlot&&) = default;
 	
 	
-	virtual void print_config(std::ostream& stream) {
+	virtual void print_config(std::ostream& stream) const {
 		stream << " '-' using 1:2 with points ps " << this->pointSize 
 				<< " pt " << static_cast<int>(pointType)
 				<< " title '" << this->IPlot::title.str << "'";
 	}
 	
-	virtual void print_data(std::ostream& stream){
+	virtual void print_data(std::ostream& stream) const {
 		stream << "# Data for " << this->IPlot::title.str << "\n";
 		for (size_t i = 0; i < std::min(x.size(), y.size()); ++i) {
 			stream << x[i] << ' ' << y[i] << "\n";
@@ -521,7 +507,6 @@ std::string_view to_string(ImageFileType filetype){
 }
 
 ImageFileType image_filetype_from_filename(std::string_view filename){
-	std::cout << filename << std::endl;
 	if(filename.ends_with(".png"))       return ImageFileType::png;
 	else if(filename.ends_with(".jpeg")) return ImageFileType::jpeg;
 	else if(filename.ends_with(".jpg"))  return ImageFileType::jpeg;
@@ -529,7 +514,6 @@ ImageFileType image_filetype_from_filename(std::string_view filename){
 	else if(filename.ends_with(".gif"))  return ImageFileType::gif;
 	else                                 return ImageFileType::NONE;
 }
-
 
 class ImageFilePlot : public IPlot {
 	public:
@@ -566,12 +550,12 @@ class ImageFilePlot : public IPlot {
 		}
 	}
 	
-	virtual void print_config(std::ostream& stream) {
+	virtual void print_config(std::ostream& stream) const {
 		stream << " '" << this->filename << "' binary filetype=" << to_string(this->filetype) 
 				<< " with rgbalpha title '" << this->IPlot::title.str << "'";
 	}
 	
-	virtual void print_data([[maybe_unused]]std::ostream& stream){}
+	virtual void print_data([[maybe_unused]]std::ostream& stream) const {}
 	
 };
 
@@ -585,11 +569,11 @@ public:
 		, _matrix(array)
 	{}
 	
-	virtual void print_config(std::ostream& stream) {
+	virtual void print_config(std::ostream& stream) const {
 		stream << "'-' matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
 	}
 	
-	virtual void print_data([[maybe_unused]]std::ostream& stream){
+	virtual void print_data(std::ostream& stream) const {
 		stream << "# Data for " << this->IPlot::title.str << "\n";
 		for(size_t col=0; col < COLS; ++col){
 			for(size_t row=0; row < ROWS; ++row){
@@ -619,11 +603,11 @@ public:
 		, _at(at)
 	{}
 	
-	virtual void print_config(std::ostream& stream) {
+	virtual void print_config(std::ostream& stream) const {
 		stream << "'-' matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
 	}
 	
-	virtual void print_data([[maybe_unused]]std::ostream& stream){
+	virtual void print_data(std::ostream& stream) const {
 		stream << "# Data for " << this->IPlot::title.str << "\n";
 		for(size_t col=0; col < this->_columns; ++col){
 			for(size_t row=0; row < this->_rows; ++row){
@@ -635,8 +619,6 @@ public:
 	}
 	
 };
-
-
 
 /*
 class ImageRGBPlot : IPlot{
@@ -684,7 +666,6 @@ int main() {
 	fig.add(HeatmapPlot(array, "Heatmap"));
 	fig.add(LinePlot(x, y1, "1/x*30"));
 	fig.add(PointPlot(x, y2, "1/x^2*30"));
-	
 	
 	fig.show(Terminal::NONE, false);
 	
