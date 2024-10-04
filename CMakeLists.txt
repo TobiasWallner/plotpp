@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18.0)
 
 # project building process: 
-set(PROJECT_NAME plotplusplus_tryout)
+set(PROJECT_NAME plotplusplus)
 project(${PROJECT_NAME})
 
 # Basic compiler settings
@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 message(STATUS "======================== Fetching External Libraries =========================")
 
-find_package(Gnuplot 6.0.1 REQUIRED)
+find_package(Gnuplot 5.4.4 REQUIRED)
 
 message(STATUS "======================== END: Fetching External Libraries =========================")
 
