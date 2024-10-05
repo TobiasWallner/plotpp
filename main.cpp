@@ -726,6 +726,36 @@ public:
 // TODO: put classes and functions into their own files
 // TODO: put opstream into its own GitHub repo
 
+/* 	
+http://gnuplot.info/docs/Plotting_Styles.html
+
+	+ 2D Plots TODO:
+		* Bee swarm plots
+		* box error bars
+		* 2d boxes
+		* boxplotsx
+		* candlesticks
+		* pichart
+		* filledcurves 
+		* linespoints
+		* redo xy-plots
+			- (lines, points, linespoints, filledcurves, fillsteps, fsteps... - should all be the same class)
+				- option: filled -> filledcurves
+				- option: O1_interpolation -> lines
+				- option: O0_interpolation_start -> fsteps
+					- option: O0_interpolation_center -> histeps
+				- option: impulses -> impulses
+		* parallelaxes
+		
+	
+	+ 3D Plots TODO:
+		* 3D xyz plot
+		* 3D boxes
+		* contourfill
+		
+
+
+*/
 
 template<size_t c, size_t r>
 double at(double const (*array)[r][c], size_t row, size_t col){
