@@ -1,5 +1,6 @@
 #include "opstream.hpp"
 #include <iostream>
+#include <fstream>
 #include <iterator>
 #include <type_traits>
 #include <utility>
@@ -147,7 +148,7 @@ std::string_view to_command(Terminal t){
 	throw std::runtime_error(message.str());
 }
 
-enum class SaveAsFileType{
+enum class OutputFileType{
 	NONE, 
 	tex, 
 	cgm,
@@ -163,25 +164,27 @@ enum class SaveAsFileType{
 	webp,
 	html,
 	txt,
+	gp, // gnuplot script
 };
 
-Terminal to_terminal(SaveAsFileType t){
+Terminal to_terminal(OutputFileType t){
 	switch(t){
-		case SaveAsFileType::NONE: return Terminal::NONE;
-        case SaveAsFileType::tex:  return Terminal::cairolatex;
-        case SaveAsFileType::cgm:  return Terminal::cgm;
-        case SaveAsFileType::pdf:  return Terminal::pdfcairo;
-        case SaveAsFileType::dxf:  return Terminal::dxf;
-        case SaveAsFileType::emf:  return Terminal::emf;
-        case SaveAsFileType::eps:  return Terminal::epscairo;
-        case SaveAsFileType::fig:  return Terminal::fig;
-        case SaveAsFileType::gif:  return Terminal::gif;
-        case SaveAsFileType::jpeg: return Terminal::jpeg;
-        case SaveAsFileType::png:  return Terminal::png;
-        case SaveAsFileType::svg:  return Terminal::svg;
-        case SaveAsFileType::webp: return Terminal::webp;
-        case SaveAsFileType::html: return Terminal::canvas;
-        case SaveAsFileType::txt:  return Terminal::dumb;
+		case OutputFileType::NONE: return Terminal::NONE;
+        case OutputFileType::tex:  return Terminal::cairolatex;
+        case OutputFileType::cgm:  return Terminal::cgm;
+        case OutputFileType::pdf:  return Terminal::pdfcairo;
+        case OutputFileType::dxf:  return Terminal::dxf;
+        case OutputFileType::emf:  return Terminal::emf;
+        case OutputFileType::eps:  return Terminal::epscairo;
+        case OutputFileType::fig:  return Terminal::fig;
+        case OutputFileType::gif:  return Terminal::gif;
+        case OutputFileType::jpeg: return Terminal::jpeg;
+        case OutputFileType::png:  return Terminal::png;
+        case OutputFileType::svg:  return Terminal::svg;
+        case OutputFileType::webp: return Terminal::webp;
+        case OutputFileType::html: return Terminal::canvas;
+        case OutputFileType::txt:  return Terminal::dumb;
+		case OutputFileType::gp:   return Terminal::NONE;
 	}
 	std::stringstream message;
 	message << "Error in funtion: " << __FUNCTION__ << "\n"
@@ -191,9 +194,9 @@ Terminal to_terminal(SaveAsFileType t){
 	throw std::runtime_error(message.str());
 }
 
-std::string_view to_file_ending(SaveAsFileType t){
+std::string_view to_file_ending(OutputFileType t){
 	switch(t){
-		case SaveAsFileType::NONE : {
+		case OutputFileType::NONE : {
 			std::stringstream message;
 			message << "Error in funtion: " << __FUNCTION__ << "\n"
 					<< "  in file: " << __FILE__ << "\n"
@@ -201,20 +204,21 @@ std::string_view to_file_ending(SaveAsFileType t){
 					<< "  message: NONE is not a valid filetype\n";
 			throw std::runtime_error(message.str());
 		} break;
-        case SaveAsFileType::tex: return ".tex";
-        case SaveAsFileType::cgm: return ".cgm";
-        case SaveAsFileType::pdf: return ".pdf";
-        case SaveAsFileType::dxf: return ".dxf";
-        case SaveAsFileType::emf: return ".emf";
-        case SaveAsFileType::eps: return ".eps";
-        case SaveAsFileType::fig: return ".fig";
-        case SaveAsFileType::gif: return ".gif";
-        case SaveAsFileType::jpeg: return ".jpeg";
-        case SaveAsFileType::png: return ".png";
-        case SaveAsFileType::svg: return ".svg";
-        case SaveAsFileType::webp: return ".webp";
-		case SaveAsFileType::html: return ".html";
-        case SaveAsFileType::txt: return ".txt";
+        case OutputFileType::tex: return ".tex";
+        case OutputFileType::cgm: return ".cgm";
+        case OutputFileType::pdf: return ".pdf";
+        case OutputFileType::dxf: return ".dxf";
+        case OutputFileType::emf: return ".emf";
+        case OutputFileType::eps: return ".eps";
+        case OutputFileType::fig: return ".fig";
+        case OutputFileType::gif: return ".gif";
+        case OutputFileType::jpeg: return ".jpeg";
+        case OutputFileType::png: return ".png";
+        case OutputFileType::svg: return ".svg";
+        case OutputFileType::webp: return ".webp";
+		case OutputFileType::html: return ".html";
+        case OutputFileType::txt: return ".txt";
+        case OutputFileType::gp: return ".gp";
 	}
 	std::stringstream message;
 	message << "Error in funtion: " << __FUNCTION__ << "\n"
@@ -224,23 +228,24 @@ std::string_view to_file_ending(SaveAsFileType t){
 	throw std::runtime_error(message.str());
 }
 
-SaveAsFileType filetype_from_filename(std::string_view filename){
-	if(filename.ends_with(".tex"))       return SaveAsFileType::tex;
-	else if(filename.ends_with(".cgm"))  return SaveAsFileType::cgm;
-	else if(filename.ends_with(".pdf"))  return SaveAsFileType::pdf;
-	else if(filename.ends_with(".dxf"))  return SaveAsFileType::dxf;
-	else if(filename.ends_with(".emf"))  return SaveAsFileType::emf;
-	else if(filename.ends_with(".eps"))  return SaveAsFileType::eps;
-	else if(filename.ends_with(".fig"))  return SaveAsFileType::fig;
-	else if(filename.ends_with(".gif"))  return SaveAsFileType::gif;
-	else if(filename.ends_with(".jpg"))  return SaveAsFileType::jpeg;
-	else if(filename.ends_with(".jpeg")) return SaveAsFileType::jpeg;
-	else if(filename.ends_with(".png"))  return SaveAsFileType::png;
-	else if(filename.ends_with(".svg"))  return SaveAsFileType::svg;
-	else if(filename.ends_with(".webp")) return SaveAsFileType::webp;
-	else if(filename.ends_with(".html")) return SaveAsFileType::html;
-	else if(filename.ends_with(".txt"))  return SaveAsFileType::txt;
-	else                                 return SaveAsFileType::NONE;
+OutputFileType filetype_from_filename(std::string_view filename){
+	if(filename.ends_with(".tex"))       return OutputFileType::tex;
+	else if(filename.ends_with(".cgm"))  return OutputFileType::cgm;
+	else if(filename.ends_with(".pdf"))  return OutputFileType::pdf;
+	else if(filename.ends_with(".dxf"))  return OutputFileType::dxf;
+	else if(filename.ends_with(".emf"))  return OutputFileType::emf;
+	else if(filename.ends_with(".eps"))  return OutputFileType::eps;
+	else if(filename.ends_with(".fig"))  return OutputFileType::fig;
+	else if(filename.ends_with(".gif"))  return OutputFileType::gif;
+	else if(filename.ends_with(".jpg"))  return OutputFileType::jpeg;
+	else if(filename.ends_with(".jpeg")) return OutputFileType::jpeg;
+	else if(filename.ends_with(".png"))  return OutputFileType::png;
+	else if(filename.ends_with(".svg"))  return OutputFileType::svg;
+	else if(filename.ends_with(".webp")) return OutputFileType::webp;
+	else if(filename.ends_with(".html")) return OutputFileType::html;
+	else if(filename.ends_with(".txt"))  return OutputFileType::txt;
+	else if(filename.ends_with(".gp"))   return OutputFileType::gp;
+	else                                 return OutputFileType::NONE;
 }
 
 enum class DashType{
@@ -317,22 +322,26 @@ public:
 		, ylabel(ylabel)
 	{}
 	
-	void show(Terminal terminal = Terminal::NONE, bool debug=false){
-		if(debug){
-			_plot(std::cout, terminal);
+	void show(OutputFileType filetype){
+		if(filetype == OutputFileType::gp){
+			_plot(std::cout, Terminal::NONE);
 		}else{
-			opstream gnuplot("gnuplot -persist");
-			_plot(gnuplot, terminal);
+			show(to_terminal(filetype));
 		}
 	}
 	
-	void save(std::string filename = "", SaveAsFileType filetype=SaveAsFileType::NONE, Terminal terminal = Terminal::NONE){
+	void show(Terminal terminal = Terminal::NONE){
+		opstream gnuplot("gnuplot -persist");
+		_plot(gnuplot, terminal);
+	}
+	
+	void save(std::string filename = "", OutputFileType filetype=OutputFileType::NONE, Terminal terminal = Terminal::NONE){
 		if(filename.empty()) filename = title;
 		
-		if(filetype == SaveAsFileType::NONE){
+		if(filetype == OutputFileType::NONE){
 			filetype = filetype_from_filename(filename);
-			if(filetype == SaveAsFileType::NONE){
-				filetype = SaveAsFileType::png;
+			if(filetype == OutputFileType::NONE){
+				filetype = OutputFileType::png;
 				filename += ".png";
 			}
 		}else if(!filename.ends_with(std::string(to_file_ending(filetype)))){
@@ -343,11 +352,16 @@ public:
 			terminal = to_terminal(filetype);	
 		}
 		
-		opstream gnuplot("gnuplot -persist");
-		_plot(gnuplot, terminal, filename);
+		if(filetype==OutputFileType::gp){
+			std::ofstream fstream(filename);
+			_plot(fstream, terminal);
+		}else{
+			opstream gnuplot("gnuplot -persist");
+			_plot(gnuplot, terminal, filename);	
+		}
 	}
 
-protected:
+public:
 	void _plot(
 		std::ostream& stream, 
 		Terminal terminal = Terminal::NONE,
@@ -361,6 +375,7 @@ protected:
 		
 		if(!this->plots.empty()) stream << "plot ";
 		for(size_t i=0; i < this->plots.size(); ++i){
+			if (i!= 0) stream << '\t';
 			plots[i]->print_config(stream);
 			if(i+1 < this->plots.size()) stream << ", \\\n";
 		}
@@ -375,7 +390,6 @@ protected:
 		stream.flush();
 	}
 };
-
 
 template<class Container>
 class LinePlot : public IPlot{
@@ -402,7 +416,7 @@ public:
 	
 	
 	virtual void print_config(std::ostream& stream) const {
-		stream << " '-' using 1:2 with lines lw " << this->lineWidth << " " 
+		stream << "'-' using 1:2 with lines lw " << this->lineWidth << " " 
 				<< to_command(this->dashType) << " title '" << this->IPlot::title.str << "'";
 	}
 	
@@ -461,7 +475,7 @@ public:
 	
 	
 	virtual void print_config(std::ostream& stream) const {
-		stream << " '-' using 1:2 with points ps " << this->pointSize 
+		stream << "'-' using 1:2 with points ps " << this->pointSize 
 				<< " pt " << static_cast<int>(pointType)
 				<< " title '" << this->IPlot::title.str << "'";
 	}
@@ -588,14 +602,14 @@ public:
 
 template<class T>
 class HeatmapPlot<T, 0, 0> : public IPlot{
-	T const * _matrix = nullptr;
+	T const & _matrix = nullptr;
 	size_t _rows = 0;
 	size_t _columns = 0;
 	double (*_at)(T const * matrix, size_t row, size_t col);
 	
 public:
 
-	HeatmapPlot(T const * matrix, size_t rows, size_t columns, double (*at)(T const * matrix, size_t row, size_t col), Text title="")
+	HeatmapPlot(T const & matrix, size_t rows, size_t columns, double (*at)(T const & matrix, size_t row, size_t col), Text title="")
 		: IPlot(std::move(title))
 		, _matrix(matrix)
 		, _rows(rows)
@@ -620,14 +634,92 @@ public:
 	
 };
 
-/*
-class ImageRGBPlot : IPlot{
-	//TODO
-	
-
+enum class DataRelation{
+	absolute,
+	relative,
+	polar,
 };
-*/
 
+enum class ArrowHeadStyle{
+	nohead,
+	head,
+	filled_head,
+	empty_head,
+	backhead,
+	filled_backhead,
+	empty_backhead,
+};
+
+std::string_view to_command(ArrowHeadStyle ahs){
+	switch(ahs){
+		case ArrowHeadStyle::nohead : return "nohead";
+		case ArrowHeadStyle::head : return "head";
+		case ArrowHeadStyle::filled_head : return "filled head";
+		case ArrowHeadStyle::empty_head : return "empty head";
+		case ArrowHeadStyle::backhead : return "backhead";
+		case ArrowHeadStyle::filled_backhead : return "filled backhead";
+		case ArrowHeadStyle::empty_backhead : return "empty backhead";
+	}
+	std::stringstream message;
+	message << "Error in funtion: " << __FUNCTION__ << "\n"
+			<< "  in file: " << __FILE__ << "\n"
+			<< "  at line: " << __LINE__ << "\n"
+			<< "  message: missing switch case\n";
+	throw std::runtime_error(message.str());
+}
+
+template<class T>
+class ArrowPlot : public IPlot{
+public:
+
+	T const & x1;
+	T const & y1;
+	T const & x2;
+	T const & y2;
+	DataRelation dataRelation = DataRelation::absolute; // relation from [x1, y1] to [x2, y2]
+	float lineWidth = 1.5;
+	ArrowHeadStyle arrowHeadStyle = ArrowHeadStyle::filled_head;
+	
+	ArrowPlot(T const & x1, T const & y1, T const & x2, T const & y2, Text title="")
+		: IPlot(std::move(title))
+		, x1(x1)
+		, y1(y1)
+		, x2(x2)
+		, y2(y2)
+	{}
+	
+	virtual void print_config(std::ostream& stream) const {
+		stream << "'-' using";
+		if(dataRelation == DataRelation::absolute){
+			stream << " 1:2:(($3)-($1)):($4-$2)";
+		}else{
+			stream << " 1:2:3:4";
+		}
+		
+		if(dataRelation == DataRelation::polar){
+			stream << " with arrows";
+		}else{
+			stream << " with vectors";
+		}
+		
+		stream << " " << to_command(arrowHeadStyle);
+		stream << " lw " << lineWidth;
+		stream << " title '" << this->IPlot::title.str << "'";	
+	}
+	
+	virtual void print_data(std::ostream& stream) const {
+		stream << "# Data for " << this->IPlot::title.str << "\n";
+		auto x1itr = std::begin(x1);
+		auto y1itr = std::begin(y1);
+		auto x2itr = std::begin(x2);
+		auto y2itr = std::begin(y2);
+		for(; x1itr != std::end(x1) && y1itr != std::end(y1) && x2itr != std::end(x2) && y2itr != std::end(y2)
+			; (void)++x1itr, (void)++y1itr, (void)++x2itr, (void)++y2itr){
+			stream << *x1itr << ' ' << *y1itr << ' ' << *x2itr << ' ' << *y2itr << '\n';
+		}
+		stream << "e\n";
+	}
+};
 
 // http://gnuplot.info/docs/Overview.html
 
@@ -657,7 +749,11 @@ int main() {
 		{21, 22, 23},
 		{31, 32, 33}
 	};
-	
+
+	double arrow_x1[] = {-1, -2, -3, -4, -5};
+	double arrow_y1[] = {-1, -2, -1, -2, -3};
+	double arrow_x2[] = {-2, -3, -4, -5, -6};
+	double arrow_y2[] = {-3, -4, -2, -3, -5};
 	
 	Figure fig("Title");
 	fig.legend = true;
@@ -667,7 +763,12 @@ int main() {
 	fig.add(LinePlot(x, y1, "1/x*30"));
 	fig.add(PointPlot(x, y2, "1/x^2*30"));
 	
-	fig.show(Terminal::NONE, false);
+	auto arrowplot = ArrowPlot(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot");
+	arrowplot.dataRelation = DataRelation::relative;
+	fig.add(arrowplot);
+	
+	fig.show();
+	fig.save("script.gp");
 	
 	
     return 0;

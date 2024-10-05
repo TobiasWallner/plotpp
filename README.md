@@ -10,3 +10,4 @@ Supported plotting types:
 * Points
 * Image from file
 * Heatmap/matrix plot
+* Arrows
