@@ -394,8 +394,8 @@ public:
 template<class Container>
 class LinePlot : public IPlot{
 public:
-	Container x;
-	Container y;
+	const Container* x;
+	const Container* y;
 	
 	DashType dashType = DashType::solid;
 	float lineWidth = 1.5;
@@ -403,10 +403,10 @@ public:
 	
 public:
 	
-	LinePlot(Container x, Container y, Text title="")
+	LinePlot(const Container& x, const Container& y, Text title="")
 		: IPlot(std::move(title))
-		, x(std::move(x))
-		, y(std::move(y))
+		, x(&x)
+		, y(&y)
 	{}
 	
 	LinePlot(LinePlot const &) = default;
@@ -422,9 +422,9 @@ public:
 	
 	virtual void print_data(std::ostream& stream) const {
 		stream << "# Data for " << this->IPlot::title.str << "\n";
-		auto xItr = std::begin(x);
-		auto yItr = std::begin(y);
-		for (; xItr != std::end(x) && yItr != std::end(y); (void)++xItr, (void)++yItr) {
+		auto xItr = std::begin(*x);
+		auto yItr = std::begin(*y);
+		for (; xItr != std::end(*x) && yItr != std::end(*y); (void)++xItr, (void)++yItr) {
 			stream << *xItr << ' ' << *yItr << "\n";
 		}
 		stream << "e\n";
@@ -454,18 +454,52 @@ enum class PointType : int {
 template<class Container>
 class PointPlot : public IPlot{
 public:
-	Container x;
-	Container y;
+	const Container* x;
+	const Container* y;
+	const Container* xerror = nullptr;
+	const Container* yerror = nullptr;
 	PointType pointType = PointType::CircleFilled;
 	float pointSize = 1.0;
 	/*TODO: LineColor*/
 	
 public:
 
-	PointPlot(Container x, Container y, Text title="")
+	PointPlot(const Container& x, const Container& y, Text title="")
 		: IPlot(std::move(title))
-		, x(std::move(x))
-		, y(std::move(y))
+		, x(&x)
+		, y(&y)
+	{}
+	
+	PointPlot(const Container& x, const Container& y, const Container& yerror, Text title="")
+		: IPlot(std::move(title))
+		, x(&x)
+		, y(&y)
+		, xerror(nullptr)
+		, yerror(&yerror)
+	{}
+	
+	PointPlot(const Container& x, const Container& y, const Container& xerror, const Container& yerror, Text title="")
+		: IPlot(std::move(title))
+		, x(&x)
+		, y(&y)
+		, xerror(&xerror)
+		, yerror(&yerror)
+	{}
+	
+	PointPlot(const Container& x, const Container& y, const Container& xerror, const Container* yerror/*=nullptr*/, Text title="")
+		: IPlot(std::move(title))
+		, x(&x)
+		, y(&y)
+		, xerror(&xerror)
+		, yerror(yerror)
+	{}
+	
+	PointPlot(const Container& x, const Container& y, const Container* xerror /*=nullptr*/, const Container& yerror, Text title="")
+		: IPlot(std::move(title))
+		, x(&x)
+		, y(&y)
+		, xerror(xerror)
+		, yerror(&yerror)
 	{}
 	
 	PointPlot(PointPlot const &) = default;
@@ -475,15 +509,47 @@ public:
 	
 	
 	virtual void print_config(std::ostream& stream) const {
-		stream << "'-' using 1:2 with points ps " << this->pointSize 
+		if(xerror==nullptr && yerror==nullptr)
+			stream << "'-' using 1:2 with points";
+		else if(xerror==nullptr && yerror!=nullptr)
+			stream << "'-' using 1:2:3 with yerrorbars";
+		else if(xerror!=nullptr && yerror==nullptr)
+			stream << "'-' using 1:2:3 with xerrorbars";
+		else
+			stream << "'-' using 1:2:3:4 with xyerrorbars";
+		
+		stream << " ps " << this->pointSize 
 				<< " pt " << static_cast<int>(pointType)
 				<< " title '" << this->IPlot::title.str << "'";
 	}
 	
 	virtual void print_data(std::ostream& stream) const {
 		stream << "# Data for " << this->IPlot::title.str << "\n";
-		for (size_t i = 0; i < std::min(x.size(), y.size()); ++i) {
-			stream << x[i] << ' ' << y[i] << "\n";
+		auto xitr = std::begin(*x);
+		auto yitr = std::begin(*y);
+		
+		auto xerrItr = (xerror!=nullptr) ? std::begin(*xerror) : xitr;
+		auto yerrItr = (yerror!=nullptr) ? std::begin(*yerror) : yitr;
+		
+		for (; xitr != std::end(*x) && yitr != std::end(*y); ++xitr, (void)++yitr) {
+			stream << *xitr << ' ' << *yitr;
+			if(xerror != nullptr){
+				if(xerrItr != std::end(*xerror)){
+					stream << ' ' << *xerrItr;
+					++xerrItr;
+				}else{
+					stream << " 0";
+				}
+			}
+			if(yerror != nullptr){
+				if(yerrItr != std::end(*yerror)){
+					stream << ' ' << *yerrItr;
+					++yerrItr;
+				}else{
+					stream << " 0";
+				}
+			}
+			stream << '\n';
 		}
 		stream << "e\n";
 	}
@@ -730,7 +796,12 @@ public:
 http://gnuplot.info/docs/Plotting_Styles.html
 
 	+ 2D Plots TODO:
-		* Bee swarm plots
+		
+		? make an class of Plot2D. with 1:2:3:4 - x:y:xerror:yerror
+			an enum should set the concrete plotting type. 
+		? ... or should every plotting type be its own type?
+		? Interchangeing from points to lines to bars on a moments notice would be nice though
+	
 		* box error bars
 		* 2d boxes
 		* boxplotsx
@@ -763,42 +834,65 @@ double at(double const (*array)[r][c], size_t row, size_t col){
 }
 
 int main() {
-	
-	std::vector<double> x(20);
-	for(size_t i=0; i < x.size(); ++i) x[i] = i;
-	
-	std::vector<double> y1(20);
-	for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
-	
-	std::vector<double> y2(20);
-	for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i)*30;
-	
-	double array[/*rows*/4][/*columns*/3] = {
-		{1, 2, 3},
-		{11, 12, 13},
-		{21, 22, 23},
-		{31, 32, 33}
-	};
+	{
+		std::vector<double> x(20);
+		for(size_t i=0; i < x.size(); ++i) x[i] = i;
+		
+		std::vector<double> y1(20);
+		for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
+		
+		std::vector<double> y2(20);
+		for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i)*30;
+		
+		double array[/*rows*/4][/*columns*/3] = {
+			{1, 2, 3},
+			{11, 12, 13},
+			{21, 22, 23},
+			{31, 32, 33}
+		};
 
-	double arrow_x1[] = {-1, -2, -3, -4, -5};
-	double arrow_y1[] = {-1, -2, -1, -2, -3};
-	double arrow_x2[] = {-2, -3, -4, -5, -6};
-	double arrow_y2[] = {-3, -4, -2, -3, -5};
+		double arrow_x1[] = {-1, -2, -3, -4, -5};
+		double arrow_y1[] = {-1, -2, -1, -2, -3};
+		double arrow_x2[] = {-2, -3, -4, -5, -6};
+		double arrow_y2[] = {-3, -4, -2, -3, -5};
+		
+		Figure fig("Title");
+		fig.legend = true;
+		
+		fig.add(ImageFilePlot("test_image_32x32.png"));
+		fig.add(HeatmapPlot(array, "Heatmap"));
+		fig.add(LinePlot(x, y1, "1/x*30"));
+		fig.add(PointPlot(x, y2, "1/x^2*30"));
+		
+		auto arrowplot = ArrowPlot(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot");
+		arrowplot.dataRelation = DataRelation::relative;
+		fig.add(arrowplot);
+		
+		fig.show();
+		fig.save("script.gp");
+	}
+	{
+		std::vector<double> x(20);
+		for(size_t i=0; i < x.size(); ++i) x[i] = i;
+		
+		std::vector<double> y(20);
+		for(size_t i=0; i < y.size(); ++i) y[i] = 1./i*10;
+		
+		std::vector<double> yerrors(20);
+		for(size_t i=0; i < yerrors.size(); ++i) yerrors[i] = 1./(i);
+		
+		std::vector<double> y2(20);
+		for(size_t i=0; i < y2.size(); ++i) y2[i] = i/static_cast<double>(y2.size())*10;
+		
+		std::vector<double> x2errors(20);
+		for(size_t i=0; i < x2errors.size(); ++i) x2errors[i] = i/static_cast<double>(x2errors.size()) + 0.5;
+		
+		Figure fig("Points with error Bars");
+		fig.add(PointPlot(x, y, yerrors));
+		fig.add(PointPlot(x, y2, x2errors, nullptr));
+		fig.show();	
+	}
 	
-	Figure fig("Title");
-	fig.legend = true;
-	
-	fig.add(ImageFilePlot("test_image_32x32.png"));
-	fig.add(HeatmapPlot(array, "Heatmap"));
-	fig.add(LinePlot(x, y1, "1/x*30"));
-	fig.add(PointPlot(x, y2, "1/x^2*30"));
-	
-	auto arrowplot = ArrowPlot(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot");
-	arrowplot.dataRelation = DataRelation::relative;
-	fig.add(arrowplot);
-	
-	fig.show();
-	fig.save("script.gp");
 	
 	
     return 0;
