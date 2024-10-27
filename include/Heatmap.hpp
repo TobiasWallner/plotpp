@@ -20,7 +20,7 @@ namespace plotpp{
 			, _matrix(array)
 		{}
 		
-		virtual void print_config(std::ostream& stream) const {
+		virtual void print_plot(std::ostream& stream) const {
 			stream << "matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
 		}
 		
@@ -55,7 +55,7 @@ namespace plotpp{
 			, _at(at)
 		{}
 		
-		virtual void print_config(std::ostream& stream) const {
+		virtual void print_plot(std::ostream& stream) const {
 			stream << "'-' matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
 		}
 		

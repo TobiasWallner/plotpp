@@ -106,9 +106,17 @@ namespace plotpp{
 			if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
 			if(!xlabel.empty()) stream << "set xlabel " << xlabel << "\n";
 			if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
-			
 			stream << "\n";
-			
+				
+			// write settings demanded by plots
+			{
+				auto plt_itr=this->plots.cbegin();
+				for(; plt_itr!=this->plots.cend(); ++plt_itr){
+					(*plt_itr)->print_settings(stream);
+				}
+			}
+			stream << "\n";
+
 			// write data variables
 			{
 				auto plt_itr=this->plots.cbegin();
@@ -125,6 +133,7 @@ namespace plotpp{
 					stream << "EOD\n\n";
 				}	
 			}
+			stream << "\n";
 			
 			
 
@@ -134,14 +143,15 @@ namespace plotpp{
 				auto plot_itr = this->plots.cbegin();
 				auto var_itr = this->data_vars.cbegin();
 				for(; plot_itr!=this->plots.cend() && var_itr!=this->data_vars.cend(); ++plot_itr, (void)++var_itr){
-					if (plot_itr!=this->plots.begin()) stream << '\t';
+					if (plot_itr!=this->plots.cbegin()) stream << "     ";
 					stream << "$" << *var_itr << " ";
-					(*plot_itr)->print_config(stream);
+					(*plot_itr)->print_plot(stream);
 					auto next = plot_itr; 
 					++next;
 					if(next!=this->plots.cend()) stream << ", \\\n";
 				}
 			}
+			stream << "\n";
 			
 			if(!saveAs.empty()) stream << "set output\n"; // reset to default
 			stream.flush();

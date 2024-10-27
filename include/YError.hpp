@@ -29,9 +29,9 @@ namespace plotpp{
 		YError& operator=(YError&&) = default;
 		
 		
-		virtual void print_config(std::ostream& stream) const {
-			stream << " using 1:2:3 with yerrorbars";
-			stream << " ps " << this->pointSize 
+		virtual void print_plot(std::ostream& stream) const {
+			stream 	<< " using 1:2:3 with yerrorbars"
+					<< " ps " << this->pointSize 
 					<< " pt " << static_cast<int>(pointType)
 					<< " title '" << this->IPlot::title.str << "'";
 		}

@@ -11,6 +11,7 @@
 
 namespace plotpp{
 
+	[[deprecated("needs fixing, does not integrate in the way variables are defined and assigned to plots in gnuplot scripts")]]
 	class ImageFile : public IPlot {
 	public:
 	std::string filename;
@@ -46,7 +47,7 @@ namespace plotpp{
 		}
 	}
 	
-	virtual void print_config(std::ostream& stream) const {
+	virtual void print_plot(std::ostream& stream) const {
 		stream << "with rgbalpha title '" << this->IPlot::title.str << "'";
 	}
 	

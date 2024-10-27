@@ -31,7 +31,7 @@ namespace plotpp{
 		Line& operator=(Line&&) = default;
 		
 		
-		virtual void print_config(std::ostream& stream) const {
+		virtual void print_plot(std::ostream& stream) const {
 			stream << "using 1:2 with lines lw " << this->lineWidth << " " 
 					<< to_command(this->lineType) << " title '" << this->IPlot::title.str << "'";
 		}

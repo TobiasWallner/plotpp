@@ -12,8 +12,9 @@ namespace plotpp{
 		IPlot(Text title) : title(std::move(title)){}
 		virtual ~IPlot(){}
 		
-		virtual void print_config(std::ostream& stream) const = 0;
+		virtual void print_plot(std::ostream& stream) const = 0;
 		virtual void print_data(std::ostream& stream) const  = 0;
+		virtual void print_settings(std::ostream& stream) const {}
 		
 		Text title;
 	};

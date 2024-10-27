@@ -30,7 +30,7 @@ namespace plotpp{
 		Points& operator=(Points&&) = default;
 		
 		
-		virtual void print_config(std::ostream& stream) const {
+		virtual void print_plot(std::ostream& stream) const {
 			stream << "using 1:2 with points"
 					<< " ps " << this->pointSize 
 					<< " pt " << static_cast<int>(pointType)
