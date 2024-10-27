@@ -5,32 +5,27 @@
 #include "Figure.hpp"
 #include "Line.hpp"
 #include "Points.hpp"
-#include "ImageFile.hpp"
+//#include "ImageFile.hpp"
 #include "Heatmap.hpp"
 #include "Arrows.hpp"
 #include "XError.hpp"
 #include "YError.hpp"
 #include "XYError.hpp"
+#include "Boxes.hpp"
 
 namespace plotpp{
 
 // http://gnuplot.info/docs/Overview.html
 
-// TODO: put classes and functions into their own files
+// TODO: write examples for every plotting style, instead of having them all in the main function
 // TODO: put opstream into its own GitHub repo
 
 /* 	
 http://gnuplot.info/docs/Plotting_Styles.html
 
 	+ 2D Plots TODO:
-		
-		? make an class of Plot2D. with 1:2:3:4 - x:y:xerror:yerror
-			an enum should set the concrete plotting type. 
-		? ... or should every plotting type be its own type?
-		? Interchangeing from points to lines to bars on a moments notice would be nice though
 	
 		* box error bars
-		* 2d boxes
 		* boxplotsx
 		* candlesticks
 		* pichart
@@ -50,9 +45,6 @@ http://gnuplot.info/docs/Plotting_Styles.html
 		* 3D xyz plot
 		* 3D boxes
 		* contourfill
-		
-
-
 */
 
 }//plotpp
@@ -66,63 +58,83 @@ double at(double const (*array)[r][c], size_t row, size_t col){
 
 int main() {
 	using namespace plotpp;
-	{
-		std::vector<double> x(20);
-		for(size_t i=0; i < x.size(); ++i) x[i] = i;
-		
-		std::vector<double> y1(20);
-		for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
-		
-		std::vector<double> y2(20);
-		for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i)*30;
-		
-		double array[/*rows*/4][/*columns*/3] = {
-			{1, 2, 3},
-			{11, 12, 13},
-			{21, 22, 23},
-			{31, 32, 33}
-		};
-
-		double arrow_x1[] = {-1, -2, -3, -4, -5};
-		double arrow_y1[] = {-1, -2, -1, -2, -3};
-		double arrow_x2[] = {-2, -3, -4, -5, -6};
-		double arrow_y2[] = {-3, -4, -2, -3, -5};
-		
-		Figure fig("Title");
-		fig.legend = true;
-		
-		//fig.add(ImageFile("test_image_32x32.png"));
-		fig.add(Heatmap(array, "Heatmap"));
-		fig.add(Line(x, y1, "1/x*30"));
-		fig.add(Points(x, y2, "1/x^2*30"));
-		fig.add(Arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot", DataRelation::relative));
-		
-		fig.show();
-		fig.save("script.gp");
-	}
 	
 	{
-		std::vector<double> x(20);
-		for(size_t i=0; i < x.size(); ++i) x[i] = i;
+		float ydata[] = {5.0, 6.5, 7.8, 6.0, 7.0};
 		
-		std::vector<double> y(20);
-		for(size_t i=0; i < y.size(); ++i) y[i] = 1./i*10;
+		float y2data[] = {3.0, 6.5, 9.8, 10.0, 2.0};
+		float x2data[] = {3, 4, 5, 7, 8};
 		
-		std::vector<double> yerrors(20);
-		for(size_t i=0; i < yerrors.size(); ++i) yerrors[i] = 1;
+		const char* names[] = {"house", "bottel", "basket", "number", "apple"};
 		
-		std::vector<double> y2(20);
-		for(size_t i=0; i < y2.size(); ++i) y2[i] = i/static_cast<double>(y2.size())*10;
+		Figure fig("Boxes");
+		fig.add(Boxes(ydata, "boxes1"));
+		fig.add(Boxes(x2data, y2data, "boxes2"));
+		fig.show();
 		
-		std::vector<double> x2errors(20);
-		for(size_t i=0; i < x2errors.size(); ++i) x2errors[i] = i/static_cast<double>(x2errors.size()) + 0.5;
 		
-		Figure fig("Points with error Bars");
-		fig.add(XError(x, y, x2errors));	
-		fig.add(YError(x, y2, yerrors));
-		fig.add(XYError(y2, x, x2errors, yerrors));
-		fig.show();	
+		Figure fig2("Boxes with text");
+		fig2.add(Boxes(names, ydata, true, "boxes with names"));
+		fig2.show();
 	}
+	
+//	{
+//		std::vector<double> x(20);
+//		for(size_t i=0; i < x.size(); ++i) x[i] = i;
+//		
+//		std::vector<double> y1(20);
+//		for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
+//		
+//		std::vector<double> y2(20);
+//		for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i)*30;
+//		
+//		double array[/*rows*/4][/*columns*/3] = {
+//			{1, 2, 3},
+//			{11, 12, 13},
+//			{21, 22, 23},
+//			{31, 32, 33}
+//		};
+//
+//		double arrow_x1[] = {-1, -2, -3, -4, -5};
+//		double arrow_y1[] = {-1, -2, -1, -2, -3};
+//		double arrow_x2[] = {-2, -3, -4, -5, -6};
+//		double arrow_y2[] = {-3, -4, -2, -3, -5};
+//		
+//		Figure fig("Title");
+//		fig.legend = true;
+//		
+//		//fig.add(ImageFile("test_image_32x32.png"));
+//		fig.add(Heatmap(array, "Heatmap"));
+//		fig.add(Line(x, y1, "1/x*30"));
+//		fig.add(Points(x, y2, "1/x^2*30"));
+//		fig.add(Arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot", DataRelation::relative));
+//		
+//		fig.show();
+//		fig.save("script.gp");
+//	}
+	
+//	{
+//		std::vector<double> x(20);
+//		for(size_t i=0; i < x.size(); ++i) x[i] = i;
+//		
+//		std::vector<double> y(20);
+//		for(size_t i=0; i < y.size(); ++i) y[i] = 1./i*10;
+//		
+//		std::vector<double> yerrors(20);
+//		for(size_t i=0; i < yerrors.size(); ++i) yerrors[i] = 1;
+//		
+//		std::vector<double> y2(20);
+//		for(size_t i=0; i < y2.size(); ++i) y2[i] = i/static_cast<double>(y2.size())*10;
+//		
+//		std::vector<double> x2errors(20);
+//		for(size_t i=0; i < x2errors.size(); ++i) x2errors[i] = i/static_cast<double>(x2errors.size()) + 0.5;
+//		
+//		Figure fig("Points with error Bars");
+//		fig.add(XError(x, y, x2errors));	
+//		fig.add(YError(x, y2, yerrors));
+//		fig.add(XYError(y2, x, x2errors, yerrors));
+//		fig.show();	
+//	}
 	
 	
 	
