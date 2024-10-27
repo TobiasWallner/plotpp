@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string_view>
+#include <sstream>
+
 namespace plotpp{
 
 	enum class ImageFileType{

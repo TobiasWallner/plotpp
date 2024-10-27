@@ -4,6 +4,8 @@
 #include <string>
 #include <list>
 #include <ostream>
+#include <iostream>
+#include <fstream>
 
 #include "opstream.hpp"
 
