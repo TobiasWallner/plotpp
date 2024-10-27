@@ -30,14 +30,13 @@ namespace plotpp{
 		
 		
 		virtual void print_config(std::ostream& stream) const {
-			stream << "'-' using 1:2:3 with yerrorbars";
+			stream << " using 1:2:3 with yerrorbars";
 			stream << " ps " << this->pointSize 
 					<< " pt " << static_cast<int>(pointType)
 					<< " title '" << this->IPlot::title.str << "'";
 		}
 		
 		virtual void print_data(std::ostream& stream) const {
-			stream << "# Data for " << this->IPlot::title.str << "\n";
 			auto xitr = std::begin(*x);
 			auto yitr = std::begin(*y);
 			auto yerrItr = std::begin(*yerror);
@@ -49,7 +48,6 @@ namespace plotpp{
 			for (; xitr != xEnd && yitr != yEnd && yerrItr != yerrEnd; ++xitr, (void)++yitr, (void)yerrItr)
 				stream << *xitr << ' ' << *yitr << ' ' << *yerrItr << '\n';
 			
-			stream << "e\n";
 		}
 	};
 	

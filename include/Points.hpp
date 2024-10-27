@@ -31,21 +31,18 @@ namespace plotpp{
 		
 		
 		virtual void print_config(std::ostream& stream) const {
-			stream << "'-' using 1:2 with points"
+			stream << "using 1:2 with points"
 					<< " ps " << this->pointSize 
 					<< " pt " << static_cast<int>(pointType)
 					<< " title '" << this->IPlot::title.str << "'";
 		}
 		
 		virtual void print_data(std::ostream& stream) const {
-			stream << "# Data for " << this->IPlot::title.str << "\n";
 			auto xitr = std::begin(*x);
 			auto yitr = std::begin(*y);
 			
 			for (; xitr != std::end(*x) && yitr != std::end(*y); ++xitr, (void)++yitr)
 				stream << *xitr << ' ' << *yitr << '\n';
-
-			stream << "e\n";
 		}
 	};
 

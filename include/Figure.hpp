@@ -19,6 +19,7 @@ namespace plotpp{
 	class Figure{
 	public:
 		std::list<std::unique_ptr<IPlot>> plots;
+		std::list<std::string> data_vars;
 		
 	public:
 		Text title;
@@ -99,29 +100,50 @@ namespace plotpp{
 			TerminalType TerminalType = TerminalType::NONE,
 			std::string saveAs = "")
 		{
+			// figure and axis configuration
 			if(!title.empty()) stream << "set title " << title << "\n";
 			if(TerminalType != TerminalType::NONE) stream << "set TerminalType " << to_command(TerminalType) << "\n";
 			if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
 			if(!xlabel.empty()) stream << "set xlabel " << xlabel << "\n";
 			if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
 			
-			if(!this->plots.empty()) stream << "plot ";
-			for(auto itr=this->plots.cbegin(); itr!=this->plots.cend(); ++itr){
-				if (itr!=this->plots.begin()) stream << '\t';
-				(*itr)->print_config(stream);
-				auto next = itr; 
-				++next;
-				if(next!=this->plots.cend()) stream << ", \\\n";
+			stream << "\n";
+			
+			// write data variables
+			{
+				auto plt_itr=this->plots.cbegin();
+				size_t i = 0;
+				
+				for(; plt_itr!=this->plots.cend(); ++plt_itr, (void)++i){
+					std::string var_name("data");
+					var_name += std::to_string(i);
+					this->data_vars.push_back(var_name);
+					stream << "$" << var_name << " << EOD\n";
+					
+					(*plt_itr)->print_data(stream);
+					
+					stream << "EOD\n\n";
+				}	
 			}
 			
+			
 
-			for(auto itr=this->plots.cbegin(); itr!=this->plots.cend(); ++itr){
-				stream << "\n";
-				(*itr)->print_data(stream);
+			// write plot commands			
+			{
+				if(!this->plots.empty()) stream << "plot ";
+				auto plot_itr = this->plots.cbegin();
+				auto var_itr = this->data_vars.cbegin();
+				for(; plot_itr!=this->plots.cend() && var_itr!=this->data_vars.cend(); ++plot_itr, (void)++var_itr){
+					if (plot_itr!=this->plots.begin()) stream << '\t';
+					stream << "$" << *var_itr << " ";
+					(*plot_itr)->print_config(stream);
+					auto next = plot_itr; 
+					++next;
+					if(next!=this->plots.cend()) stream << ", \\\n";
+				}
 			}
 			
 			if(!saveAs.empty()) stream << "set output\n"; // reset to default
-			
 			stream.flush();
 		}
 	};

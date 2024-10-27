@@ -21,18 +21,16 @@ namespace plotpp{
 		{}
 		
 		virtual void print_config(std::ostream& stream) const {
-			stream << "'-' matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
+			stream << "matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
 		}
 		
 		virtual void print_data(std::ostream& stream) const {
-			stream << "# Data for " << this->IPlot::title.str << "\n";
 			for(size_t col=0; col < COLS; ++col){
 				for(size_t row=0; row < ROWS; ++row){
 					stream << _matrix[row][col] << ' ';
 				}
 				stream << '\n';
 			}
-			stream << "e\n";
 		}
 		
 	};

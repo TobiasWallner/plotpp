@@ -47,11 +47,12 @@ namespace plotpp{
 	}
 	
 	virtual void print_config(std::ostream& stream) const {
-		stream << " '" << this->filename << "' binary filetype=" << to_string(this->filetype) 
-				<< " with rgbalpha title '" << this->IPlot::title.str << "'";
+		stream << "with rgbalpha title '" << this->IPlot::title.str << "'";
 	}
 	
-	virtual void print_data([[maybe_unused]]std::ostream& stream) const {}
+	virtual void print_data(std::ostream& stream) const {
+		stream << "file='" << this->filename <<"' binary filetype=" << to_string(this->filetype) << "\n";
+	}
 	
 };
 

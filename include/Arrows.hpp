@@ -14,24 +14,24 @@ namespace plotpp{
 		T const & y1;
 		T const & x2;
 		T const & y2;
-		DataRelation dataRelation = DataRelation::absolute; // relation from [x1, y1] to [x2, y2]
+		DataRelation dataRelation; // relation from [x1, y1] to [x2, y2]
 		float lineWidth = 1.5;
 		ArrowHeadStyle arrowHeadStyle = ArrowHeadStyle::filled_head;
 		
-		Arrows(T const & x1, T const & y1, T const & x2, T const & y2, Text title="")
+		Arrows(T const & x1, T const & y1, T const & x2, T const & y2, Text title="", DataRelation drel = DataRelation::relative)
 			: IPlot(std::move(title))
 			, x1(x1)
 			, y1(y1)
 			, x2(x2)
 			, y2(y2)
+			, dataRelation(drel)
 		{}
 		
 		virtual void print_config(std::ostream& stream) const {
-			stream << "'-' using";
 			if(dataRelation == DataRelation::absolute){
-				stream << " 1:2:(($3)-($1)):($4-$2)";
+				stream << "using 1:2:(($3)-($1)):($4-$2)";
 			}else{
-				stream << " 1:2:3:4";
+				stream << "using 1:2:3:4";
 			}
 			
 			if(dataRelation == DataRelation::polar){
@@ -46,7 +46,6 @@ namespace plotpp{
 		}
 		
 		virtual void print_data(std::ostream& stream) const {
-			stream << "# Data for " << this->IPlot::title.str << "\n";
 			auto x1itr = std::begin(x1);
 			auto y1itr = std::begin(y1);
 			auto x2itr = std::begin(x2);
@@ -55,7 +54,6 @@ namespace plotpp{
 				; (void)++x1itr, (void)++y1itr, (void)++x2itr, (void)++y2itr){
 				stream << *x1itr << ' ' << *y1itr << ' ' << *x2itr << ' ' << *y2itr << '\n';
 			}
-			stream << "e\n";
 		}
 	};
 	

@@ -91,18 +91,16 @@ int main() {
 		Figure fig("Title");
 		fig.legend = true;
 		
-		fig.add(ImageFile("test_image_32x32.png"));
+		//fig.add(ImageFile("test_image_32x32.png"));
 		fig.add(Heatmap(array, "Heatmap"));
 		fig.add(Line(x, y1, "1/x*30"));
 		fig.add(Points(x, y2, "1/x^2*30"));
-		
-		auto arrows = Arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot");
-		arrows.dataRelation = DataRelation::relative;
-		fig.add(arrows);
+		fig.add(Arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot", DataRelation::relative));
 		
 		fig.show();
 		fig.save("script.gp");
 	}
+	
 	{
 		std::vector<double> x(20);
 		for(size_t i=0; i < x.size(); ++i) x[i] = i;
