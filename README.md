@@ -3,6 +3,18 @@ PPlot
 
 A plotting library for C++ that uses Gnuplot as a backend.
 
+Requirements
+============
+- Gnuplot:  
+	[Homepage](http://gnuplot.info/index.html)  
+	[Windows Download](https://sourceforge.net/projects/gnuplot/files/gnuplot/)  
+	[Linux install](https://riptutorial.com/gnuplot/example/11275/installation-or-setup):
+	```
+	sudo apt-get update
+	sudo apt-get install gnuplot
+	```
+	
+	
 Examples
 ========
 
