@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include "IPlot.hpp"
+#include "plotpp/IPlot.hpp"
 
 namespace plotpp{
 

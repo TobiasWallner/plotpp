@@ -1,8 +1,11 @@
 #pragma once
 
-#include "IPlot.hpp"
-#include "DataRelation.hpp"
-#include "ArrowHeadStyle.hpp"
+#include <ostream>
+#include <iterator>
+
+#include "plotpp/IPlot.hpp"
+#include "plotpp/DataRelation.hpp"
+#include "plotpp/ArrowHeadStyle.hpp"
 
 namespace plotpp{
 	

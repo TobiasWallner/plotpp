@@ -1,18 +1,9 @@
-#pragma once
+#include "plotpp/LineType.hpp"
 
 #include <string_view>
 #include <sstream>
 
 namespace plotpp{
-
-	enum class LineType{
-		none,
-		solid,
-		dashed,
-		doted,
-		dash_doted,
-		dash_doted2
-	};
 
 	std::string_view to_command(LineType dt){
 		switch(dt){

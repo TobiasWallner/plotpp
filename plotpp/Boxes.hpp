@@ -1,6 +1,10 @@
 #pragma once
 
-#include "IPlot.hpp"
+#include <ostream>
+#include <iterator>
+
+#include "plotpp/IPlot.hpp"
+
 
 /* TODO: parameterise boxwidth 
 				float width

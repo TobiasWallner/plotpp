@@ -1,31 +1,12 @@
-#pragma once
+#include "plotpp/OutputFileType.hpp"
 
 #include <string_view>
 #include <sstream>
 
-#include "TerminalType.hpp"
+#include "plotpp/TerminalType.hpp"
 
 
 namespace plotpp{
-
-	enum class OutputFileType{
-		NONE, 
-		tex, 
-		cgm,
-		pdf,
-		dxf,
-		emf,
-		eps,
-		fig,
-		gif,
-		jpeg,
-		png,
-		svg,
-		webp,
-		html,
-		txt,
-		gp, // gnuplot script
-	};
 
 	std::string_view to_file_ending(OutputFileType t){
 		switch(t){

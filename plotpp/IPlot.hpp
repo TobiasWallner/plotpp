@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include "Text.hpp"
+#include "plotpp/Text.hpp"
 
 namespace plotpp{
 

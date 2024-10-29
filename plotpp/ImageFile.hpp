@@ -4,9 +4,8 @@
 #include <sstream>
 #include <ostream>
 
-
-#include "ImageFileType.hpp"
-#include "IPlot.hpp"
+#include "plotpp/ImageFileType.hpp"
+#include "plotpp/IPlot.hpp"
 
 
 namespace plotpp{

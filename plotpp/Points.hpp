@@ -1,9 +1,10 @@
 #pragma once
 
 #include <ostream>
+#include <iterator>
 
-#include "IPlot.hpp"
-#include "PointType.hpp"
+#include "plotpp/IPlot.hpp"
+#include "plotpp/PointType.hpp"
 
 namespace plotpp{
 

@@ -2,8 +2,8 @@
 
 #include <ostream>
 
-#include "IPlot.hpp"
-#include "PointType.hpp"
+#include "plotpp/IPlot.hpp"
+#include "plotpp/PointType.hpp"
 
 namespace plotpp{
 		

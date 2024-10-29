@@ -1,17 +1,9 @@
-#pragma once
+#include "plotpp/ImageFileType.hpp"
 
 #include <string_view>
 #include <sstream>
 
 namespace plotpp{
-
-	enum class ImageFileType{
-		NONE,
-		png, 
-		jpeg,
-		webp,
-		gif,
-	};
 
 	std::string_view to_string(ImageFileType filetype){
 		switch(filetype){
