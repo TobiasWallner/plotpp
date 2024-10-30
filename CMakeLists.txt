@@ -5,24 +5,15 @@ set(PROJECT_NAME plotplusplus)
 project(${PROJECT_NAME})
 
 # Basic compiler settings
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 20)
-
 message(STATUS "======================== Fetching External Libraries =========================")
 
-find_package(Gnuplot 5.4.4 REQUIRED)
+find_package(Gnuplot 5.4.4)
+add_subdirectory(opstream)
 
 message(STATUS "======================== END: Fetching External Libraries =========================")
 
-# add OS specific definitions
-if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    add_definitions(-DWIN32)
-endif()
-
 # define the library
 add_library(plotpp STATIC
-	opstream.cpp # TODO: Move to its own library
-
 	plotpp/Text.cpp
 	plotpp/Figure.cpp
 	plotpp/ArrowHeadStyle.cpp
@@ -36,12 +27,20 @@ target_include_directories(plotpp PUBLIC
 	.
 )
 
+target_compile_features(plotpp PUBLIC cxx_std_20)
+
+target_link_libraries(plotpp PUBLIC
+	opstream
+)
+
 # optionally build examples with `-DBUILD_EXAMPLES=ON`
 # --------------------------------------------------------------------------
 
 option(BUILD_EXAMPLES "Description of the feature" OFF)
 
 if(BUILD_EXAMPLES)
+	
+
 	# Compiler Options for Clang:
 	# ===========================
 	if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")

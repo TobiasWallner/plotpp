@@ -13,7 +13,9 @@ Requirements
 	sudo apt-get update
 	sudo apt-get install gnuplot
 	```
-	
+	Note: The project can be build without gnuplot,
+	since this library will only communicate with through pipes. 
+	But you will need gnuplot to display the graphical plots.
 	
 Examples
 ========
