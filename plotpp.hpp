@@ -2,6 +2,7 @@
 
 #include "plotpp/IPlot.hpp"
 #include "plotpp/Figure.hpp"
+#include "plotpp/Multiplot.hpp"
 #include "plotpp/Line.hpp"
 #include "plotpp/Points.hpp"
 //#include "ImageFile.hpp"
