@@ -11,7 +11,7 @@ int main() {
 	for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
 	
 	Figure fig("Line Plot");
-	fig.add(Line(x, y1, "1/x*30"));
+	fig.add(line(x, y1, "1/x*30"));
 	fig.show();
 	fig.save("line-plot.gp");
 	fig.save("line-plot.png");
