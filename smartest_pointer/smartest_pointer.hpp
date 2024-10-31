@@ -1,6 +1,9 @@
 #include <variant>
 
 template<typename T>
+class smartest_pointer;
+
+template<typename T>
 class smartest_pointer {
 public:
     smartest_pointer(T& ref) : pointer_(&ref) {}
@@ -12,13 +15,16 @@ public:
     smartest_pointer(T* ptr) : pointer_(ptr) {}
 
     // Constructor from unique_ptr
-    smartest_pointer(std::unique_ptr<T> ptr) : pointer_(std::move(ptr)) {}
+    smartest_pointer(std::unique_ptr<T>&& ptr) : pointer_(std::shared_ptr<T>(std::move(ptr))) {}
 
     // Constructor from shared_ptr
     smartest_pointer(std::shared_ptr<T> ptr) : pointer_(std::move(ptr)) {}
 
-	smartest_pointer(smartest_pointer&&) = default;
-	smartest_pointer& operator=(smartest_pointer&&) = default;
+	smartest_pointer(const smartest_pointer&) = default;
+	smartest_pointer& operator=(const smartest_pointer&) = default;
+
+    smartest_pointer(smartest_pointer&&) = default;
+    smartest_pointer& operator=(smartest_pointer&&) = default;
 
     // Dereference operator
     T& operator*() const {return *getPointer();}
@@ -26,9 +32,12 @@ public:
     // Arrow operator
     T* operator->() const {return getPointer();}
 
+    
+
 private:
+
 	// TODO: Remove the variant by making a template specialisation for each element
-    std::variant<T*, std::unique_ptr<T>, std::shared_ptr<T>> pointer_;
+    std::variant<T*, std::shared_ptr<T>> pointer_;
 
     // Helper function to retrieve the raw pointer from the variant
 	T* getPointer() const {
@@ -36,8 +45,6 @@ private:
             case 0:  // T* (raw pointer)
                 return *std::get_if<T*>(&pointer_);
             case 1:  // std::unique_ptr<T>
-                return std::get_if<std::unique_ptr<T>>(&pointer_)->get();
-            case 2:  // std::shared_ptr<T>
                 return std::get_if<std::shared_ptr<T>>(&pointer_)->get();
             default:
                 return nullptr;  // Should never happen if the variant is properly initialized
