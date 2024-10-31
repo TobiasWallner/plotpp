@@ -1,3 +1,4 @@
+# Ignore
 build*/
 .vs/
 Makefile
@@ -9,3 +10,6 @@ Makefile
 *.tex
 *.webp
 *.gp
+
+# Allow
+!images/*
