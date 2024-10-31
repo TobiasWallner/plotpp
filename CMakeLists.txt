@@ -22,7 +22,6 @@ add_library(plotpp STATIC
 	plotpp/LineType.cpp
 	plotpp/OutputFileType.cpp
 	plotpp/TerminalType.cpp
-	
 )
 
 target_include_directories(plotpp PUBLIC
@@ -42,6 +41,7 @@ target_link_libraries(plotpp PUBLIC
 option(BUILD_EXAMPLES "Description of the feature" OFF)
 
 if(BUILD_EXAMPLES)
+	
 	
 
 	# Compiler Options for Clang:
@@ -144,7 +144,7 @@ if(BUILD_EXAMPLES)
 	target_link_libraries(arrows PUBLIC plotpp)
 	target_compile_options(arrows PUBLIC ${COMPILER_FLAGS})
 	
-	# arrows
+	# multiplot
 	add_executable(multiplot examples/multiplot.cpp)
 	target_link_libraries(multiplot PUBLIC plotpp)
 	target_compile_options(multiplot PUBLIC ${COMPILER_FLAGS})
