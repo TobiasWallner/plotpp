@@ -1,5 +1,5 @@
 #include "plotpp/Figure.hpp"
-
+#include <cstdlib>
 #include <vector>
 
 namespace plotpp{
@@ -16,7 +16,7 @@ namespace plotpp{
 		, ylabel(ylabel)
 	{}
 			
-	Figure& Figure::add(std::unique_ptr<IPlot>&& plot){
+	Figure& Figure::add(std::shared_ptr<IPlot>&& plot){
 		this->plots.push_back(std::move(plot));
 		return *this;
 	}
@@ -66,13 +66,12 @@ namespace plotpp{
 		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
 		
 		if(this->plots.empty()){
-			stream << 	"set xrange [-1 : +1]\n"
-						"set yrange [-1 : +1]\n"
-						"$empty << EOD\n"
-						"0 0\n"
-						"EOD\n"
-						"\n"
-						"plot $empty with points notitle\n\n";	
+			stream << "set xrange [-1 : +1]\n";
+			stream << "set yrange [-1 : +1]\n";
+			stream << "$empty << EOD\n";
+			stream << "0 0\n";
+			stream << "EOD\n\n";
+			stream << "plot $empty with points notitle\n\n";
 			return;
 		}
 		
@@ -81,7 +80,20 @@ namespace plotpp{
 		if(!title.empty()) stream << "set title " << title << "\n";
 		if(!xlabel.empty()) stream << "set xlabel " << xlabel << "\n";
 		if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
-			
+		
+		if(this->xautoscale && this->yautoscale){
+			stream << "set autoscale\n";
+		}else if(this->xautoscale){
+			stream << "set autoscale x\n";
+			stream << "set yrange [" << this->ymin << ":" << this->ymax << "]\n";
+		}else if(this->yautoscale){
+			stream << "set xrange [" << this->xmin << ":" << this->xmax << "]\n";
+			stream << "set autoscale y\n";
+		}else{
+			stream << "set xrange [" << this->xmin << ":" << this->xmax << "]\n";
+			stream << "set yrange [" << this->ymin << ":" << this->ymax << "]\n";
+		}
+		
 		// write settings demanded by plots
 		{
 			auto plt_itr=this->plots.cbegin();
@@ -99,7 +111,10 @@ namespace plotpp{
 			
 			for(; plt_itr!=this->plots.cend(); ++plt_itr, (void)++i){
 				std::string var_name("data");
-				var_name += std::to_string(i);
+				
+				//generate random number for plot names
+				var_name += std::to_string(std::rand());
+				
 				data_vars.push_back(var_name);
 				stream << "$" << var_name << " << EOD\n";
 				
@@ -127,8 +142,8 @@ namespace plotpp{
 			}
 		}
 		stream << "\n";
-		
-		if(!saveAs.empty()) stream << "set output\n"; // reset to default
+
+		if(!saveAs.empty()) stream << "set output" << std::endl; // reset to default
 		
 		stream.flush();
 	}
