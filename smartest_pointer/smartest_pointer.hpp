@@ -5,6 +5,7 @@ class smartest_pointer {
 public:
     smartest_pointer(T& ref) : pointer_(&ref) {}
 	
+	//TODO: small object optimisation for up to 64 byte ?
 	smartest_pointer(T&& ref) : pointer_(std::make_unique<T>(std::move(ref))) {}
 	
 	// Constructor from raw pointer
@@ -26,6 +27,7 @@ public:
     T* operator->() const {return getPointer();}
 
 private:
+	// TODO: Remove the variant by making a template specialisation for each element
     std::variant<T*, std::unique_ptr<T>, std::shared_ptr<T>> pointer_;
 
     // Helper function to retrieve the raw pointer from the variant
