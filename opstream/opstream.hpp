@@ -15,6 +15,7 @@ protected:
 
 	// specify what should be done to flush the buffer (aka. synchronise the buffer with the device)
     int sync() override; 
+	int overflow(int c) override;
 };
 
 class opstream : public std::ostream {
