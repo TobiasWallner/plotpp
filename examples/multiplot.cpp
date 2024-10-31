@@ -22,20 +22,18 @@ std::vector<float> apply(const std::vector<float>& x_range, float (*func)(float 
 
 std::vector<float> sin(const std::vector<float>& x) {return apply(x, std::sin);}
 std::vector<float> cos(const std::vector<float>& x) {return apply(x, std::cos);}
-std::vector<float> tan(const std::vector<float>& x) {return apply(x, std::tan);}
+std::vector<float> tan(const std::vector<float>& x) {return apply(x, std::sinh);}
 
 int main(){
-	
 	using namespace plotpp;
 	
-	const auto x = linspace(-3.1415, 3.1415, 100);
+	const auto x = linspace(-3.1415, 3.1415, 50);
 	
 	Multiplot mplt(2, 2, "Multiplot");
 	mplt.at(0, 0).add(line(x, sin(x), "Top-Left"));
 	mplt.at(0, 1).add(line(x, cos(x), "Top-Right"));
 	mplt.at(1, 1).add(line(x, tan(x), "Bottom-Right"));
 	mplt.show();
-	mplt.save("script.gp");
 	
 	return 0;
 }
