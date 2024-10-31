@@ -16,15 +16,18 @@ message(STATUS "======================== END: Fetching External Libraries ======
 add_library(plotpp STATIC
 	plotpp/Text.cpp
 	plotpp/Figure.cpp
+	plotpp/Multiplot.cpp
 	plotpp/ArrowHeadStyle.cpp
 	plotpp/ImageFileType.cpp
 	plotpp/LineType.cpp
 	plotpp/OutputFileType.cpp
 	plotpp/TerminalType.cpp
+	
 )
 
 target_include_directories(plotpp PUBLIC
 	.
+	smartest_pointer
 )
 
 target_compile_features(plotpp PUBLIC cxx_std_20)
@@ -140,6 +143,11 @@ if(BUILD_EXAMPLES)
 	add_executable(arrows examples/arrows.cpp)
 	target_link_libraries(arrows PUBLIC plotpp)
 	target_compile_options(arrows PUBLIC ${COMPILER_FLAGS})
+	
+	# arrows
+	add_executable(multiplot examples/multiplot.cpp)
+	target_link_libraries(multiplot PUBLIC plotpp)
+	target_compile_options(multiplot PUBLIC ${COMPILER_FLAGS})
 endif()
 
 
