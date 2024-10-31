@@ -37,7 +37,7 @@ fig.add(Line(x, y1, "1/x*30"));
 fig.show();
 fig.save("line-plot.png");
 ```
-![Image of a line plot](images/line-plot.png "Line Plot")
+![Image of a line plot](images\line-plot.png "Line Plot")
 
 Arrow Plot
 ----------
@@ -49,7 +49,7 @@ fig.show();
 fig.save("arrows.svg");
 ```
 
-![Image of an arrow plot](images/arrows.svg "Arrows")
+![Image of an arrow plot](images\arrows.svg "Arrows")
 
 Multiplot
 ---------
@@ -63,4 +63,4 @@ mplt.show();
 mplt.save("multiplot.pdf");
 ```
 
-![Multiplot Image](images/multiplot.pdf "Multiplot")
+![Multiplot Image](images\multiplot.pdf "Multiplot")
