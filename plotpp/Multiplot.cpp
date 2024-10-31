@@ -4,7 +4,6 @@
 
 #include <vector>
 
-
 namespace plotpp{
 	
 	Multiplot::Multiplot(Text title="")
@@ -109,9 +108,13 @@ namespace plotpp{
 			}
 		}
 		
+		stream << "\n";
+		stream << "unset multiplot\n";
 		stream.flush();
 		
 		if(!saveAs.empty()) stream << "set output ''\n"; // reset the output
+		
+		stream.flush();
 	}
 	
 }
