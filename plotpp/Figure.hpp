@@ -19,13 +19,19 @@ namespace plotpp{
 	class Figure{
 	public:
 		std::list<std::unique_ptr<IPlot>> plots;
-		std::list<std::string> data_vars;
+		
 		
 	public:
 		Text title;
 		Text xlabel;
 		Text ylabel;
 		bool legend = false;
+		
+		Figure() = default;
+		
+		Figure(std::string title_str);
+		
+		Figure(Text title, Text xlabel, Text ylabel);
 		
 		/*TODO: Add enable if or requirement that T has to be derived from IPlot*/
 		template<class T>
@@ -46,23 +52,20 @@ namespace plotpp{
 		
 		Figure& add(std::unique_ptr<IPlot>&& plot);
 		
-		Figure(std::string title_str="");
+		void show(OutputFileType filetype) const;
 		
-		Figure(Text title, Text xlabel, Text ylabel);
-		
-		void show(OutputFileType filetype);
-		
-		void show(TerminalType TerminalType = TerminalType::NONE);
+		void show(TerminalType TerminalType = TerminalType::NONE) const;
 		
 		void save(	std::string filename = "", 
 					OutputFileType filetype=OutputFileType::NONE, 
-					TerminalType TerminalType = TerminalType::NONE);
+					TerminalType TerminalType = TerminalType::NONE) const;
 
-		void _plot(
+		void plot(
 			std::ostream& stream, 
 			TerminalType TerminalType = TerminalType::NONE,
-			std::string saveAs = "");
+			std::string saveAs = "") const;
 			
+		
 	};
 	
 }

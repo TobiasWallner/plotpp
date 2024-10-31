@@ -1,5 +1,7 @@
 #include "plotpp/Figure.hpp"
 
+#include <vector>
+
 namespace plotpp{
 		
 	Figure::Figure(std::string title_str){
@@ -19,20 +21,20 @@ namespace plotpp{
 		return *this;
 	}
 			
-	void Figure::show(OutputFileType filetype){
+	void Figure::show(OutputFileType filetype) const {
 		if(filetype == OutputFileType::gp){
-			this->_plot(std::cout, TerminalType::NONE);
+			this->plot(std::cout, TerminalType::NONE);
 		}else{
 			this->show(to_terminal(filetype));
 		}
 	}
 			
-	void Figure::show(TerminalType TerminalType){
+	void Figure::show(TerminalType TerminalType) const {
 		opstream gnuplot("gnuplot -persist");
-		this->_plot(gnuplot, TerminalType);
+		this->plot(gnuplot, TerminalType);
 	}
 			
-	void Figure::save(std::string filename, OutputFileType filetype, TerminalType TerminalType){
+	void Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
 		if(filename.empty()) filename = title;
 		
 		if(filetype == OutputFileType::NONE){
@@ -45,28 +47,40 @@ namespace plotpp{
 				filename += to_file_ending(filetype);
 		}
 		
-		if(TerminalType == TerminalType::NONE){
-			TerminalType = to_terminal(filetype);	
+		if(terminalType == TerminalType::NONE){
+			terminalType = to_terminal(filetype);	
 		}
 		
 		if(filetype==OutputFileType::gp){
 			std::ofstream fstream(filename);
-			this->_plot(fstream, TerminalType);
+			this->plot(fstream, terminalType);
 		}else{
 			opstream gnuplot("gnuplot -persist");
-			this->_plot(gnuplot, TerminalType, filename);	
+			this->plot(gnuplot, terminalType, filename);	
 		}
 	}
-
 	
-	void Figure::_plot(std::ostream& stream, TerminalType TerminalType,std::string saveAs){
+	void Figure::plot(std::ostream& stream, TerminalType terminalType, std::string saveAs) const {
+		
+		if(terminalType != TerminalType::NONE) stream << "set terminal " << to_command(terminalType) << "\n";
+		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
+		
+		if(this->plots.empty()){
+			stream << 	"set xrange [-1 : +1]\n"
+						"set yrange [-1 : +1]\n"
+						"$empty << EOD\n"
+						"0 0\n"
+						"EOD\n"
+						"\n"
+						"plot $empty with points notitle\n\n";	
+			return;
+		}
+		
+		
 		// figure and axis configuration
 		if(!title.empty()) stream << "set title " << title << "\n";
-		if(TerminalType != TerminalType::NONE) stream << "set terminal " << to_command(TerminalType) << "\n";
-		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
 		if(!xlabel.empty()) stream << "set xlabel " << xlabel << "\n";
 		if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
-		stream << "\n";
 			
 		// write settings demanded by plots
 		{
@@ -75,9 +89,10 @@ namespace plotpp{
 				(*plt_itr)->print_settings(stream);
 			}
 		}
-		stream << "\n";
 
 		// write data variables
+		std::vector<std::string> data_vars;
+		data_vars.reserve(this->plots.size());
 		{
 			auto plt_itr=this->plots.cbegin();
 			size_t i = 0;
@@ -85,7 +100,7 @@ namespace plotpp{
 			for(; plt_itr!=this->plots.cend(); ++plt_itr, (void)++i){
 				std::string var_name("data");
 				var_name += std::to_string(i);
-				this->data_vars.push_back(var_name);
+				data_vars.push_back(var_name);
 				stream << "$" << var_name << " << EOD\n";
 				
 				(*plt_itr)->print_data(stream);
@@ -93,7 +108,6 @@ namespace plotpp{
 				stream << "EOD\n\n";
 			}	
 		}
-		stream << "\n";
 		
 		
 
@@ -101,19 +115,21 @@ namespace plotpp{
 		{
 			if(!this->plots.empty()) stream << "plot ";
 			auto plot_itr = this->plots.cbegin();
-			auto var_itr = this->data_vars.cbegin();
-			for(; plot_itr!=this->plots.cend() && var_itr!=this->data_vars.cend(); ++plot_itr, (void)++var_itr){
+			auto var_itr = data_vars.cbegin();
+			for(; plot_itr!=this->plots.cend() && var_itr!=data_vars.cend(); ++plot_itr, (void)++var_itr){
 				if (plot_itr!=this->plots.cbegin()) stream << "     ";
 				stream << "$" << *var_itr << " ";
 				(*plot_itr)->print_plot(stream);
 				auto next = plot_itr; 
 				++next;
-				if(next!=this->plots.cend()) stream << ", \\\n";
+				if(next!=this->plots.cend()) stream << ", \\";
+				stream << "\n";
 			}
 		}
 		stream << "\n";
 		
 		if(!saveAs.empty()) stream << "set output\n"; // reset to default
+		
 		stream.flush();
 	}
 
