@@ -110,9 +110,7 @@ namespace plotpp{
 		
 		stream << "\n";
 		stream << "unset multiplot\n";
-		stream.flush();
-		
-		if(!saveAs.empty()) stream << "set output ''\n"; // reset the output
+		if(!saveAs.empty()) stream << "set output\n";
 		
 		stream.flush();
 	}
