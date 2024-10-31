@@ -60,7 +60,7 @@ mplt.at(0, 0).add(line(x, sin(x), "Top-Left"));
 mplt.at(0, 1).add(line(x, cos(x), "Top-Right"));
 mplt.at(1, 1).add(line(x, tan(x), "Bottom-Right"));
 mplt.show();
-mplt.save("multiplot.pdf");
+mplt.save("multiplot.jpg");
 ```
 
-![Multiplot Image](images/multiplot.pdf)
+![Multiplot Image](images/multiplot.jpg)

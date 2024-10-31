@@ -34,7 +34,7 @@ int main(){
 	mplt.at(0, 1).add(line(x, cos(x), "Top-Right"));
 	mplt.at(1, 1).add(line(x, tan(x), "Bottom-Right"));
 	mplt.show();
-	mplt.save("multiplot.pdf");
+	mplt.save("multiplot.jpg");
 	
 	return 0;
 }
