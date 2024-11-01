@@ -10,10 +10,10 @@ namespace plotpp{
 	template<class Container>
 	class XYError : public IPlot{
 	public:
-		const Container* x;
-		const Container* y;
-		const Container* xerror;
-		const Container* yerror;
+		const Container* x;/*TODO: change to smartest_pointer*/
+		const Container* y;/*TODO: change to smartest_pointer*/
+		const Container* xerror;/*TODO: change to smartest_pointer*/
+		const Container* yerror;/*TODO: change to smartest_pointer*/
 		PointType pointType = PointType::CircleFilled;
 		float pointSize = 1.0;
 
