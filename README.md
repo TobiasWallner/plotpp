@@ -18,7 +18,7 @@ Requirements
 	sudo apt-get install gnuplot
 	```
 	Note: The project can be build without gnuplot,
-	since this library will only communicate with through pipes. 
+	since this library will only communicate with gnuplot through pipes. 
 	But you will need gnuplot to display the graphical plots.
 	
 Examples
