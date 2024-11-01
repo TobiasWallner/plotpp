@@ -30,6 +30,12 @@ Line Plot
 ---------
 
 ```C++
+std::vector<double> x(20);
+for(size_t i=0; i < x.size(); ++i) x[i] = i;
+	
+std::vector<double> y1(20);
+for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
+
 Figure fig("Line Plot");
 fig.add(line(x, y1, "1/x*30"));
 fig.show();
@@ -41,6 +47,11 @@ Arrow Plot
 ----------
 
 ```C++
+double arrow_x1[] = {-1, -2, -3, -4, -5};
+double arrow_y1[] = {-1, -2, -1, -2, -3};
+double arrow_x2[] = {-2, -3, -4, -5, -6};
+double arrow_y2[] = {-3, -4, -2, -3, -5};
+
 Figure fig("Arrow-Plot");
 fig.add(arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot", DataRelation::relative));
 fig.show();
@@ -53,6 +64,8 @@ Multiplot
 ---------
 
 ```C++
+const auto x = linspace(-3.1415, 3.1415, 50);
+
 Multiplot mplt(2, 2, "Multiplot");
 mplt.at(0, 0).add(line(x, sin(x), "Top-Left"));
 mplt.at(0, 1).add(line(x, cos(x), "Top-Right"));
