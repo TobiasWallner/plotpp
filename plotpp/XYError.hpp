@@ -32,8 +32,8 @@ namespace plotpp{
 		
 		
 		virtual void print_plot(std::ostream& stream) const {
-			stream << " using 1:2:3:4 with xyerrorbars";
-			stream << " ps " << this->pointSize 
+			stream 	<< " using 1:2:3:4 with xyerrorbars";
+			stream 	<< " ps " << this->pointSize 
 					<< " pt " << static_cast<int>(pointType)
 					<< " title '" << this->IPlot::title.str << "'";
 		}
