@@ -33,7 +33,7 @@ Line Plot
 
 ```C++
 Figure fig("Line Plot");
-fig.add(Line(x, y1, "1/x*30"));
+fig.add(line(x, y1, "1/x*30"));
 fig.show();
 fig.save("line-plot.png");
 ```
@@ -44,7 +44,7 @@ Arrow Plot
 
 ```C++
 Figure fig("Arrow-Plot");
-fig.add(Arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot", DataRelation::relative));
+fig.add(arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot", DataRelation::relative));
 fig.show();
 fig.save("arrows.svg");
 ```
