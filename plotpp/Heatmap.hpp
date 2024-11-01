@@ -71,7 +71,7 @@ namespace plotpp{
 		
 	};
 	
-	// Primary helper constructor function
+	// Construction Helper
 	template<typename U1>
 	auto heatmap(U1&& matrix, size_t rows, size_t columns,
 				 std::function<double(const std::remove_reference_t<U1>&, size_t, size_t)> at,
@@ -80,16 +80,27 @@ namespace plotpp{
 		return Heatmap<T>(std::forward<U1>(matrix), rows, columns, at, std::move(title));
 	}
 
-	// Helper constructor function for creating a Heatmap from a 2D array
+	// Construction Helper
 	template<class T, size_t ROWS, size_t COLS>
 	auto heatmap(const T(&array)[ROWS][COLS], Text title = "") {
-		// Lambda to access elements by row and column in the 2D array
+		// Custom Access Function
 		auto at = [](const T (&matrix)[ROWS][COLS], size_t row, size_t col) -> double {
 			return static_cast<double>(matrix[row][col]);
 		};
 
-		// Use the primary heatmap helper with array, dimensions, and the lambda
 		return heatmap(array, ROWS, COLS, at, std::move(title));
+	}
+	
+	// Construction Helper
+	template<class T>
+	auto heatmap(const T* ptr, size_t rows, size_t cols, Text title = "") {
+		// Custom Access Function
+		auto at = [cols](T const * const & matrix, size_t row, size_t col) -> double {
+			return static_cast<double>(matrix[col + cols * row]);
+		};
+		
+		
+		return heatmap(ptr, rows, cols, at, std::move(title));
 	}
 
 }
