@@ -33,6 +33,10 @@ namespace plotpp{
 		
 		bool xautoscale = true;
 		bool yautoscale = true;
+		
+		bool yreverse = false;
+		bool xreverse = false;
+		
 		bool legend = false;
 		
 		Figure() = default;

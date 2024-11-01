@@ -82,7 +82,7 @@ namespace plotpp{
 		if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
 		
 		if(this->xautoscale && this->yautoscale){
-			stream << "set autoscale\n";
+			stream << "set autoscale\n";	
 		}else if(this->xautoscale){
 			stream << "set autoscale x\n";
 			stream << "set yrange [" << this->ymin << ":" << this->ymax << "]\n";
@@ -93,6 +93,9 @@ namespace plotpp{
 			stream << "set xrange [" << this->xmin << ":" << this->xmax << "]\n";
 			stream << "set yrange [" << this->ymin << ":" << this->ymax << "]\n";
 		}
+		
+		if(this->xreverse) stream << "set xrange reverse\n";
+		if(this->yreverse) stream << "set yrange reverse\n";
 		
 		// write settings demanded by plots
 		{
