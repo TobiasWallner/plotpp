@@ -46,6 +46,6 @@ public:
     inline auto* operator->() const {return _ptr;}
 
 private:
-	inline std::shared_ptr<T> _mem;
-	inline T* _ptr;
+	std::shared_ptr<T> _mem;
+	T* _ptr;
 };

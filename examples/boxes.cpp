@@ -3,20 +3,22 @@
 int main() {
 	using namespace plotpp;
 
+	int xdata[] = {1, 2, 3, 4, 5, 6, 7};
 	float ydata[] = {5.0, 6.5, 7.8, 6.0, 7.0};
 	
 	float y2data[] = {3.0, 6.5, 9.8, 10.0, 2.0};
-	float x2data[] = {3, 4, 5, 7, 8};
+	int x2data[] = {3, 4, 5, 7, 8};
 	
 	const char* names[] = {"house", "bottel", "basket", "number", "apple"};
 	
 	Figure fig("Boxes");
-	fig.add(Boxes(ydata, "boxes1"));
-	fig.add(Boxes(x2data, y2data, "boxes2"));
+	fig.add(boxes(xdata, ydata, "boxes1"));
+	fig.add(boxes(x2data, y2data, "boxes2"));
 	fig.show();
+	fig.save("script.gp");
 	
 	Figure fig2("Boxes with text");
-	fig2.add(Boxes(names, ydata, true, "boxes with names"));
+	fig2.add(boxes_xtext(names, ydata, "boxes with names"));
 	fig2.show();
 
     return 0;
