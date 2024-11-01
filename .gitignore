@@ -10,6 +10,7 @@ Makefile
 *.tex
 *.webp
 *.gp
+*.svg
 
 # Allow
 !images/*
