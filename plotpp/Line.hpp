@@ -11,11 +11,11 @@
 
 namespace plotpp{
 
-	template<class T>
+	template<class Tx, class Ty>
 	class Line : public IPlot{
 	public:
-		smartest_pointer<const T> x;
-		smartest_pointer<const T> y;
+		smartest_pointer<const Tx> x;
+		smartest_pointer<const Ty> y;
 		
 		LineType lineType = LineType::solid;
 		float lineWidth = 1.5;
@@ -50,11 +50,15 @@ namespace plotpp{
 		}
 	};
 
-	
+	/*constructor helper
+		Deduces the template parameters for `Line` and constructs it with perfect argument forwarding.
+		This guarantees that no unnecessary copies are made for what could be huge datasets for `x` and `y`.
+	*/
 	template<typename U1, typename U2>
 	auto line(U1&& x, U2&& y, Text title="") {
-		using T = std::decay_t<decltype(x)>;
-		return Line<T>(std::forward<U1>(x), std::forward<U2>(y), std::move(title));
+		using Tx = std::remove_reference_t<decltype(x)>;
+		using Ty = std::remove_reference_t<decltype(y)>;
+		return Line<Tx, Ty>(std::forward<U1>(x), std::forward<U2>(y), std::move(title));
 	}
 
 }

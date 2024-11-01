@@ -11,7 +11,7 @@ int main() {
 	double arrow_y2[] = {-3, -4, -2, -3, -5};
 	
 	Figure fig("Arrow-Plot");
-	fig.add(Arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot", DataRelation::relative));
+	fig.add(arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot"));
 	fig.show();
 	fig.save("arrows.svg");
 	
