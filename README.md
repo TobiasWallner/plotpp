@@ -7,10 +7,6 @@ Allows plotting from custom containers/vectors if they use std::begin() and std:
 
 Still under heavy developement!
 
-TODO:
-=====
-* Employ perfect forwarding and perfect storage for all plotting devices
-
 Requirements
 ============
 - Gnuplot:  
