@@ -7,7 +7,20 @@ project(${PROJECT_NAME})
 # Basic compiler settings
 message(STATUS "======================== Fetching External Libraries =========================")
 
+message(STATUS "Searching for Gnuplot >= 5.4.4")
 find_package(Gnuplot 5.4.4)
+if(Gnuplot_FOUND)
+    message(STATUS "  found Gnuplot")
+else()
+    message(WARNING "  Gnuplot >= 5.4.4 not found!")
+    message(WARNING "    Gnuplot installation instructions:")
+    message(WARNING "    - On Ubuntu/Debian: sudo apt update && sudo apt install gnuplot")
+    message(WARNING "    - On Fedora: sudo dnf install gnuplot")
+    message(WARNING "    - On macOS (with Homebrew): brew install gnuplot")
+    message(WARNING "    - On Windows: Download the installer from https://sourceforge.net/projects/gnuplot/")
+	message(WARNING "    You will still be able to compile your project but it will not be able to talk to gnuplot and plot figures")
+endif()
+ 
 add_subdirectory(opstream)
 
 message(STATUS "======================== END: Fetching External Libraries =========================")
