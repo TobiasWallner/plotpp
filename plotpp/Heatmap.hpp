@@ -5,36 +5,6 @@
 #include "plotpp/IPlot.hpp"
 
 namespace plotpp{
-
-	/*
-		   Heatmap for built in array types
-	*//*
-	template<class T, size_t ROWS=0, size_t COLS=0, bool custom=true>
-	class Heatmap : public IPlot{
-		   const T (&_matrix)[ROWS][COLS];
-	public:
-
-		   Heatmap(const T (&array)[ROWS][COLS], Text title="")
-				   : IPlot(std::move(title))
-				   , _matrix(array)
-		   {}
-
-		   virtual void print_plot(std::ostream& stream) const {
-				   stream << "matrix using 2:1:3 with image title '" << this->IPlot::title.str << "'";
-		   }
-
-		   virtual void print_data(std::ostream& stream) const {
-				   for(size_t col=0; col < COLS; ++col){
-						   for(size_t row=0; row < ROWS; ++row){
-								   stream << _matrix[row][col] << ' ';
-						   }
-						   stream << '\n';
-				   }
-		   }
-	};*/
-	   
-	
-
 	/*
 		Heat Map for custom matrix like objects
 	*/
@@ -47,10 +17,9 @@ namespace plotpp{
 		
 	public:
 
-		template<typename U1>
-		Heatmap(U1&& matrix, size_t rows, size_t columns, std::function<double(const T&, size_t/*row*/, size_t/*col*/)> at, Text title="")
+		Heatmap(smartest_pointer<T> matrix, size_t rows, size_t columns, std::function<double(const T&, size_t/*row*/, size_t/*col*/)> at, Text title="")
 			: IPlot(std::move(title))
-			, _matrix(std::forward<U1>(matrix))
+			, _matrix(std::move(matrix))
 			, _rows(rows)
 			, _columns(columns)
 			, _at(std::move(at))
@@ -76,8 +45,23 @@ namespace plotpp{
 	auto heatmap(U1&& matrix, size_t rows, size_t columns,
 				 std::function<double(const std::remove_reference_t<U1>&, size_t, size_t)> at,
 				 Text title = "") {
+		using T = remove_ptr_t<std::remove_reference_t<U1>>;
+		return Heatmap<T>(smartest_pointer<T>(std::forward<U1>(matrix)), rows, columns, at, std::move(title));
+	}
+	
+	// Construction Helper for common matrix objects with common interfaces
+	template<typename U1>
+	
+	auto heatmap(U1&& matrix, Text title = "") 
+	requires (!std::is_array_v<std::remove_reference_t<U1>>)
+	{
 		using T = std::remove_reference_t<U1>;
-		return Heatmap<T>(std::forward<U1>(matrix), rows, columns, at, std::move(title));
+		
+		auto at = [](const T& matrix, size_t row, size_t col) -> double {
+			return static_cast<double>(matrix.at(row, col));
+		};
+		
+		return Heatmap<T>(smartest_pointer<T>(std::forward<U1>(matrix)), matrix.rows(), matrix.columns(), at, std::move(title));
 	}
 
 	// Construction Helper
@@ -89,18 +73,6 @@ namespace plotpp{
 		};
 
 		return heatmap(array, ROWS, COLS, at, std::move(title));
-	}
-	
-	// Construction Helper
-	template<class T>
-	auto heatmap(const T* ptr, size_t rows, size_t cols, Text title = "") {
-		// Custom Access Function
-		auto at = [cols](T const * const & matrix, size_t row, size_t col) -> double {
-			return static_cast<double>(matrix[col + cols * row]);
-		};
-		
-		
-		return heatmap(ptr, rows, cols, at, std::move(title));
 	}
 
 }

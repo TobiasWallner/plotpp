@@ -21,16 +21,15 @@ namespace plotpp{
 	template<class Tx, class Ty>
 	class Boxes : public IPlot{
 	public:
-		smartest_pointer<const Tx> x;
-		smartest_pointer<const Ty> y;
+		smartest_pointer<Tx> x;
+		smartest_pointer<Ty> y;
 		
 		bool x_is_text = false;
 		
-		template<typename U1, typename U2>
-		Boxes(U1&& x, U2&& y, Text title="")
+		Boxes(smartest_pointer<Tx> x, smartest_pointer<Ty> y, Text title="")
 			: IPlot(std::move(title))
-			, x(std::forward<U1>(x))
-			, y(std::forward<U2>(y)) 
+			, x(std::move(x))
+			, y(std::move(y)) 
 			, x_is_text(false)
 			{}
 		
@@ -70,17 +69,23 @@ namespace plotpp{
 	/*constructor helper*/
 	template<typename U1, typename U2>
 	auto boxes(U1&& x, U2&& y, Text title="") {
-		using Tx = std::remove_reference_t<decltype(x)>;
-		using Ty = std::remove_reference_t<decltype(y)>;
-		return Boxes<Tx, Ty>(std::forward<U1>(x), std::forward<U2>(y), std::move(title));
+		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
+		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		return Boxes<Tx, Ty>(
+					smartest_pointer<Tx>(std::forward<U1>(x)), 
+					smartest_pointer<Ty>(std::forward<U2>(y)), 
+					std::move(title));
 	}
 	
 	/*constructor helper*/
 	template<typename U1, typename U2>
 	auto boxes_xtext(U1&& x, U2&& y, Text title="") {
-		using Tx = std::remove_reference_t<decltype(x)>;
-		using Ty = std::remove_reference_t<decltype(y)>;
-		auto plot = Boxes<Tx, Ty>(std::forward<U1>(x), std::forward<U2>(y), std::move(title));
+		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
+		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		auto plot = Boxes<Tx, Ty>(
+					smartest_pointer<Tx>(std::forward<U1>(x)), 
+					smartest_pointer<Ty>(std::forward<U2>(y)), 
+					std::move(title));
 		plot.x_is_text = true;
 		return plot;
 	}

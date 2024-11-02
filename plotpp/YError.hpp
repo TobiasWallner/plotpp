@@ -7,23 +7,22 @@
 
 namespace plotpp{
 
-	template<class Container>
+	template<class Tx, class Ty, class Tyerr>
 	class YError : public IPlot{
 	public:
 		
-	
-		const Container* x;/*TODO: change to smartest_pointer*/
-		const Container* y;/*TODO: change to smartest_pointer*/
-		const Container* yerror;/*TODO: change to smartest_pointer*/
+		smartest_pointer<Tx> x;
+		smartest_pointer<Ty> y;
+		smartest_pointer<Tyerr> yerror;
 		PointType pointType = PointType::CircleFilled;
 		float pointSize = 1.0;
 
-		YError(const Container& x, const Container& y, const Container& yerror, Text title="")
+		YError(smartest_pointer<Tx> x, smartest_pointer<Ty> y, smartest_pointer<Tyerr> yerr, Text title="")
 			: IPlot(std::move(title))
-			, x(&x)
-			, y(&y)
-			, yerror(&yerror)
-		{}
+			, x(std::move(x))
+			, y(std::move(y)) 
+			, yerror(std::move(yerr)) 
+			{}
 		
 		YError(YError const &) = default;
 		YError(YError&&) = default;
@@ -52,5 +51,18 @@ namespace plotpp{
 			
 		}
 	};
+	
+	/*constructor helper*/
+	template<typename U1, typename U2, typename U3>
+	auto yerror(U1&& x, U2&& y, U3&& yerr, Text title="") {
+		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
+		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		using Tyerr = remove_ptr_t<std::remove_reference_t<U3>>;
+		return YError<Tx, Ty, Tyerr>(
+					smartest_pointer<Tx>(std::forward<U1>(x)), 
+					smartest_pointer<Ty>(std::forward<U2>(y)), 
+					smartest_pointer<Tyerr>(std::forward<U3>(yerr)), 
+					std::move(title));
+	}
 	
 }

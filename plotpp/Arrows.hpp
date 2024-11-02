@@ -12,23 +12,22 @@ namespace plotpp{
 	template<class Tx1, class Ty1, class Tx2, class Ty2>
 	class Arrows : public IPlot{
 	public:
-		smartest_pointer<Tx1> x1;
-		smartest_pointer<Ty1> y1;
-		smartest_pointer<Tx2> x2;
-		smartest_pointer<Ty2> y2;
+		smartest_pointer<const Tx1> x1;
+		smartest_pointer<const Ty1> y1;
+		smartest_pointer<const Tx2> x2;
+		smartest_pointer<const Ty2> y2;
 		
 		DataRelation dataRelation = DataRelation::relative; // relation from [x1, y1] to [x2, y2]
 		float lineWidth = 1.5;
 		ArrowHeadStyle arrowHeadStyle = ArrowHeadStyle::filled_head;
 		
 		
-		template<typename U1, typename U2, typename U3, typename U4>
-		Arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2, Text title="")
+		Arrows(smartest_pointer<const Tx1> x1, smartest_pointer<const Ty1> y1, smartest_pointer<const Tx2> x2, smartest_pointer<const Ty2> y2, Text title="")
 			: IPlot(std::move(title))
-			, x1(std::forward<U1>(x1))
-			, y1(std::forward<U2>(y1)) 
-			, x2(std::forward<U1>(x2))
-			, y2(std::forward<U2>(y2)) 
+			, x1(std::move(x1))
+			, y1(std::move(y1)) 
+			, x2(std::move(x2))
+			, y2(std::move(y2)) 
 			{}
 		
 		virtual void print_plot(std::ostream& stream) const {
@@ -64,15 +63,15 @@ namespace plotpp{
 	/*constructor helper*/
 	template<typename U1, typename U2, typename U3, typename U4>
 	auto arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2, Text title="") {
-		using Tx1 = std::remove_reference_t<decltype(x1)>;
-		using Ty1 = std::remove_reference_t<decltype(y1)>;
-		using Tx2 = std::remove_reference_t<decltype(x2)>;
-		using Ty2 = std::remove_reference_t<decltype(y2)>;
+		using Tx1 = remove_ptr_t<std::remove_reference_t<U1>>;
+		using Ty1 = remove_ptr_t<std::remove_reference_t<U2>>;
+		using Tx2 = remove_ptr_t<std::remove_reference_t<U3>>;
+		using Ty2 = remove_ptr_t<std::remove_reference_t<U4>>;
 		return Arrows<Tx1, Ty1, Tx2, Ty2>(
-					std::forward<U1>(x1), 
-					std::forward<U2>(y1), 
-					std::forward<U3>(x2), 
-					std::forward<U4>(y2), 
+					smartest_pointer<const Tx1>(std::forward<U1>(x1)),
+					smartest_pointer<const Ty1>(std::forward<U2>(y1)),
+					smartest_pointer<const Tx2>(std::forward<U3>(x2)),
+					smartest_pointer<const Ty2>(std::forward<U4>(y2)),
 					std::move(title));
 	}
 	

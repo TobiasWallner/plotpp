@@ -23,11 +23,6 @@ public:
 		: _mem()
 		, _ptr(ptr) {}
 
-    // Constructor from unique_ptr
-    inline smartest_pointer(std::unique_ptr<T>&& ptr) 
-		: _mem(std::shared_ptr<T>(std::move(ptr)))
-		, _ptr(this->_mem.get()) {}
-
     // Constructor from shared_ptr
     inline smartest_pointer(std::shared_ptr<T> ptr)
 		: _mem(std::move(ptr))
@@ -40,12 +35,79 @@ public:
     inline smartest_pointer& operator=(smartest_pointer&&) = default;
 
     // Dereference operator
-    inline auto& operator*() const {return *_ptr;}
+    inline T& operator*() const {return *_ptr;}
 
     // Arrow operator
-    inline auto* operator->() const {return _ptr;}
+    inline T* operator->() const {return _ptr;}
+
+	inline T* get() const {return _ptr;}
 
 private:
 	std::shared_ptr<T> _mem;
 	T* _ptr;
 };
+
+
+// Custom type trait to remove pointer types
+template<typename T>
+struct remove_smart_ptr {
+	using type = T;
+};
+
+template<typename T>
+struct remove_smart_ptr<std::unique_ptr<T>> {
+	using type = T;
+};
+
+template<typename T>
+struct remove_smart_ptr<std::shared_ptr<T>> {
+	using type = T;
+};
+
+template<typename T>
+struct remove_smart_ptr<std::weak_ptr<T>> {
+	using type = T;
+};
+
+template<typename T>
+struct remove_smart_ptr<smartest_pointer<T>> {
+	using type = T;
+};
+
+// Convenience alias
+template<typename T>
+using remove_smart_ptr_t = typename remove_smart_ptr<T>::type;
+
+
+
+
+
+// Custom type trait to remove pointer types
+template<typename T>
+struct remove_ptr {
+	using type = std::remove_pointer_t<T>;
+};
+
+template<typename T>
+struct remove_ptr<std::unique_ptr<T>> {
+	using type = T;
+};
+
+template<typename T>
+struct remove_ptr<std::shared_ptr<T>> {
+	using type = T;
+};
+
+template<typename T>
+struct remove_ptr<std::weak_ptr<T>> {
+	using type = T;
+};
+
+template<typename T>
+struct remove_ptr<smartest_pointer<T>> {
+	using type = T;
+};
+
+// Convenience alias
+template<typename T>
+using remove_ptr_t = typename remove_ptr<T>::type;

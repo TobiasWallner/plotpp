@@ -7,20 +7,20 @@
 
 namespace plotpp{
 			
-	template<class Container>
+	template<class Tx, class Ty, class Txerr>
 	class XError : public IPlot{
 	public:
-		const Container* x;/*TODO: change to smartest_pointer*/
-		const Container* y;/*TODO: change to smartest_pointer*/
-		const Container* xerror;/*TODO: change to smartest_pointer*/
+		smartest_pointer<Tx> x;
+		smartest_pointer<Ty> y;
+		smartest_pointer<Txerr> xerror;
 		PointType pointType = PointType::CircleFilled;
 		float pointSize = 1.0;
 
-		XError(const Container& x, const Container& y, const Container& xerror, Text title="")
+		XError(smartest_pointer<Tx> x, smartest_pointer<Ty> y, smartest_pointer<Txerr> xerror, Text title="")
 			: IPlot(std::move(title))
-			, x(&x)
-			, y(&y)
-			, xerror(&xerror)
+			, x(std::move(x))
+			, y(std::move(y))
+			, xerror(std::move(xerror))
 		{}
 		
 		XError(XError const &) = default;
@@ -50,5 +50,18 @@ namespace plotpp{
 
 		}
 	};
+
+	/*constructor helper*/
+	template<typename U1, typename U2, typename U3>
+	auto xerror(U1&& x, U2&& y, U3&& xerr, Text title="") {
+		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
+		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		using Txerr = remove_ptr_t<std::remove_reference_t<U3>>;
+		return XError<Tx, Ty, Txerr>(
+					smartest_pointer<Tx>(std::forward<U1>(x)), 
+					smartest_pointer<Ty>(std::forward<U2>(y)), 
+					smartest_pointer<Txerr>(std::forward<U3>(xerr)), 
+					std::move(title));
+	}
 
 }

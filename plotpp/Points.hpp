@@ -11,19 +11,18 @@ namespace plotpp{
 	template<class Tx, class Ty>
 	class Points : public IPlot{
 	public:
-		smartest_pointer<const Tx> x;
-		smartest_pointer<const Ty> y;
+		smartest_pointer<Tx> x;
+		smartest_pointer<Ty> y;
 		PointType pointType = PointType::CircleFilled;
 		float pointSize = 1.0;
 		/*TODO: LineColor*/
 		
 	public:
-
-		template<typename U1, typename U2>
-		Points(U1&& x, U2&& y, Text title="")
+		
+		Points(smartest_pointer<Tx> x, smartest_pointer<Ty> y, Text title="")
 			: IPlot(std::move(title))
-			, x(std::forward<U1>(x))
-			, y(std::forward<U2>(y)) 
+			, x(std::move(x))
+			, y(std::move(y)) 
 			{}
 		
 		Points(Points const &) = default;
@@ -48,12 +47,16 @@ namespace plotpp{
 		}
 	};
 
+
 	/*constructor helper*/
 	template<typename U1, typename U2>
 	auto points(U1&& x, U2&& y, Text title="") {
-		using Tx = std::remove_reference_t<decltype(x)>;
-		using Ty = std::remove_reference_t<decltype(y)>;
-		return Points<Tx, Ty>(std::forward<U1>(x), std::forward<U2>(y), std::move(title));
+		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
+		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		return Points<Tx, Ty>(
+					smartest_pointer<Tx>(std::forward<U1>(x)), 
+					smartest_pointer<Ty>(std::forward<U2>(y)), 
+					std::move(title));
 	}
 
 }
