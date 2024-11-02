@@ -11,6 +11,7 @@ Makefile
 *.webp
 *.gp
 *.svg
+TODO.txt
 
 # Allow
 !images/*
