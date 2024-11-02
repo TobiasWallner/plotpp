@@ -1,6 +1,6 @@
 #include <vector>
 #include <plotpp.hpp>
-
+#include <memory>
 int main() {
 	using namespace plotpp;
 	

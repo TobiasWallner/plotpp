@@ -7,18 +7,18 @@ project(${PROJECT_NAME})
 # Basic compiler settings
 message(STATUS "======================== Fetching External Libraries =========================")
 
-message(STATUS "Searching for Gnuplot >= 5.4.4")
-find_package(Gnuplot 5.4.4)
+message(STATUS "Searching for Gnuplot >= 5.4")
+find_package(Gnuplot 5.4)
 if(Gnuplot_FOUND)
     message(STATUS "  found Gnuplot")
 else()
-    message(WARNING "  Gnuplot >= 5.4.4 not found!")
-    message(WARNING "    Gnuplot installation instructions:")
-    message(WARNING "    - On Ubuntu/Debian: sudo apt update && sudo apt install gnuplot")
-    message(WARNING "    - On Fedora: sudo dnf install gnuplot")
-    message(WARNING "    - On macOS (with Homebrew): brew install gnuplot")
-    message(WARNING "    - On Windows: Download the installer from https://sourceforge.net/projects/gnuplot/")
-	message(WARNING "    You will still be able to compile your project but it will not be able to talk to gnuplot and plot figures")
+    message(WARNING "  Gnuplot >= 5.4.4 not found!\n"
+                    "    Gnuplot installation instructions:\n"
+                    "    - On Ubuntu/Debian: sudo apt update && sudo apt install gnuplot\n"
+                    "    - On Fedora: sudo dnf install gnuplot\n"
+                    "    - On macOS (with Homebrew): brew install gnuplot\n"
+                    "    - On Windows: Download the installer from https://sourceforge.net/projects/gnuplot/\n"
+	                "    You will still be able to compile your project but it will not be able to talk to gnuplot and plot figures")
 endif()
  
 add_subdirectory(opstream)
@@ -161,6 +161,21 @@ if(BUILD_EXAMPLES)
 	add_executable(multiplot examples/multiplot.cpp)
 	target_link_libraries(multiplot PUBLIC plotpp)
 	target_compile_options(multiplot PUBLIC ${COMPILER_FLAGS})
+	
+	# xerror
+	add_executable(xerror examples/xerror.cpp)
+	target_link_libraries(xerror PUBLIC plotpp)
+	target_compile_options(xerror PUBLIC ${COMPILER_FLAGS})
+	
+	# yerror
+	add_executable(yerror examples/yerror.cpp)
+	target_link_libraries(yerror PUBLIC plotpp)
+	target_compile_options(yerror PUBLIC ${COMPILER_FLAGS})
+	
+	# xyerror
+	add_executable(xyerror examples/xyerror.cpp)
+	target_link_libraries(xyerror PUBLIC plotpp)
+	target_compile_options(xyerror PUBLIC ${COMPILER_FLAGS})
 endif()
 
 

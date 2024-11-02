@@ -16,19 +16,6 @@ int main() {
 		fig.yreverse = true;
 		fig.show();
 	}
-	
-	{
-		double array[4*3] = {
-			1, 2, 3,
-			11, 12, 13,
-			21, 22, 23,
-			31, 32, 33
-		};
-		Figure fig("Heatmap from contiguous memory");
-		fig.add(heatmap(array, 4, 3, "Heatmap"));
-		fig.yreverse = true;
-		fig.show();
-	}
 
     return 0;
 }

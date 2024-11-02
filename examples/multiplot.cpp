@@ -29,10 +29,21 @@ int main(){
 	
 	const auto x = linspace(-3.1415, 3.1415, 50);
 	
+	/*
+	The plotting devices are crafted in a way to avoid unnecessary copies. 
+	Data is taken by reference/pointers and optionally owned.
+	
+		pass by:
+			* lvalue reference 	--> plot will store a pointer to the data
+			* rvalue reference	--> plot will move the data into a smart_pointer that holds the data
+			* shared_ptr 		--> plot will take the smart_pointer
+			* unique_ptr		--> plot will move the unique_ptr
+			* raw_ptr			--> plot will store a pointer to the data
+	*/
 	Multiplot mplt(2, 2, "Multiplot");
 	mplt.at(0, 0).add(line(x, sin(x), "Top-Left"));
-	mplt.at(0, 1).add(points(x, cos(x), "Top-Right"));
-	mplt.at(1, 1).add(line(x, tan(x), "Bottom-Right"));
+	mplt.at(0, 1).add(points(std::make_shared<std::vector<float>>(x), std::make_unique<std::vector<float>>(cos(x)), "Top-Right"));
+	mplt.at(1, 1).add(line(&x, tan(x), "Bottom-Right"));
 	mplt.show();
 	mplt.save("multiplot.jpg");
 	
