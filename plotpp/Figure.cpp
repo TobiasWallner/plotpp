@@ -16,11 +16,29 @@ namespace plotpp{
 		, ylabel(ylabel)
 	{}
 			
-	Figure& Figure::add(std::shared_ptr<IPlot>&& plot){
+	Figure& Figure::add(std::shared_ptr<IPlot> plot){
 		this->plots.push_back(std::move(plot));
 		return *this;
 	}
-			
+	
+	void Figure::xtics(std::vector<std::string> tic_labels){
+		this->xtics_labels = std::move(tic_labels);
+		this->xtics_values.clear();
+		for(size_t i = 0; i < this->xtics_labels.size(); ++i){
+			this->xtics_values.emplace_back(static_cast<double>(i));
+		}
+	}
+	
+	void Figure::xtics(std::vector<std::string> tic_labels, std::vector<double> tic_values){
+		this->xtics_labels = std::move(tic_labels);
+		this->xtics_values = std::move(tic_values);
+	}
+	
+	void Figure::clear_xtics(){
+		this->xtics_labels.clear();
+		this->xtics_values.clear();
+	}
+	
 	void Figure::show(OutputFileType filetype) const {
 		if(filetype == OutputFileType::gp){
 			this->plot(std::cout, TerminalType::NONE);
@@ -96,6 +114,22 @@ namespace plotpp{
 		
 		if(this->xreverse) stream << "set xrange reverse\n";
 		if(this->yreverse) stream << "set yrange reverse\n";
+		
+		// set x-tics
+		if(!this->xtics_labels.empty()){
+			auto xlabel_itr = this->xtics_labels.cbegin();
+			auto xval_itr = this->xtics_values.cbegin();
+			
+			stream << "set xtics(";
+			
+			// TODO: checkout https://github.com/CommitThis/zip-iterator/tree/master
+			// for python-zip like iteration through parallel lists
+			for(; xlabel_itr != this->xtics_labels.cend() && xval_itr != this->xtics_values.cend(); ++xlabel_itr, (void)++xval_itr){
+				if(xlabel_itr != this->xtics_labels.begin()) stream << ", ";
+				stream << "\"" << *xlabel_itr << "\" " << *xval_itr;
+			}
+			stream << ")\n";
+		}
 		
 		// write settings demanded by plots
 		{

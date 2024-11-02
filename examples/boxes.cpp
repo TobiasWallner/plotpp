@@ -2,8 +2,8 @@
 
 int main() {
 	using namespace plotpp;
-
-	int xdata[] = {1, 2, 3, 4, 5, 6, 7};
+	
+	int xdata[] = {0, 1, 2, 3, 4, 5, 6};
 	float ydata[] = {5.0, 6.5, 7.8, 6.0, 7.0};
 	
 	float y2data[] = {3.0, 6.5, 9.8, 10.0, 2.0};
@@ -16,9 +16,10 @@ int main() {
 	fig.add(boxes(x2data, y2data, "boxes2"));
 	fig.show();
 	fig.save("script.gp");
-	
+
 	Figure fig2("Boxes with text");
-	fig2.add(boxes_xtext(names, ydata, "boxes with names"));
+	fig2.xtics(names);
+	fig2.add(boxes(xdata, ydata, "boxes with names"));
 	fig2.show();
 
     return 0;

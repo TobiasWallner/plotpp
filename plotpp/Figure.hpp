@@ -6,6 +6,7 @@
 #include <ostream>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #include "opstream.hpp"
 
@@ -20,11 +21,12 @@ namespace plotpp{
 	public:
 		std::list<std::shared_ptr<IPlot>> plots;
 		
-		
-	public:
 		Text title;
 		Text xlabel;
 		Text ylabel;
+		
+		std::vector<std::string> xtics_labels;
+		std::vector<double> xtics_values;
 		
 		float xmin = -1;
 		float xmax = +1;
@@ -47,15 +49,13 @@ namespace plotpp{
 		
 		Figure(Text title, Text xlabel, Text ylabel);
 		
-		/*TODO: Add enable if or requirement that T has to be derived from IPlot*/
 		template<class T>
-		Figure& add(std::shared_ptr<T>&& plot){
+		Figure& add(std::shared_ptr<T> plot){
 			std::shared_ptr<IPlot> p = std::move(plot);
 			this->add(std::move(p));
 			return *this;
 		}
 		
-		/*TODO: Add enable if or requirement that T has to be derived from IPlot*/
 		template<class T>
 		Figure& add(T&& plot){
 			using rrT = std::remove_reference_t<T>;
@@ -63,7 +63,40 @@ namespace plotpp{
 			return *this;
 		}
 		
-		Figure& add(std::shared_ptr<IPlot>&& plot);
+		Figure& add(std::shared_ptr<IPlot> plot);
+		
+		void xtics(std::vector<std::string> tic_labels);
+		
+		template<class T>
+		void xtics(const T& tic_labels){
+			auto itr = std::begin(tic_labels);
+			const auto end = std::end(tic_labels);
+			size_t i = 0;
+			this->clear_xtics();
+			for(; itr != end; ++itr, (void)++i){
+				this->xtics_labels.emplace_back(*itr);
+				this->xtics_values.emplace_back(static_cast<double>(i));
+			}
+		}
+		
+		void xtics(std::vector<std::string> tic_labels, std::vector<double> values);
+		
+		template<class T>
+		void xtics(const T& tic_labels, std::vector<double> values){
+			auto labels_itr = std::begin(tic_labels);
+			const auto labels_end = std::end(tic_labels);
+			
+			auto values_itr = std::begin(values);
+			const auto values_end = std::end(values);
+			
+			this->clear_xtics();
+			for(; labels_itr != labels_end && values_itr != values_end; ++labels_itr, (void)++values_itr){
+				this->xtics_labels.emplace_back(*labels_itr);
+				this->xtics_values.emplace_back(static_cast<double>(*values_itr));
+			}
+		}
+		
+		void clear_xtics();
 		
 		void show(OutputFileType filetype) const;
 		
@@ -77,7 +110,7 @@ namespace plotpp{
 			std::ostream& stream, 
 			TerminalType TerminalType = TerminalType::NONE,
 			std::string saveAs = "") const;
-			
+		
 		
 	};
 	
