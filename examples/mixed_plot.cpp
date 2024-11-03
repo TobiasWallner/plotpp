@@ -29,7 +29,7 @@ int main() {
 	fig.legend = true;
 	fig.add(heatmap(array, "Heatmap"));
 	fig.add(line(x, y1, "1/x*30"));
-	fig.add(points(x, y2, "1/x^2*30"));
+	fig.add(points(x, y2).label("1/x^2*30"));
 	fig.add(arrows(arrow_x1, arrow_y1, arrow_x2, arrow_y2, "arrow plot"));
 	
 	fig.show();

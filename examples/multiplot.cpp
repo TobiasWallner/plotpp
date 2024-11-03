@@ -42,7 +42,12 @@ int main(){
 	*/
 	Multiplot mplt(2, 2, "Multiplot");
 	mplt.at(0, 0).add(line(x, sin(x), "Top-Left"));
-	mplt.at(0, 1).add(points(std::make_shared<std::vector<float>>(x), std::make_unique<std::vector<float>>(cos(x)), "Top-Right"));
+	mplt.at(0, 1).add(
+		points(
+			std::make_shared<std::vector<float>>(x), 
+			std::make_unique<std::vector<float>>(cos(x))
+		).label("Top-Right")
+	);
 	mplt.at(1, 1).add(line(&x, tan(x), "Bottom-Right"));
 	mplt.show();
 	mplt.save("multiplot.jpg");
