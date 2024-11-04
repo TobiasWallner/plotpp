@@ -6,6 +6,7 @@
 
 #include "plotpp/IPlot.hpp"
 #include "plotpp/PointType.hpp"
+#include "plotpp/Color.hpp"
 
 namespace plotpp{
 
@@ -34,13 +35,31 @@ namespace plotpp{
 		Points& pointSize(float ps) & {this->point_size = ps; return *this;}
 		Points&& pointSize(float ps) && {this->point_size = ps; return std::move(*this);}
 		
+		Color color() const {return this->opt_color.value_or(Color(0,0,0));}
+		Points& color(Color col) & {this->opt_color = col; return *this;}
+		Points&& color(Color col) && {this->opt_color = col; return std::move(*this);}
+		
+		bool isAutoColor() const {return this->opt_color.has_value();}
+		Points& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
+		Points&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
+		
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const override {
 			stream << "using 1:2 with points"
 					<< " ps " << this->pointSize() 
-					<< " pt " << static_cast<int>(this->pointType())
-					<< " title '" << this->IPlot::label() << "'";
+					<< " pt " << static_cast<int>(this->pointType());
+			
+			if(this->opt_color){
+				stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
+			}
+			
+			if(this->IPlot::label().empty()){
+				stream << " notitle";
+			}else{
+				stream <<  " title '" << this->IPlot::label() << "'";
+			}
+			
 		}
 		
 		virtual void printData(std::ostream& stream) const override {
@@ -69,7 +88,7 @@ namespace plotpp{
 	private:
 		smartest_pointer<Tx> x_;
 		smartest_pointer<Ty> y_;
-		//Color color
+		std::optional<Color> opt_color = std::nullopt;
 		float point_size = 1.0;
 		PointType point_type = PointType::CircleFilled;
 		/*TODO: LineColor*/
@@ -90,7 +109,7 @@ namespace plotpp{
 	/*constructor helper*/
 	template<typename U2>
 	auto points(U2&& y) {
-		using Tx = std::vector<int>;
+		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Points<Tx, Ty>(
 					smartest_pointer<Tx>(), 

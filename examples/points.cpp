@@ -22,8 +22,10 @@ int main() {
 		std::vector<double> y(20);
 		for(size_t i=0; i < y.size(); ++i) y[i] = i*i;
 		
+		Color red(0xFF, 0x11, 0x11);
+		
 		Figure fig("Points-Plot from Y values");
-		fig.add(points(std::move(y)).label("i^2"));
+		fig.add(points(std::move(y)).label("i^2").color(red));
 		fig.show();
 		//fig.save("points-plot.gp");
 		//fig.save("points-plot.png");	

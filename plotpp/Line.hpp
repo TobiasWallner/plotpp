@@ -6,7 +6,7 @@
 
 #include "plotpp/IPlot.hpp"
 #include "plotpp/LineType.hpp"
-
+#include "plotpp/Color.hpp"
 #include "smartest_pointer.hpp"
 
 namespace plotpp{
@@ -35,11 +35,28 @@ namespace plotpp{
 		Line& lineWidth(float lw) & {this->line_width = lw; return *this;}
 		Line&& lineWidth(float lw) && {this->line_width = lw; return std::move(*this);}
 		
+		Color color() const {return this->opt_color.value_or(Color(0,0,0));}
+		Line& color(Color col) & {this->opt_color = col; return *this;}
+		Line&& color(Color col) && {this->opt_color = col; return std::move(*this);}
+		
+		bool isAutoColor() const {return this->opt_color.has_value();}
+		Line& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
+		Line&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
+		
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const override {
-			stream << "using 1:2 with lines lw " << this->lineWidth() << " " 
-					<< to_command(this->lineType()) << " title '" << this->IPlot::label() << "'";
+			stream << "using 1:2 with lines lw " << this->lineWidth() << " " << to_command(this->lineType());
+					
+			if(this->opt_color){
+				stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
+			}
+			
+			if(this->IPlot::label().empty()){
+				stream << " notitle";
+			}else{
+				stream <<  " title '" << this->IPlot::label() << "'";
+			}
 		}
 		
 		virtual void printData(std::ostream& stream) const override {
@@ -68,10 +85,10 @@ namespace plotpp{
 	public:
 		smartest_pointer<Tx> x_;
 		smartest_pointer<Ty> y_;
-		
+		std::optional<Color> opt_color = std::nullopt;
 		LineType line_type = LineType::solid;
 		float line_width = 1.5;
-		/*TODO: LineColor*/
+		
 	};
 
 	/*constructor helper

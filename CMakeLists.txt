@@ -176,6 +176,11 @@ if(BUILD_EXAMPLES)
 	add_executable(xyerror examples/xyerror.cpp)
 	target_link_libraries(xyerror PUBLIC plotpp)
 	target_compile_options(xyerror PUBLIC ${COMPILER_FLAGS})
+	
+	# color
+	add_executable(color examples/color.cpp)
+	target_link_libraries(color PUBLIC plotpp)
+	target_compile_options(color PUBLIC ${COMPILER_FLAGS})
 endif()
 
 
