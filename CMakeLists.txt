@@ -39,7 +39,7 @@ add_library(plotpp STATIC
 
 target_include_directories(plotpp PUBLIC
 	.
-	smartest_pointer
+	optional_ptr
 )
 
 target_compile_features(plotpp PUBLIC cxx_std_20)

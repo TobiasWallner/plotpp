@@ -12,7 +12,7 @@ int main(){
 	std::array<double, 6> err({1, 5/2, 7/2, 9/2, 11/2, 13/2});
 	
 	Figure fig("YError from Different Containers");
-	fig.add(xyerror(x, std::move(y), err, err));
+	fig.add(xyerror(&x, std::move(y), &err, &err));
 	fig.show();
 	
 	return 0;

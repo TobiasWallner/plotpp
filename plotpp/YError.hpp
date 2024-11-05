@@ -11,15 +11,14 @@ namespace plotpp{
 	class YError : public IPlot{
 	public:
 		
-		smartest_pointer<Tx> x;
-		smartest_pointer<Ty> y;
-		smartest_pointer<Tyerr> yerror;
+		optional_ptr<Tx> x;
+		optional_ptr<Ty> y;
+		optional_ptr<Tyerr> yerror;
 		PointType pointType = PointType::CircleFilled;
 		float pointSize = 1.0;
 
-		YError(smartest_pointer<Tx> x, smartest_pointer<Ty> y, smartest_pointer<Tyerr> yerr, Text title="")
-			: IPlot(std::move(title))
-			, x(std::move(x))
+		YError(optional_ptr<Tx> x, optional_ptr<Ty> y, optional_ptr<Tyerr> yerr, Text title="")
+			: x(std::move(x))
 			, y(std::move(y)) 
 			, yerror(std::move(yerr)) 
 			{}
@@ -30,14 +29,14 @@ namespace plotpp{
 		YError& operator=(YError&&) = default;
 		
 		
-		virtual void print_plot(std::ostream& stream) const {
+		virtual void printPlot(std::ostream& stream) const {
 			stream 	<< " using 1:2:3 with yerrorbars"
 					<< " ps " << this->pointSize 
 					<< " pt " << static_cast<int>(pointType)
-					<< " title '" << this->IPlot::title.str << "'";
+					<< " title '" << this->IPlot::label() << "'";
 		}
 		
-		virtual void print_data(std::ostream& stream) const {
+		virtual void printData(std::ostream& stream) const {
 			auto xitr = std::begin(*x);
 			auto yitr = std::begin(*y);
 			auto yerrItr = std::begin(*yerror);
@@ -53,16 +52,15 @@ namespace plotpp{
 	};
 	
 	/*constructor helper*/
-	template<typename U1, typename U2, typename U3>
-	auto yerror(U1&& x, U2&& y, U3&& yerr, Text title="") {
+	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3>
+	auto yerror(U1 x, U2 y, U3 yerr, Text title="") {
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		using Tyerr = remove_ptr_t<std::remove_reference_t<U3>>;
 		return YError<Tx, Ty, Tyerr>(
-					smartest_pointer<Tx>(std::forward<U1>(x)), 
-					smartest_pointer<Ty>(std::forward<U2>(y)), 
-					smartest_pointer<Tyerr>(std::forward<U3>(yerr)), 
-					std::move(title));
+					optional_ptr<Tx>(std::forward<U1>(x)), 
+					optional_ptr<Ty>(std::forward<U2>(y)), 
+					optional_ptr<Tyerr>(std::forward<U3>(yerr)));
 	}
 	
 }

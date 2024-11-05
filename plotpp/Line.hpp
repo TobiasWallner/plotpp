@@ -3,11 +3,12 @@
 #include <ostream>
 #include <iterator>
 #include <memory>
+#include <type_traits>
 
 #include "plotpp/IPlot.hpp"
 #include "plotpp/LineType.hpp"
 #include "plotpp/Color.hpp"
-#include "smartest_pointer.hpp"
+#include "optional_ptr.hpp"
 
 namespace plotpp{
 
@@ -15,7 +16,7 @@ namespace plotpp{
 	class Line : public IPlot{	
 	public:
 
-		Line(smartest_pointer<Tx> x, smartest_pointer<Ty> y)
+		Line(optional_ptr<Tx> x, optional_ptr<Ty> y)
 			: x_(std::move(x))
 			, y_(std::move(y)) 
 			{}
@@ -83,8 +84,8 @@ namespace plotpp{
 		Line&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
 		
 	public:
-		smartest_pointer<Tx> x_;
-		smartest_pointer<Ty> y_;
+		optional_ptr<Tx> x_;
+		optional_ptr<Ty> y_;
 		std::optional<Color> opt_color = std::nullopt;
 		LineType line_type = LineType::solid;
 		float line_width = 1.5;
@@ -95,23 +96,24 @@ namespace plotpp{
 		Deduces the template parameters for `Line` and constructs it with perfect argument forwarding.
 		This guarantees that no unnecessary copies are made for what could be huge datasets for `x` and `y`.
 	*/
-	template<typename U1, typename U2>
-	auto line(U1&& x, U2&& y) {
+	template<PtrOrMoved U1, PtrOrMoved U2>
+	auto line(U1&& x, U2&& y) 
+	{
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Line<Tx, Ty>(
-					smartest_pointer<Tx>(std::forward<U1>(x)), 
-					smartest_pointer<Ty>(std::forward<U2>(y)));
+					optional_ptr<Tx>(std::forward<U1>(x)), 
+					optional_ptr<Ty>(std::forward<U2>(y)));
 	}
 
 	/*constructor helper*/
-	template<typename U2>
+	template<PtrOrMoved U2>
 	auto line(U2&& y) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Line<Tx, Ty>(
-					smartest_pointer<Tx>(), 
-					smartest_pointer<Ty>(std::forward<U2>(y)));
+					optional_ptr<Tx>(), 
+					optional_ptr<Ty>(std::forward<U2>(y)));
 	}
 
 }

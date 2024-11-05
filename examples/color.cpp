@@ -32,7 +32,7 @@ void plot_sin_with_color_palette(std::string title, const std::array<plotpp::Col
 		float f = (i/10.+1.);
 		auto function = [f](float x) -> float {return std::sin(x * f);};
 		const auto y = apply(x, function);
-		fig.add(line(x, std::move(y)).lineWidth(2.5).color(color_palette[i]).label(std::format("sin({:.1f} x)", f)));
+		fig.add(line(&x, std::move(y)).lineWidth(2.5).color(color_palette[i]).label(std::format("sin({:.1f} x)", f)));
 	}
 	fig.show();
 }

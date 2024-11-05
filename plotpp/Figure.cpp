@@ -135,7 +135,7 @@ namespace plotpp{
 		{
 			auto plt_itr=this->plots.cbegin();
 			for(; plt_itr!=this->plots.cend(); ++plt_itr){
-				(*plt_itr)->print_settings(stream);
+				(*plt_itr)->printSettings(stream);
 			}
 		}
 
@@ -155,7 +155,7 @@ namespace plotpp{
 				data_vars.push_back(var_name);
 				stream << "$" << var_name << " << EOD\n";
 				
-				(*plt_itr)->print_data(stream);
+				(*plt_itr)->printData(stream);
 				
 				stream << "EOD\n\n";
 			}	
@@ -171,7 +171,7 @@ namespace plotpp{
 			for(; plot_itr!=this->plots.cend() && var_itr!=data_vars.cend(); ++plot_itr, (void)++var_itr){
 				if (plot_itr!=this->plots.cbegin()) stream << "     ";
 				stream << "$" << *var_itr << " ";
-				(*plot_itr)->print_plot(stream);
+				(*plot_itr)->printPlot(stream);
 				auto next = plot_itr; 
 				++next;
 				if(next!=this->plots.cend()) stream << ", \\";

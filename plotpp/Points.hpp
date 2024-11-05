@@ -15,7 +15,7 @@ namespace plotpp{
 	public:
 		// ---- Constructors ----
 		
-		Points(smartest_pointer<Tx> x, smartest_pointer<Ty> y)
+		Points(optional_ptr<Tx> x, optional_ptr<Ty> y)
 			: x_(std::move(x))
 			, y_(std::move(y)) 
 			{}
@@ -86,8 +86,8 @@ namespace plotpp{
 		Points&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
 		
 	private:
-		smartest_pointer<Tx> x_;
-		smartest_pointer<Ty> y_;
+		optional_ptr<Tx> x_;
+		optional_ptr<Ty> y_;
 		std::optional<Color> opt_color = std::nullopt;
 		float point_size = 1.0;
 		PointType point_type = PointType::CircleFilled;
@@ -96,24 +96,24 @@ namespace plotpp{
 	};
 	
 	/*constructor helper*/
-	template<typename U1, typename U2>
-	auto points(U1&& x, U2&& y) {
+	template<PtrOrMoved U1, PtrOrMoved U2>
+	auto points(U1 x, U2 y) {
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Points<Tx, Ty>(
-					smartest_pointer<Tx>(std::forward<U1>(x)), 
-					smartest_pointer<Ty>(std::forward<U2>(y)));
+					optional_ptr<Tx>(std::forward<U1>(x)), 
+					optional_ptr<Ty>(std::forward<U2>(y)));
 	}
 	
 	
 	/*constructor helper*/
-	template<typename U2>
-	auto points(U2&& y) {
+	template<PtrOrMoved U2>
+	auto points(U2 y) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Points<Tx, Ty>(
-					smartest_pointer<Tx>(), 
-					smartest_pointer<Ty>(std::forward<U2>(y)));
+					optional_ptr<Tx>(), 
+					optional_ptr<Ty>(std::forward<U2>(y)));
 	}
 
 }

@@ -41,7 +41,7 @@ int main(){
 			* raw_ptr			--> plot will store a pointer to the data
 	*/
 	Multiplot mplt(2, 2, "Multiplot");
-	mplt.at(0, 0).add(line(x, sin(x)).label("Top-Left"));
+	mplt.at(0, 0).add(line(&x, sin(x)).label("Top-Left"));
 	mplt.at(0, 1).add(
 		points(
 			std::make_shared<std::vector<float>>(x), 

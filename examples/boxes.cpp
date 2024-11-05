@@ -12,14 +12,14 @@ int main() {
 	const char* names[] = {"house", "bottel", "basket", "number", "apple"};
 	
 	Figure fig("Boxes");
-	fig.add(boxes(xdata, ydata, "boxes1"));
-	fig.add(boxes(x2data, y2data, "boxes2"));
+	fig.add(boxes(&xdata, &ydata, "boxes1"));
+	fig.add(boxes(&x2data, &y2data, "boxes2"));
 	fig.show();
 	fig.save("script.gp");
 
 	Figure fig2("Boxes with text");
 	fig2.xtics(names);
-	fig2.add(boxes(xdata, ydata, "boxes with names"));
+	fig2.add(boxes(&xdata, &ydata, "boxes with names"));
 	fig2.show();
 
     return 0;

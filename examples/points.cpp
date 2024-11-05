@@ -12,7 +12,7 @@ int main() {
 		for(size_t i=0; i < y2.size(); ++i) y2[i] = 1./(i*i)*30;
 		
 		Figure fig("Points-Plot from XY values");
-		fig.add(points(x, y2).label("1/x^2*30"));
+		fig.add(points(&x, &y2).label("1/x^2*30"));
 		fig.show();
 		//fig.save("points-plot.gp");
 		//fig.save("points-plot.png");	

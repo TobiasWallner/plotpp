@@ -12,7 +12,7 @@ int main(){
 	std::array<double, 6> err({0.1, 0.5, 0.7, 0.9, 1.1, 1.3});
 	
 	Figure fig("XError from Different Containers");
-	fig.add(xerror(x, std::move(y), err));
+	fig.add(xerror(&x, std::move(y), &err));
 	fig.show();
 	
 	return 0;
