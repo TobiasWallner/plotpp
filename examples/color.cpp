@@ -40,9 +40,9 @@ void plot_sin_with_color_palette(std::string title, const std::array<plotpp::Col
 int main() {
 	using namespace plotpp;
 	
-	plot_sin_with_color_palette("magma", magma);
-	plot_sin_with_color_palette("inferno", inferno);
-	plot_sin_with_color_palette("viridis", viridis);
+	plot_sin_with_color_palette("magma", colors::magma);
+	plot_sin_with_color_palette("inferno", colors::inferno);
+	plot_sin_with_color_palette("viridis", colors::viridis);
 	
 	return 0;
 	

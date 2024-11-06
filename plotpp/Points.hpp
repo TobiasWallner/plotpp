@@ -27,6 +27,13 @@ namespace plotpp{
 		
 		// ---- setters getters ----
 		
+		Points& label(const char* label) & {this->IPlot::label(label); return *this;}
+		Points&& label(const char* label) && {this->IPlot::label(label); return std::move(*this);}
+		Points& label(std::string_view label) & {this->IPlot::label(label); return *this;}
+		Points&& label(std::string_view label) && {this->IPlot::label(label); return std::move(*this);}
+		Points& label(std::string&& label) & {this->IPlot::label(label); return *this;}
+		Points&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
+		
 		PointType pointType() const {return this->point_type;}
 		Points& pointType(PointType pt) & {this->point_type = pt; return *this;}
 		Points&& pointType(PointType pt) && {this->point_type = pt; return std::move(*this);}
@@ -78,12 +85,7 @@ namespace plotpp{
 			}
 		}
 		
-		Points& label(const char* label) & {this->IPlot::label(label); return *this;}
-		Points&& label(const char* label) && {this->IPlot::label(label); return std::move(*this);}
-		Points& label(std::string_view label) & {this->IPlot::label(label); return *this;}
-		Points&& label(std::string_view label) && {this->IPlot::label(label); return std::move(*this);}
-		Points& label(std::string&& label) & {this->IPlot::label(label); return *this;}
-		Points&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
+		
 		
 	private:
 		optional_ptr<Tx> x_;
@@ -97,7 +99,7 @@ namespace plotpp{
 	
 	/*constructor helper*/
 	template<PtrOrMoved U1, PtrOrMoved U2>
-	auto points(U1 x, U2 y) {
+	auto points(U1&& x, U2&& y) {
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Points<Tx, Ty>(
@@ -108,7 +110,7 @@ namespace plotpp{
 	
 	/*constructor helper*/
 	template<PtrOrMoved U2>
-	auto points(U2 y) {
+	auto points(U2&& y) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Points<Tx, Ty>(

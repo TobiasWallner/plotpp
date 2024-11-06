@@ -17,12 +17,23 @@ namespace plotpp{
 		
 	public:
 
-		Heatmap(optional_ptr<T> matrix, size_t rows, size_t columns, std::function<double(const T&, size_t/*row*/, size_t/*col*/)> at, Text title="")
+		Heatmap(optional_ptr<T> matrix, size_t rows, size_t columns, std::function<double(const T&, size_t/*row*/, size_t/*col*/)> at)
 			: _matrix(std::move(matrix))
 			, _rows(rows)
 			, _columns(columns)
 			, _at(std::move(at))
 			{}
+		
+		// ---- setters getters ----
+		
+		Heatmap& label(const char* label) & {this->IPlot::label(label); return *this;}
+		Heatmap&& label(const char* label) && {this->IPlot::label(label); return std::move(*this);}
+		Heatmap& label(std::string_view label) & {this->IPlot::label(label); return *this;}
+		Heatmap&& label(std::string_view label) && {this->IPlot::label(label); return std::move(*this);}
+		Heatmap& label(std::string&& label) & {this->IPlot::label(label); return *this;}
+		Heatmap&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
+		
+		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const {
 			stream << "matrix with image title '" << this->IPlot::label() << "'";
@@ -41,11 +52,11 @@ namespace plotpp{
 	
 	// Construction Helper
 	template<PtrOrMoved U1>
-	auto heatmap(U1 matrix, size_t rows, size_t columns,
+	auto heatmap(U1&& matrix, size_t rows, size_t columns,
 				 std::function<double(const remove_ptr_t<std::remove_reference_t<U1>>&, size_t, size_t)> at,
 				 Text title = "") {
 		using T = remove_ptr_t<std::remove_reference_t<U1>>;
-		return Heatmap<T>(optional_ptr<T>(std::forward<U1>(matrix)), rows, columns, at, std::move(title));
+		return Heatmap<T>(optional_ptr<T>(std::forward<U1>(matrix)), rows, columns, at);
 	}
 	
 	template <typename T>
@@ -57,7 +68,7 @@ namespace plotpp{
 	
 	// Construction Helper for common matrix objects with common interfaces
 	template<MatrixLike U1>
-	auto heatmap(U1&& matrix, Text title = "") 
+	auto heatmap(U1&& matrix) 
 	{
 		using T = std::remove_reference_t<U1>;
 		
@@ -65,12 +76,12 @@ namespace plotpp{
 			return static_cast<double>(matrix.at(row, col));
 		};
 		
-		return Heatmap<T>(optional_ptr<T>(std::move<U1>(matrix)), matrix.rows(), matrix.columns(), at, std::move(title));
+		return Heatmap<T>(optional_ptr<T>(std::move<U1>(matrix)), matrix.rows(), matrix.columns(), at);
 	}
 	
 	// Construction Helper for common matrix pointers with common interfaces
 	template<MatrixLike U1>
-	auto heatmap(U1* matrix, Text title = "") 
+	auto heatmap(U1* matrix) 
 	{
 		using T = std::remove_reference_t<U1>;
 		
@@ -78,18 +89,18 @@ namespace plotpp{
 			return static_cast<double>(matrix.at(row, col));
 		};
 		
-		return Heatmap<T>(optional_ptr<T>(matrix), matrix->rows(), matrix->columns(), at, std::move(title));
+		return Heatmap<T>(optional_ptr<T>(matrix), matrix->rows(), matrix->columns(), at);
 	}
 
 	// Construction Helper
 	template<class T, size_t ROWS, size_t COLS>
-	auto heatmap(const T(*array)[ROWS][COLS], Text title = "") {
+	auto heatmap(const T(*array)[ROWS][COLS]) {
 		// Custom Access Function
 		auto at = [](const T (&matrix)[ROWS][COLS], size_t row, size_t col) -> double {
 			return static_cast<double>(matrix[row][col]);
 		};
 
-		return heatmap(array, ROWS, COLS, at, std::move(title));
+		return heatmap(array, ROWS, COLS, at);
 	}
 
 }

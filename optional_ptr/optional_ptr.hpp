@@ -59,12 +59,12 @@ private:
 // Concept that checks for correct ways of constructing a smart pointer
 template <typename T>
 concept PtrOrMoved = 
-    std::is_pointer_v<T> ||                       					// Raw pointer
+    std::is_pointer_v<std::remove_reference_t<T>> ||                       					// Raw pointer
     std::is_rvalue_reference_v<T&&> ||              					// Rvalue reference
-    std::is_same_v<T, std::unique_ptr<typename T::element_type>> || // std::unique_ptr
-    std::is_same_v<T, std::shared_ptr<typename T::element_type>> || // std::shared_ptr
-    std::is_same_v<T, std::weak_ptr<typename T::element_type>> ||	// std::weak_ptr
-	std::is_same_v<T, optional_ptr<typename T::element_type>>;	// optional_ptr
+    std::is_same_v<std::remove_reference_t<T>, std::unique_ptr<typename T::element_type>> || // std::unique_ptr
+    std::is_same_v<std::remove_reference_t<T>, std::shared_ptr<typename T::element_type>> || // std::shared_ptr
+    std::is_same_v<std::remove_reference_t<T>, std::weak_ptr<typename T::element_type>> ||	// std::weak_ptr
+	std::is_same_v<std::remove_reference_t<T>, optional_ptr<typename T::element_type>>;	// optional_ptr
 
 
 // Custom type trait to remove pointer types
