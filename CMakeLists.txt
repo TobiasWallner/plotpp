@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.18.0)
 
 # project building process: 
-set(PROJECT_NAME plotplusplus)
-project(${PROJECT_NAME})
+project(plotpp)
 
 # Basic compiler settings
 message(STATUS "======================== Fetching External Libraries =========================")
