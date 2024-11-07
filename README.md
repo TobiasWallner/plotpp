@@ -174,6 +174,8 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Plotpp)
 ```
 
+With add_subdirectory
+------------------------
 Manually download the library and add it via `add_subdirectory`.
 ```cmake
 add_subdirectory(path/to/Plotpp)
