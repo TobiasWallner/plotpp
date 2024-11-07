@@ -82,7 +82,7 @@ Integration
 With CMake CPM
 --------------
 Why would one use CPM? https://github.com/cpm-cmake/CPM.cmake
-* CMake Package manager
+* CMake Package Manager
 * Automatic Dependency Management in CMake
 * Package Version Control
 * Automatic Download and Build Integration
