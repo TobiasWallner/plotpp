@@ -12,3 +12,5 @@
 #include "plotpp/YError.hpp"
 #include "plotpp/XYError.hpp"
 #include "plotpp/Boxes.hpp"
+#include "plotpp/Color.hpp"
+#include "plotpp/Colormaps.hpp"
