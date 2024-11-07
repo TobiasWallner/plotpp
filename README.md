@@ -75,3 +75,110 @@ mplt.save("multiplot.jpg");
 ```
 
 ![Multiplot Image](images/multiplot.jpg)
+
+Integration
+===========
+
+With CMake CPM
+--------------
+Why would one use CPM? https://github.com/cpm-cmake/CPM.cmake
+	* CMake Package manager
+	* Automatic Dependency Management in CMake
+	* Package Version Control
+	* Automatic Download and Build Integration
+
+**Quick CPM Setup**:  
+Download the `CPM.cmake` file and put in the folder `cmake` 
+and includ it in your project.
+
+```cmake
+include(cmake/CPM.cmake)
+
+CPMAddPackage(
+    NAME Plotpp
+    GIT_REPOSITORY "https://github.com/TobiasWallner/Plotpp"
+    GIT_TAG "main"
+)
+
+add_executable(PROJECT_NAME main.cpp)
+target_link_libraries(PROJECT_NAME plotpp) 
+```
+
+**Automatic CPM Setup**:  
+Use the following template to automatically download the CPM file 
+and check if this project is a nested project in which case it will use the most upper CPM.cmake
+instead of re-downloading it.
+```cmake
+cmake_minimum_required(VERSION 3.18.0)
+ 
+project(PROJECT_NAME)
+
+message(STATUS "======================== PROJECT_NAME: Fetching External Libraries =========================")
+
+# -----------------------------------------------------------------
+# 	CPM: An Awesome Dependency Manager for C++ with CMake
+#		https://github.com/cpm-cmake/CPM.cmake
+# -----------------------------------------------------------------
+
+set(CPM_CMAKE_PATH "${CMAKE_SOURCE_DIR}/cmake/CPM.cmake")
+set(CPM_CMAKE_URL "https://github.com/cpm-cmake/CPM.cmake/releases/download/v0.40.2/CPM.cmake")
+
+# Check if CPM.cmake exists
+if(NOT EXISTS "${CPM_CMAKE_PATH}")
+    message(STATUS "CPM.cmake not found. Downloading from ${CPM_CMAKE_URL}...")
+    file(DOWNLOAD ${CPM_CMAKE_URL} ${CPM_CMAKE_PATH} STATUS download_status LOG download_log)
+    list(GET download_status 0 return_code)  # Get the numeric return code
+	list(GET download_status 1 error_message)  # Get the error message
+	if(return_code)
+		file(REMOVE ${CPM_CMAKE_PATH}) #cleanup
+		message(FATAL_ERROR "Error: ${error_message}.\n\tFailed to download CPM.cmake. Please check the URL and try again. Or manually place CPM.cmake in CPM_CMAKE_PATH=${CPM_CMAKE_PATH}.")
+	else()
+		message(STATUS "Successfuly downloaded CPM.cmake.")
+    endif()
+else()
+    message(STATUS "CPM.cmake found at ${CPM_CMAKE_PATH}.")
+endif()
+
+
+include(${CPM_CMAKE_PATH})
+option(CPM_USE_LOCAL_PACKAGES "Try `find_package` before downloading dependencies" ON)
+
+# -----------------------------------------------------------------
+# 					Add Modules / Dependencies
+# -----------------------------------------------------------------
+
+CPMAddPackage(
+    NAME Plotpp
+    GIT_REPOSITORY "https://github.com/TobiasWallner/Plotpp"
+    GIT_TAG "main"
+)
+
+
+message(STATUS "======================== PROJECT_NAME: END: Fetching External Libraries =========================")
+
+
+add_executable(PROJECT_NAME main.cpp)
+target_link_libraries(PROJECT_NAME plotpp) 
+```
+
+With CMake Fetch Content
+------------------------
+```
+include(FetchContent)
+FetchContent_Declare(
+  Plotpp
+  GIT_REPOSITORY https://github.com/TobiasWallner/Plotpp.git
+  GIT_TAG main
+)
+FetchContent_MakeAvailable(Plotpp)
+```
+
+Manually download the library and add it via `add_subdirectory`.
+```cmake
+add_subdirectory(path/to/Plotpp)
+add_executable(PROJECT_NAME main.cpp)
+target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
+```
+
+
+
