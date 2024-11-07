@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.18.0)
 project(plotpp)
 
 # Basic compiler settings
-message(STATUS "======================== Fetching External Libraries =========================")
+message(STATUS "======================== Plotpp: Fetching External Libraries =========================")
 
 message(STATUS "Searching for Gnuplot >= 5.4")
 find_package(Gnuplot 5.4)
@@ -22,7 +22,7 @@ endif()
  
 add_subdirectory(opstream)
 
-message(STATUS "======================== END: Fetching External Libraries =========================")
+message(STATUS "======================== Plotpp: END: Fetching External Libraries =========================")
 
 # define the library
 add_library(plotpp STATIC
