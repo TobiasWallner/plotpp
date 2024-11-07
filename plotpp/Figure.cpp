@@ -1,9 +1,21 @@
 #include "plotpp/Figure.hpp"
 #include <cstdlib>
 #include <vector>
+#include <thread>
+#include <future>
 
 namespace plotpp{
-		
+	
+	std::atomic<size_t> ThreadManager::count=0;
+	
+	ThreadManager threadManager;
+	
+	ThreadManager::~ThreadManager(){
+		printf("wait for threads to finish\n");
+		while(count > 0) std::this_thread::sleep_for(std::chrono::milliseconds(50));
+		printf("all finished");
+	}
+	
 	Figure::Figure(std::string title_str){
 		title.str = title_str;
 		title.height = 20;

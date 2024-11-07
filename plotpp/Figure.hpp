@@ -7,6 +7,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <atomic>
+#include <thread>
 
 #include "opstream.hpp"
 
@@ -16,6 +18,28 @@
 #include "plotpp/IPlot.hpp"
 
 namespace plotpp{
+
+	class ThreadManager{
+	private:
+		static std::atomic<size_t> count;
+	
+	public:
+		
+		template<typename Function>
+		void launch(Function&& f){
+			printf("launched thread\n");
+			count.store(count.load() + 1);
+			std::thread(
+				[f = std::move(f), count = &count]() {
+					f();
+					count->store(count->load() - 1);
+				}).detach();
+		}
+		
+		~ThreadManager();
+	};
+	
+	extern ThreadManager threadManager;
 
 	class Figure{
 	public:
@@ -42,7 +66,7 @@ namespace plotpp{
 		bool legend = false;
 		
 		Figure() = default;
-		Figure(const Figure&)=delete;
+		Figure(const Figure&)=default;
 		Figure(Figure&&)=default;
 		
 		Figure(std::string title_str);
@@ -100,15 +124,15 @@ namespace plotpp{
 		
 		void show(OutputFileType filetype) const;
 		
-		void show(TerminalType TerminalType = TerminalType::NONE) const;
+		void show(TerminalType terminalType = TerminalType::NONE) const;
 		
 		void save(	std::string filename = "", 
 					OutputFileType filetype=OutputFileType::NONE, 
-					TerminalType TerminalType = TerminalType::NONE) const;
+					TerminalType terminalType = TerminalType::NONE) const;
 
 		void plot(
 			std::ostream& stream, 
-			TerminalType TerminalType = TerminalType::NONE,
+			TerminalType terminalType = TerminalType::NONE,
 			std::string saveAs = "") const;
 		
 		
