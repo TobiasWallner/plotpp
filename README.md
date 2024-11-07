@@ -89,7 +89,8 @@ Why would one use CPM? https://github.com/cpm-cmake/CPM.cmake
 
 **Quick CPM Setup**:  
 Download the `CPM.cmake` file and put in the folder `cmake` 
-and includ it in your project.
+and includ it in your project. 
+CPM will then automatically download and build all dependencies.
 
 ```cmake
 include(cmake/CPM.cmake)
