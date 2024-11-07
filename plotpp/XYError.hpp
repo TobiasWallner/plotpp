@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ostream>
+#include <optional>
 
 #include "plotpp/IPlot.hpp"
 #include "plotpp/PointType.hpp"

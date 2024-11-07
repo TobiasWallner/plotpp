@@ -3,6 +3,7 @@
 #include <ostream>
 #include <iterator>
 #include <vector>
+#include <optional>
 
 #include "plotpp/IPlot.hpp"
 #include "plotpp/PointType.hpp"

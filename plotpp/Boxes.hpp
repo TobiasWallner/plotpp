@@ -2,6 +2,7 @@
 
 #include <ostream>
 #include <iterator>
+#include <optional>
 
 #include "plotpp/IPlot.hpp"
 

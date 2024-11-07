@@ -4,6 +4,7 @@
 #include <iterator>
 #include <memory>
 #include <type_traits>
+#include <optional>
 
 #include "plotpp/IPlot.hpp"
 #include "plotpp/LineType.hpp"
