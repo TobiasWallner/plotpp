@@ -82,10 +82,10 @@ Integration
 With CMake CPM
 --------------
 Why would one use CPM? https://github.com/cpm-cmake/CPM.cmake
-* CMake Package Manager
-* Automatic Dependency Management in CMake
-* Package Version Control
-* Automatic Download and Build Integration
+- CMake Package Manager
+- Automatic Dependency Management in CMake
+- Package Version Control
+- Automatic Download and Build Integration
 
 **Quick CPM Setup**:  
 Download the `CPM.cmake` file and put in the folder `cmake` 
@@ -182,6 +182,9 @@ add_subdirectory(path/to/Plotpp)
 add_executable(PROJECT_NAME main.cpp)
 target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
 ```
-
+Manual Build
+------------
+- include the folder containing `plotpp.hpp`
+- compile and link all `*.cpp` files in `plotpp/`
 
 
