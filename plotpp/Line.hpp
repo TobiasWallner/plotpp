@@ -10,12 +10,15 @@
 #include "plotpp/LineType.hpp"
 #include "plotpp/Color.hpp"
 #include "optional_ptr.hpp"
+#include "plotpp/concepts.hpp"
 
 namespace plotpp{
 
-	template<class Tx, class Ty>
+	template<ForwardRange Tx, ForwardRange Ty>
+	
 	class Line : public IPlot{	
 	public:
+		
 
 		Line(optional_ptr<Tx> x, optional_ptr<Ty> y)
 			: x_(std::move(x))

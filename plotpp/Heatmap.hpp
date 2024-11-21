@@ -3,6 +3,7 @@
 #include <ostream>
 #include <functional>
 #include "plotpp/IPlot.hpp"
+#include "plotpp/concepts.hpp"
 
 namespace plotpp{
 	/*
@@ -58,13 +59,6 @@ namespace plotpp{
 		using T = remove_ptr_t<std::remove_reference_t<U1>>;
 		return Heatmap<T>(optional_ptr<T>(std::forward<U1>(matrix)), rows, columns, at);
 	}
-	
-	template <typename T>
-	concept MatrixLike = requires(T t, size_t i, size_t j) {
-		{ t.rows() } -> std::convertible_to<int>;
-		{ t.columns() } -> std::convertible_to<int>;
-		{ t.at(i, j) };
-	};
 	
 	// Construction Helper for common matrix objects with common interfaces
 	template<MatrixLike U1>
