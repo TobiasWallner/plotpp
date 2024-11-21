@@ -20,7 +20,17 @@ Requirements
 	Note: The project can be build without gnuplot,
 	since this library will only communicate with gnuplot through pipes. 
 	But you will need gnuplot to display the graphical plots.
-	
+- C++20
+
+Features
+========
+- Line
+- Poins/Scatter/XError/YError/XYError
+- Arrows/Vectors/Quiver
+- Heatmap
+- Boxes
+- Boxplot
+
 Examples
 ========
 
