@@ -78,7 +78,7 @@ if(BUILD_EXAMPLES)
 	# =========================
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		set(COMPILER_FLAGS
-			
+			-fconcepts-diagnostics-depth=2
 			# Enable link time optimisations
 			-flto
 			
@@ -180,6 +180,11 @@ if(BUILD_EXAMPLES)
 	add_executable(color examples/color.cpp)
 	target_link_libraries(color PUBLIC plotpp)
 	target_compile_options(color PUBLIC ${COMPILER_FLAGS})
+	
+	# boxplot
+	add_executable(boxplot examples/boxplot.cpp)
+	target_link_libraries(boxplot PUBLIC plotpp)
+	target_compile_options(boxplot PUBLIC ${COMPILER_FLAGS})
 endif()
 
 

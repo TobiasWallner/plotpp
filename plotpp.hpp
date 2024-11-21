@@ -14,3 +14,4 @@
 #include "plotpp/Boxes.hpp"
 #include "plotpp/Color.hpp"
 #include "plotpp/Colormaps.hpp"
+#include "plotpp/Boxplot.hpp"
