@@ -48,6 +48,7 @@ namespace plotpp{
 		bool relativeBoxWidth() const {return this->relative_boxwidth;}
 		Boxes& relativeBoxWidth(bool rbw) & {this->relative_boxwidth = rbw; return *this;}
 		Boxes&& relativeBoxWidth(bool rbw) && {this->relative_boxwidth = rbw; return std::move(*this);}
+		
 		// ---- IPlot overloads ----
 		
 		// TODO: set the boxwidth individually using replot in the figure. 
@@ -71,6 +72,7 @@ namespace plotpp{
 				stream <<  " title '" << this->IPlot::label() << "'";
 			}
 		}
+		
 	private:
 		optional_ptr<Tx> x_;
 		optional_ptr<Ty> y_;
