@@ -5,8 +5,6 @@ A plotting library for C++ that uses Gnuplot as a backend.
 
 Allows plotting from custom containers/vectors if they use `begin()` and `end()` iterators as well as plotting from built in arrays.
 
-Still under heavy developement!
-
 Requirements
 ============
 - Gnuplot:  

@@ -67,6 +67,7 @@ namespace plotpp{
 		this->title_ = title; 
 		return *this;
 	}
+	
 	Figure& Figure::title(Text&& title) {
 		this->title_ = std::move(title); 
 		return *this;
