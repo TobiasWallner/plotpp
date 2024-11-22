@@ -6,24 +6,14 @@
 
 namespace plotpp{
 	
-	std::atomic<size_t> ThreadManager::count=0;
-	
-	ThreadManager threadManager;
-	
-	ThreadManager::~ThreadManager(){
-		printf("wait for threads to finish\n");
-		while(count > 0) std::this_thread::sleep_for(std::chrono::milliseconds(50));
-		printf("all finished");
-	}
-	
 	Figure::Figure(std::string title_str){
-		title.str = title_str;
-		title.height = 20;
-		title.bold = true;
+		title_.str = title_str;
+		title_.height = 20;
+		title_.bold = true;
 	}
 
 	Figure::Figure(Text title, Text xlabel, Text ylabel)
-		: title(title)
+		: title_(title)
 		, xlabel(xlabel)
 		, ylabel(ylabel)
 	{}
@@ -51,6 +41,37 @@ namespace plotpp{
 		this->xtics_values.clear();
 	}
 	
+	Figure& Figure::logx(bool v) {
+		this->logx_ = v; 
+		return *this;
+	}
+	
+	Figure& Figure::logy(bool v) {
+		this->logy_ = v; 
+		return *this;
+	}
+	
+	Figure& Figure::logx(float v) {
+		this->logx_ = true; 
+		this->logx_base = v; 
+		return *this;
+	}
+	
+	Figure& Figure::logy(float v) {
+		this->logy_ = true; 
+		this->logy_base = v; 
+		return *this;
+	}
+	
+	Figure& Figure::title(const Text& title) {
+		this->title_ = title; 
+		return *this;
+	}
+	Figure& Figure::title(Text&& title) {
+		this->title_ = std::move(title); 
+		return *this;
+	}
+	
 	void Figure::show(OutputFileType filetype) const {
 		if(filetype == OutputFileType::gp){
 			this->plot(std::cout, TerminalType::NONE);
@@ -65,7 +86,7 @@ namespace plotpp{
 	}
 			
 	void Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
-		if(filename.empty()) filename = title;
+		if(filename.empty()) filename = title_;
 		
 		if(filetype == OutputFileType::NONE){
 			filetype = filetype_from_filename(filename);
@@ -107,7 +128,7 @@ namespace plotpp{
 		
 		
 		// figure and axis configuration
-		if(!title.empty()) stream << "set title " << title << "\n";
+		if(!title_.empty()) stream << "set title " << title_ << "\n";
 		if(!xlabel.empty()) stream << "set xlabel " << xlabel << "\n";
 		if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
 		
@@ -126,6 +147,9 @@ namespace plotpp{
 		
 		if(this->xreverse) stream << "set xrange reverse\n";
 		if(this->yreverse) stream << "set yrange reverse\n";
+		
+		if(this->logx_) stream << "set logscale x " << this->logx_base << "\n";
+		if(this->logy_) stream << "set logscale y " << this->logy_base << "\n";
 		
 		// set x-tics
 		if(!this->xtics_labels.empty()){

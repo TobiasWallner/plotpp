@@ -24,12 +24,17 @@ Requirements
 
 Features
 ========
+### Plotting Styles
 - Line
 - Poins/Scatter/XError/YError/XYError
 - Arrows/Vectors/Quiver
 - Heatmap
 - Boxes
 - Boxplot
+
+### Figure Styles
+- Labeled x axis
+- Logarithmic axes
 
 Examples
 ========

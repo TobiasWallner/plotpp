@@ -16,36 +16,15 @@
 #include "plotpp/OutputFileType.hpp"
 #include "plotpp/Text.hpp"
 #include "plotpp/IPlot.hpp"
+#include "plotpp/concepts.hpp"
 
 namespace plotpp{
-
-	class ThreadManager{
-	private:
-		static std::atomic<size_t> count;
-	
-	public:
-		
-		template<typename Function>
-		void launch(Function&& f){
-			printf("launched thread\n");
-			count.store(count.load() + 1);
-			std::thread(
-				[f = std::move(f), count = &count]() {
-					f();
-					count->store(count->load() - 1);
-				}).detach();
-		}
-		
-		~ThreadManager();
-	};
-	
-	extern ThreadManager threadManager;
 
 	class Figure{
 	public:
 		std::list<std::shared_ptr<IPlot>> plots;
 		
-		Text title;
+		Text title_;
 		Text xlabel;
 		Text ylabel;
 		
@@ -57,6 +36,9 @@ namespace plotpp{
 		float ymin = -1;
 		float ymax = +1;
 		
+		float logx_base = 10.0;
+		float logy_base = 10.0;
+		
 		bool xautoscale = true;
 		bool yautoscale = true;
 		
@@ -64,6 +46,9 @@ namespace plotpp{
 		bool xreverse = false;
 		
 		bool legend = false;
+		
+		bool logx_ = false;
+		bool logy_ = false;
 		
 		Figure() = default;
 		Figure(const Figure&)=default;
@@ -105,7 +90,7 @@ namespace plotpp{
 		
 		void xtics(std::vector<std::string> tic_labels, std::vector<double> values);
 		
-		template<class T>
+		template<ForwardRange T>
 		void xtics(const T& tic_labels, std::vector<double> values){
 			auto labels_itr = std::begin(tic_labels);
 			const auto labels_end = std::end(tic_labels);
@@ -122,6 +107,14 @@ namespace plotpp{
 		
 		void clear_xtics();
 		
+		Figure& logx(bool v = true);
+		Figure& logy(bool v = true);
+		Figure& logx(float v);
+		Figure& logy(float v);
+		
+		Figure& title(const Text& title);
+		Figure& title(Text&& title);
+		
 		void show(OutputFileType filetype) const;
 		
 		void show(TerminalType terminalType = TerminalType::NONE) const;
@@ -134,7 +127,6 @@ namespace plotpp{
 			std::ostream& stream, 
 			TerminalType terminalType = TerminalType::NONE,
 			std::string saveAs = "") const;
-		
 		
 	};
 	

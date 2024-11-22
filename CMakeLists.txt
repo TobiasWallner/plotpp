@@ -185,6 +185,11 @@ if(BUILD_EXAMPLES)
 	add_executable(boxplot examples/boxplot.cpp)
 	target_link_libraries(boxplot PUBLIC plotpp)
 	target_compile_options(boxplot PUBLIC ${COMPILER_FLAGS})
+	
+	# logscale
+	add_executable(logscale examples/logscale.cpp)
+	target_link_libraries(logscale PUBLIC plotpp)
+	target_compile_options(logscale PUBLIC ${COMPILER_FLAGS})
 endif()
 
 
