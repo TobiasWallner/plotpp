@@ -27,6 +27,7 @@ message(STATUS "======================== Plotpp: END: Fetching External Librarie
 # define the library
 add_library(plotpp STATIC
 	plotpp/Text.cpp
+	plotpp/Circle.cpp
 	plotpp/Figure.cpp
 	plotpp/Multiplot.cpp
 	plotpp/ArrowHeadStyle.cpp
