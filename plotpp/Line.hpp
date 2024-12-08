@@ -32,21 +32,21 @@ namespace plotpp{
 		
 		// ---- setters getters ----
 		
-		LineType lineType() const {return this->line_type;}
-		Line& lineType(LineType lt) & {this->line_type = lt; return *this;}
-		Line&& lineType(LineType lt) && {this->line_type = lt; return std::move(*this);}
+		inline LineType lineType() const {return this->line_type;}
+		inline Line& lineType(LineType lt) & {this->line_type = lt; return *this;}
+		inline Line&& lineType(LineType lt) && {this->line_type = lt; return std::move(*this);}
 		
-		float lineWidth() const {return this->line_width;}
-		Line& lineWidth(float lw) & {this->line_width = lw; return *this;}
-		Line&& lineWidth(float lw) && {this->line_width = lw; return std::move(*this);}
+		inline float lineWidth() const {return this->line_width;}
+		inline Line& lineWidth(float lw) & {this->line_width = lw; return *this;}
+		inline Line&& lineWidth(float lw) && {this->line_width = lw; return std::move(*this);}
 		
-		Color color() const {return this->opt_color.value_or(Color(0,0,0));}
-		Line& color(Color col) & {this->opt_color = col; return *this;}
-		Line&& color(Color col) && {this->opt_color = col; return std::move(*this);}
+		inline Color color() const {return this->opt_color.value_or(Color(0,0,0));}
+		inline Line& color(Color col) & {this->opt_color = col; return *this;}
+		inline Line&& color(Color col) && {this->opt_color = col; return std::move(*this);}
 		
-		bool isAutoColor() const {return this->opt_color.has_value();}
-		Line& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
-		Line&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
+		inline bool isAutoColor() const {return this->opt_color.has_value();}
+		inline Line& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
+		inline Line&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
 		
 		// ---- IPlot overloads ----
 		
