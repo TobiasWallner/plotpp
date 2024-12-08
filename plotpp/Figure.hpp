@@ -51,7 +51,7 @@ namespace plotpp{
 		bool logy_ = false;
 		
 		Figure() = default;
-		Figure(const Figure&)=default;
+		Figure(const Figure&) = delete;
 		Figure(Figure&&)=default;
 		
 		Figure(std::string title_str);

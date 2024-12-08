@@ -45,12 +45,17 @@ namespace plotpp{
 		}
 		
 		virtual void printData(std::ostream& stream) const {
+			stream << "$d" << this->IPlot::uid() << " << e\n";
+			
 			for(auto yitr = std::begin(*y_); yitr!=std::end(*y_); ++yitr)
 				stream << x_ << ' ' << *yitr << '\n';		
+			
+			stream << "e\n";
 		}
 		
 		virtual void printPlot(std::ostream& stream) const {
-			stream << "using 1:2 with boxplot fs transparent solid " << this->opacity();
+			stream << "$d" << this->IPlot::uid() 
+					<< " using 1:2 with boxplot fs transparent solid " << this->opacity();
 			
 			if(this->IPlot::label().empty()){
 				stream << " notitle";

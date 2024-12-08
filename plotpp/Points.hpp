@@ -54,7 +54,8 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const override {
-			stream << "using 1:2 with points"
+			stream << "$d" << this->IPlot::uid() 
+					<< " using 1:2 with points"
 					<< " ps " << this->pointSize() 
 					<< " pt " << static_cast<int>(this->pointType());
 			
@@ -71,6 +72,7 @@ namespace plotpp{
 		}
 		
 		virtual void printData(std::ostream& stream) const override {
+			stream << "$d" << this->IPlot::uid() << " << e\n";
 			if(this->x_){
 				auto xitr = std::begin(*x_);
 				auto yitr = std::begin(*y_);
@@ -84,6 +86,7 @@ namespace plotpp{
 				for (; yitr != std::end(*y_); ++x, (void)++yitr)
 					stream << x << ' ' << *yitr << '\n';
 			}
+			stream << "e\n";
 		}
 		
 		

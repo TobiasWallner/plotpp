@@ -51,7 +51,9 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const override {
-			stream << "using 1:2 with lines lw " << this->lineWidth() << " " << to_command(this->lineType());
+			stream << "$d" << this->IPlot::uid() 
+					<< " using 1:2 with lines lw " << this->lineWidth() 
+					<< " " << to_command(this->lineType());
 					
 			if(this->opt_color){
 				stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
@@ -65,6 +67,7 @@ namespace plotpp{
 		}
 		
 		virtual void printData(std::ostream& stream) const override {
+			stream << "$d" << this->IPlot::uid() << " << e\n";
 			if(this->x_){
 				auto xitr = std::begin(*x_);
 				auto yitr = std::begin(*y_);
@@ -78,14 +81,15 @@ namespace plotpp{
 				for (; yitr != std::end(*y_); ++x, (void)++yitr)
 					stream << x << ' ' << *yitr << '\n';
 			}
+			stream << "e\n";
 		}
 		
-		Line& label(const char* label) & {this->IPlot::label(label); return *this;}
-		Line&& label(const char* label) && {this->IPlot::label(label); return std::move(*this);}
-		Line& label(std::string_view label) & {this->IPlot::label(label); return *this;}
-		Line&& label(std::string_view label) && {this->IPlot::label(label); return std::move(*this);}
-		Line& label(std::string&& label) & {this->IPlot::label(label); return *this;}
-		Line&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
+		inline Line& label(const char* label) & {this->IPlot::label(label); return *this;}
+		inline Line&& label(const char* label) && {this->IPlot::label(label); return std::move(*this);}
+		inline Line& label(std::string_view label) & {this->IPlot::label(label); return *this;}
+		inline Line&& label(std::string_view label) && {this->IPlot::label(label); return std::move(*this);}
+		inline Line& label(std::string&& label) & {this->IPlot::label(label); return *this;}
+		inline Line&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
 		
 	public:
 		optional_ptr<Tx> x_;

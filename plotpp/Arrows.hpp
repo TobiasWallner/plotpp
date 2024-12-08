@@ -49,10 +49,12 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const {
+			stream << "$d" << this->IPlot::uid();
+			
 			if(this->dataRelation() == DataRelation::absolute){
-				stream << "using 1:2:(($3)-($1)):($4-$2)";
+				stream << " using 1:2:(($3)-($1)):($4-$2)";
 			}else{
-				stream << "using 1:2:3:4";
+				stream << " using 1:2:3:4";
 			}
 			
 			if(this->dataRelation() == DataRelation::polar){
@@ -76,6 +78,7 @@ namespace plotpp{
 		}
 		
 		virtual void printData(std::ostream& stream) const {
+			stream << "$d" << this->IPlot::uid() << " << e\n";
 			auto x1itr = std::begin(*x1_);
 			auto y1itr = std::begin(*y1_);
 			auto x2itr = std::begin(*x2_);
@@ -84,6 +87,7 @@ namespace plotpp{
 				; (void)++x1itr, (void)++y1itr, (void)++x2itr, (void)++y2itr){
 				stream << *x1itr << ' ' << *y1itr << ' ' << *x2itr << ' ' << *y2itr << '\n';
 			}
+			stream << "e\n";
 		}
 		
 	private:

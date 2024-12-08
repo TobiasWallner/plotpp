@@ -51,7 +51,8 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const {
-			stream 	<< " using 1:2:3 with yerrorbars"
+			stream << "$d" << this->IPlot::uid() 
+					<< " using 1:2:3 with yerrorbars"
 					<< " ps " << this->pointSize()
 					<< " pt " << static_cast<int>(this->pointType());
 					
@@ -67,6 +68,7 @@ namespace plotpp{
 		}
 		
 		virtual void printData(std::ostream& stream) const {
+			stream << "$d" << this->IPlot::uid() << " << e\n";
 			auto xitr = std::begin(*x_);
 			auto yitr = std::begin(*y_);
 			auto yerrItr = std::begin(*yerror_);
@@ -78,6 +80,7 @@ namespace plotpp{
 			for (; xitr != xEnd && yitr != yEnd && yerrItr != yerrEnd; ++xitr, (void)++yitr, (void)yerrItr)
 				stream << *xitr << ' ' << *yitr << ' ' << *yerrItr << '\n';
 			
+			stream << "e\n";
 		}
 		
 	public:

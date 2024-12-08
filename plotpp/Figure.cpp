@@ -113,6 +113,10 @@ namespace plotpp{
 	}
 	
 	void Figure::plot(std::ostream& stream, TerminalType terminalType, std::string saveAs) const {
+		{
+			size_t i = 0;
+			for(const std::shared_ptr<IPlot>& plot : this->plots) plot->uid(i);
+		}
 		
 		if(terminalType != TerminalType::NONE) stream << "set terminal " << to_command(terminalType) << "\n";
 		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
@@ -177,25 +181,12 @@ namespace plotpp{
 		}
 
 		// write data variables
-		std::vector<std::string> data_vars;
-		data_vars.reserve(this->plots.size());
 		{
 			auto plt_itr=this->plots.cbegin();
 			size_t i = 0;
-			
 			for(; plt_itr!=this->plots.cend(); ++plt_itr, (void)++i){
-				std::string var_name("data");
-				
-				//generate random number for plot names
-				var_name += std::to_string(std::rand());
-				
-				data_vars.push_back(var_name);
-				stream << "$" << var_name << " << EOD\n";
-				
 				(*plt_itr)->printData(stream);
-				
-				stream << "EOD\n\n";
-			}	
+			}
 		}
 		
 		
@@ -204,10 +195,8 @@ namespace plotpp{
 		{
 			if(!this->plots.empty()) stream << "plot ";
 			auto plot_itr = this->plots.cbegin();
-			auto var_itr = data_vars.cbegin();
-			for(; plot_itr!=this->plots.cend() && var_itr!=data_vars.cend(); ++plot_itr, (void)++var_itr){
+			for(; plot_itr!=this->plots.cend(); ++plot_itr){
 				if (plot_itr!=this->plots.cbegin()) stream << "     ";
-				stream << "$" << *var_itr << " ";
 				(*plot_itr)->printPlot(stream);
 				auto next = plot_itr; 
 				++next;

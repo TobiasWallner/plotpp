@@ -37,16 +37,21 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(std::ostream& stream) const {
-			stream << "matrix with image title '" << this->IPlot::label() << "'";
+			stream << "$d" << this->IPlot::uid()
+					<< " matrix with image title '" << this->IPlot::label() << "'";
 		}
 		
 		virtual void printData(std::ostream& stream) const {
+			stream << "$d" << this->IPlot::uid() << " << e\n";
+			
 			for(size_t row=0; row < this->_rows; ++row){
 				for(size_t col=0; col < this->_columns; ++col){
 					stream << this->_at(*(this->_matrix), row, col) << ' ';
 				}
 				stream << '\n';
 			}
+			
+			stream << "e\n";
 		}
 		
 	};
