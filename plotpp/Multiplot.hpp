@@ -8,10 +8,10 @@ namespace plotpp{
 
 	class Multiplot{
 	private:
-		std::vector<Figure> _figs;
-		Text _title;
-		size_t _rows = 0;
-		size_t _columns = 0;
+		std::vector<Figure> figs_;
+		Text title_;
+		size_t rows_ = 0;
+		size_t columns_ = 0;
 		
 		
 	public:

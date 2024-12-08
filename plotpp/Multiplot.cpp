@@ -7,43 +7,49 @@
 namespace plotpp{
 	
 	Multiplot::Multiplot(Text title="")
-		: _figs(0)
-		, _title(title)
-		, _rows(0)
-		, _columns(0){}
+		: figs_(0)
+		, title_(title)
+		, rows_(0)
+		, columns_(0){
+			title_.height = 20;
+			title_.bold = true;
+		}
 	
 	Multiplot::Multiplot(size_t rows, size_t columns, Text title) 
-		: _figs(rows * columns)
-		, _title(title)
-		, _rows(rows)
-		, _columns(columns){}
+		: figs_(rows * columns)
+		, title_(title)
+		, rows_(rows)
+		, columns_(columns){
+			title_.height = 20;
+			title_.bold = true;
+		}
 
 	Figure& Multiplot::at(size_t row, size_t col) {
-		const size_t index = col + row * this->_columns;
-		return this->_figs[index];
+		const size_t index = col + row * this->columns_;
+		return this->figs_[index];
 	}
 	
 	const Figure& Multiplot::at(size_t row, size_t col) const {
-		const size_t index = row + col * this->_rows;
-		return this->_figs[index];
+		const size_t index = row + col * this->rows_;
+		return this->figs_[index];
 	}
 	
-	Multiplot::iterator Multiplot::begin() {return this->_figs.begin();}
-	Multiplot::const_iterator Multiplot::begin() const {return this->_figs.begin();}
-	Multiplot::const_iterator Multiplot::cbegin() const {return this->_figs.cbegin();}
+	Multiplot::iterator Multiplot::begin() {return this->figs_.begin();}
+	Multiplot::const_iterator Multiplot::begin() const {return this->figs_.begin();}
+	Multiplot::const_iterator Multiplot::cbegin() const {return this->figs_.cbegin();}
 	
-	Multiplot::iterator Multiplot::end() {return this->_figs.end();}
-	Multiplot::const_iterator Multiplot::end() const {return this->_figs.end();}
-	Multiplot::const_iterator Multiplot::cend() const {return this->_figs.cend();}
+	Multiplot::iterator Multiplot::end() {return this->figs_.end();}
+	Multiplot::const_iterator Multiplot::end() const {return this->figs_.end();}
+	Multiplot::const_iterator Multiplot::cend() const {return this->figs_.cend();}
 	
-	size_t Multiplot::size() const {return this->_figs.size();}
-	size_t Multiplot::rows() const {return this->_rows;}
-	size_t Multiplot::columns() const {return this->_columns;}
+	size_t Multiplot::size() const {return this->figs_.size();}
+	size_t Multiplot::rows() const {return this->rows_;}
+	size_t Multiplot::columns() const {return this->columns_;}
 	
 	void Multiplot::resize(size_t rows, size_t columns){
-		this->_figs.resize(rows * columns);
-		this->_rows = rows;
-		this->_columns = columns;
+		this->figs_.resize(rows * columns);
+		this->rows_ = rows;
+		this->columns_ = columns;
 	}
 	
 	
@@ -61,7 +67,7 @@ namespace plotpp{
 	}
 			
 	void Multiplot::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
-		if(filename.empty()) filename = this->_title;
+		if(filename.empty()) filename = this->title_;
 		
 		if(filetype == OutputFileType::NONE){
 			filetype = filetype_from_filename(filename);
@@ -90,18 +96,18 @@ namespace plotpp{
 		if(TerminalType != TerminalType::NONE) stream << "set terminal " << to_command(TerminalType) << "\n";
 		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
 		
-		stream << "set multiplot layout " << this->_rows << "," << this->_columns << " title " << this->_title << "\n\n";
+		stream << "set multiplot layout " << this->rows_ << "," << this->columns_ << " title " << this->title_ << "\n\n";
 		
 		{
 			size_t row = 0;
 			size_t column = 0;
-			for (const auto& fig : this->_figs){
+			for (const auto& fig : this->figs_){
 				stream << "\n# Figure at (" << row << ", " << column << ")\n";
 				
 				fig.plot(stream);
 				
 				++column;
-				if(column >= this->_columns){
+				if(column >= this->columns_){
 					column = 0;
 					++row;
 				}
