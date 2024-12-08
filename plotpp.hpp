@@ -5,7 +5,6 @@
 #include "plotpp/Multiplot.hpp"
 #include "plotpp/Line.hpp"
 #include "plotpp/Points.hpp"
-//#include "ImageFile.hpp"
 #include "plotpp/Heatmap.hpp"
 #include "plotpp/Arrows.hpp"
 #include "plotpp/XError.hpp"
