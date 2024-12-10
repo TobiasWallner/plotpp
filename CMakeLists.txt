@@ -126,9 +126,7 @@ if(BUILD_EXAMPLES)
 	# =========================
 	elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		set(COMPILER_FLAGS
-			-fconcepts-diagnostics-depth=2
-			# Enable link time optimisations
-			-flto
+			-fconcepts-diagnostics-depth=3
 			
 			# set compiler flags for debugging
 			#---------------------------------
