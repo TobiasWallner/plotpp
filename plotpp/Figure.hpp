@@ -20,6 +20,8 @@
 
 namespace plotpp{
 
+	
+
 	class Figure{
 	public:
 		std::list<std::shared_ptr<IPlot>> plots;
@@ -30,6 +32,8 @@ namespace plotpp{
 		
 		std::vector<std::string> xtics_labels;
 		std::vector<double> xtics_values;
+		
+		opstream gnuplot_;
 		
 		float xmin = -1;
 		float xmax = +1;
@@ -58,6 +62,21 @@ namespace plotpp{
 		
 		Figure(Text title, Text xlabel, Text ylabel);
 		
+	public:
+	
+	
+	private:
+		/**
+			return the current pipe stream to gnuplot or creates one.
+		*/
+		opstream& gnuplot() const;
+	public:
+		/**
+			closes this figure. following calls to show() will thus create a new window.
+			closes the pipe stream to the curren figure / gnuplot scession;
+		*/
+		void close();
+	
 		template<class T>
 		Figure& add(std::shared_ptr<T> plot){
 			std::shared_ptr<IPlot> p = std::move(plot);

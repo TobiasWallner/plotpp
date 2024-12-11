@@ -17,7 +17,30 @@ namespace plotpp{
 		, xlabel(xlabel)
 		, ylabel(ylabel)
 	{}
+	
+	opstream& Figure::gnuplot() const {
+		std::cout << "function: "<< __FUNCTION__ << std::endl;
+		if(this->gnuplot_.is_open() == false){
+			std::cout << "  if(this->gnuplot_.is_open() == false)" << std::endl;
+			/*
+			The class Figure, that I am useing is talking to gnuplot over pipestreams, 
+			and the figure itself, the data and the plot types will not change, which 
+			is what the user will think of when useing the figure. The user will not 
+			think about the underlieing communication over pipes with gnuplot. So I 
+			think it is ok to violate const there, because all user data will still be 
+			kept const and only the setup of a new communication to gnuplot will be a 
+			changeing state.
+			*/
+			const_cast<opstream&>(this->gnuplot_).open("gnuplot -persist");
 			
+		}
+		return const_cast<opstream&>(this->gnuplot_);
+	}
+	
+	void Figure::close() {
+		this->gnuplot_.close();
+	}
+	
 	Figure& Figure::add(std::shared_ptr<IPlot> plot){
 		this->plots.push_back(std::move(plot));
 		return *this;
@@ -82,8 +105,7 @@ namespace plotpp{
 	}
 			
 	void Figure::show(TerminalType TerminalType) const {
-		opstream gnuplot("gnuplot -persist");
-		this->plot(gnuplot, TerminalType);
+		this->plot(this->gnuplot(), TerminalType);
 	}
 			
 	void Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
@@ -107,8 +129,7 @@ namespace plotpp{
 			std::ofstream fstream(filename);
 			this->plot(fstream, terminalType);
 		}else{
-			opstream gnuplot("gnuplot -persist");
-			this->plot(gnuplot, terminalType, filename);	
+			this->plot(this->gnuplot(), terminalType, filename);	
 		}
 	}
 	
