@@ -16,14 +16,6 @@ Requirements
 	But you will need gnuplot to display the graphical plots.
 - C++20
 
-Dependencies
-------------
-- [\{fmt\}](https://github.com/fmtlib/fmt): the [\{fmt\}](https://github.com/fmtlib/fmt) library
-  will be automatically downloaded by [CMake](https://cmake.org/) in the `CMakeLists.txt` script using [CPM](https://github.com/cpm-cmake/CPM.cmake)
-  so you only have to do: `cmake -S . -B build` and the rest will be taken care of. 
-  If you are already using [\{fmt\}](https://github.com/fmtlib/fmt) in your [CMake](https://cmake.org/) project it will link to that instead.  
-  **TLDR:** everything is handled by the library and you (the user) do not have to do anything.
-
 Features
 ========
 ### Plotting Styles
