@@ -10,10 +10,10 @@ public:
     opstreambuf(char const * process);
 	
 	opstreambuf(const opstreambuf&) = delete;
-	opstreambuf(opstreambuf&& other);
+	opstreambuf(opstreambuf&& other) noexcept;
 	
 	opstreambuf& operator=(const opstreambuf&) = delete;
-	opstreambuf& operator=(opstreambuf&& other);
+	opstreambuf& operator=(opstreambuf&& other) noexcept;
 	
 	virtual ~opstreambuf();
 
@@ -36,10 +36,10 @@ public:
 	opstream(char const * process);
 	
 	opstream(const opstream&) = delete;
-	opstream(opstream&& other);
+	opstream(opstream&& other) noexcept;
 	
 	opstream& operator=(const opstream&) = delete;
-	opstream& operator=(opstream&& other);
+	opstream& operator=(opstream&& other) noexcept;
 	
 	void open(char const* process);
 	void close();

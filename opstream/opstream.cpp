@@ -15,13 +15,13 @@ opstreambuf::opstreambuf(char const * process) {
 	this->open(process);
 }
 
-opstreambuf::opstreambuf(opstreambuf&& other){
+opstreambuf::opstreambuf(opstreambuf&& other) noexcept{
 	this->buffer = std::move(other.buffer);
 	this->fprocess = other.fprocess;
 	other.fprocess = nullptr;	
 }
 
-opstreambuf& opstreambuf::operator=(opstreambuf&& other){
+opstreambuf& opstreambuf::operator=(opstreambuf&& other) noexcept{
 	this->close();
 	if(this != &other){
 		this->buffer = std::move(other.buffer);
@@ -38,7 +38,6 @@ opstreambuf::~opstreambuf(){
 void opstreambuf::open(char const* process){
 	// close an existing open stream
 	if(this->is_open()){
-		std::cout << "  is already open" << std::endl;
 		this->close();
 	}
 	
@@ -58,7 +57,7 @@ void opstreambuf::open(char const* process){
 	fprocess = popen(process, "w");
 	#endif
 
-	if(process == nullptr){
+	if(fprocess == nullptr){
 		std::string s;
 		s = "Could not open the pipe stream with the command: ";
 		s += process;
@@ -80,10 +79,11 @@ void opstreambuf::close(){
 		int status = pclose(this->fprocess);
 		#endif	
 		
-		if (status != 0) 
+		if (status != 0) {
 			throw std::runtime_error("Could not close the pipe stream");
-		else 
-			this->fprocess = nullptr;
+		}
+		
+		this->fprocess = nullptr;
 	}
 }
 
@@ -123,11 +123,12 @@ opstream::opstream(char const * process)
 	: std::ostream(&this->buf)
 	, buf(process){}
 	
-opstream::opstream(opstream&& other) : std::ostream(&this->buf) {
+opstream::opstream(opstream&& other) noexcept  
+	: std::ostream(&this->buf) {
 	this->buf = std::move(other.buf);
 }
 
-opstream& opstream::operator=(opstream&& other){
+opstream& opstream::operator=(opstream&& other) noexcept {
 	if(this != &other){
 		this->buf = std::move(other.buf);
 		this->rdbuf(&this->buf);
