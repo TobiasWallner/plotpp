@@ -6,6 +6,11 @@
 // Stream Buffer Functions
 //
 
+opstreambuf::opstreambuf() 
+	: buffer()
+	, fprocess(nullptr)
+{}
+
 opstreambuf::opstreambuf(char const * process) {
 	this->open(process);
 }
@@ -32,11 +37,18 @@ opstreambuf::~opstreambuf(){
 
 void opstreambuf::open(char const* process){
 	// close an existing open stream
-	if(this->is_open()) this->close();
+	if(this->is_open()){
+		std::cout << "  is already open" << std::endl;
+		this->close();
+	}
 	
 	// allocating the buffer
 	constexpr size_t bufferSize = 128;
 	this->buffer = std::make_unique<char[]>(bufferSize);
+	if(!this->buffer){
+		throw std::runtime_error("could not allocate buffer for opstreambuf in opstreambuf::open(char const* process)");
+	}
+	
 	this->std::streambuf::setp(buffer.get(), buffer.get() + bufferSize);
 	
 	// open the FILE pointer
@@ -55,15 +67,13 @@ void opstreambuf::open(char const* process){
 }
 
 void opstreambuf::close(){
-	this->sync();
-	
-	// deallocate the buffer
-	if(this->buffer){
+	if(this->is_open()){
+		this->sync();
+		
+		// deallocate the buffer
 		this->buffer.reset();
-	}
-	
-	// close the pipe stream
-	if(this->fprocess != nullptr){		
+		
+		// close the pipe stream
 		#ifdef WIN32
 		int status = _pclose(this->fprocess);
 		#else
@@ -77,7 +87,7 @@ void opstreambuf::close(){
 	}
 }
 
-bool opstreambuf::is_open(){
+bool opstreambuf::is_open() const{
 	return this->fprocess != nullptr;
 }
 
@@ -105,17 +115,23 @@ int opstreambuf::overflow(int c) {
 //							opstream
 // ----------------------------------------------------------
 
+opstream::opstream()
+	: std::ostream(&this->buf)
+	, buf() {}
+
 opstream::opstream(char const * process) 
-	: std::ostream(&buf)
+	: std::ostream(&this->buf)
 	, buf(process){}
 	
-opstream::opstream(opstream&& other){
+opstream::opstream(opstream&& other) : std::ostream(&this->buf) {
 	this->buf = std::move(other.buf);
 }
 
 opstream& opstream::operator=(opstream&& other){
 	if(this != &other){
 		this->buf = std::move(other.buf);
+		this->rdbuf(&this->buf);
+		other.rdbuf(nullptr);
 	}
 	return *this;
 }	
@@ -128,6 +144,6 @@ void opstream::close(){
 	this->buf.close();
 }
 
-bool opstream::is_open(){
+bool opstream::is_open() const{
 	return this->buf.is_open();
 }

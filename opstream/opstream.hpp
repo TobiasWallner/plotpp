@@ -6,7 +6,7 @@
 // output pipe stream buffer
 class opstreambuf : public std::streambuf {
 public:
-	opstreambuf() = default;
+	opstreambuf();
     opstreambuf(char const * process);
 	
 	opstreambuf(const opstreambuf&) = delete;
@@ -19,21 +19,20 @@ public:
 
 	void open(char const* process);
 	void close();
-	bool is_open();
+	bool is_open() const;
 
 protected:
 
-    std::unique_ptr<char[]> buffer;
+    std::unique_ptr<char[]> buffer = nullptr;
 	FILE* fprocess = nullptr;
 
-	// specify what should be done to flush the buffer (aka. synchronise the buffer with the device)
     int sync() override; 
 	int overflow(int c) override;
 };
 
 class opstream : public std::ostream {
 public:
-	opstream() = default;
+	opstream();
 	opstream(char const * process);
 	
 	opstream(const opstream&) = delete;
@@ -44,7 +43,7 @@ public:
 	
 	void open(char const* process);
 	void close();
-	bool is_open();
+	bool is_open() const;
 	
 protected:
 	opstreambuf buf;
