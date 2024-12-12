@@ -16,13 +16,13 @@ namespace plotpp{
 		IPlot(std::string label) : label_(std::move(label)){}
 		virtual ~IPlot(){}
 		
-		virtual void printPlot(std::ostream& stream) const {};
-		virtual void printData(std::ostream& stream) const  {};
-		virtual void printSettings(std::ostream& stream) const {}
+		virtual void printPlot(std::ostream& stream) const = delete;
+		virtual void printData(std::ostream& stream) const = delete;
+		virtual void printSettings(std::ostream& stream) const = delete;
 		
-		virtual void printPlot_fmt(FILE* fptr) const {};
-		virtual void printData_fmt(FILE* fptr) const  {};
-		virtual void printSettings_fmt(FILE* fptr) const {}
+		virtual void printPlot(FILE* fptr) const = 0;
+		virtual void printData(FILE* fptr) const = 0;
+		virtual void printSettings(FILE* fptr) const {};
 		
 		inline std::string_view label() const {return this->label_;}
 		inline std::string& label() {return this->label_;}

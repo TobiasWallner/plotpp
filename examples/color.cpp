@@ -121,7 +121,7 @@ int main() {
 	
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-    std::cout << "Process took " << duration << " µs" << std::endl;
+    std::cout << "Process took " << duration << " us" << std::endl;
 	
 	return 0;
 	

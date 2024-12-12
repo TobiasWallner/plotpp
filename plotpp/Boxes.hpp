@@ -51,32 +51,42 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		// TODO: set the boxwidth individually using replot in the figure. 
-		virtual void printSettings(std::ostream& stream) const override{
-			stream << "set boxwidth " << this->boxWidth() << (this->relativeBoxWidth() ? " relative" : "") << '\n';
+		virtual void printSettings(FILE* fptr) const override{
+			fmt::print(fptr, 
+				"set boxwidth {:02f} {}\n", 
+				this->boxWidth(),
+				this->relativeBoxWidth() ? " relative" : "");
 		}
 		
-		virtual void printData(std::ostream& stream) const override{
-			stream << "$d" << this->IPlot::uid() << " << e\n";
-			
-			auto xitr = std::begin(*x_);
-			auto yitr = std::begin(*y_);
-			for(; yitr!=std::end(*y_) && xitr!=std::end(*x_); ++yitr, (void)++xitr)
-				stream << *xitr << ' ' << *yitr << '\n';				
-			
-			stream << "e\n";
+		virtual void printData(FILE* fptr) const override {
+			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
+
+			if(this->x_){
+				auto xitr = std::begin(*x_);
+				auto yitr = std::begin(*y_);
+				
+				for (; xitr != std::end(*x_) && yitr != std::end(*y_); ++xitr, (void)++yitr)
+					fmt::print(fptr, "{} {}\n", *xitr, *yitr);
+			}else{
+				size_t x = 0;
+				auto yitr = std::begin(*y_);
+				
+				for (; yitr != std::end(*y_); ++x, (void)++yitr)
+					fmt::print(fptr, "{} {}\n", x, *yitr);
+			}
+			fmt::print(fptr, "e\n");
 		}
 		
-		virtual void printPlot(std::ostream& stream) const override{
-			stream << "$d" << this->IPlot::uid() 
-					<< " using 1:2 with boxes fs transparent solid " << this->opacity();
+		virtual void printPlot(FILE* fptr) const override{
+			fmt::print(fptr, "$d{:d} using 1:2 with boxes fs transparent solid {:02f}", this->IPlot::uid(), this->opacity());
 			
 			if(this->IPlot::label().empty()){
-				stream << " notitle";
+				fmt::print(fptr, " notitle");
 			}else{
-				stream <<  " title '" << this->IPlot::label() << "'";
+				fmt::print(fptr, " title '{}'", this->IPlot::label());
 			}
 		}
+		
 		
 	private:
 		optional_ptr<Tx> x_;
@@ -94,6 +104,15 @@ namespace plotpp{
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Boxes<Tx, Ty>(
 					optional_ptr<Tx>(std::forward<U1>(x)), 
+					optional_ptr<Ty>(std::forward<U2>(y)));
+	}
+	
+	template<PtrOrMoved U2>
+	auto boxes(U2&& y) {
+		using Tx = std::vector<int>; // placeholder type
+		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		return Boxes<Tx, Ty>(
+					optional_ptr<Tx>(), 
 					optional_ptr<Ty>(std::forward<U2>(y)));
 	}
 }

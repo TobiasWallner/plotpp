@@ -38,31 +38,33 @@ namespace plotpp{
 		
 		
 		// ---- IPlot overloads ----
-		
-		// TODO: set the boxwidth individually using replot in the figure. 
-		virtual void printSettings(std::ostream& stream) const {
-			stream << "set boxwidth " << this->boxWidth() << (this->relativeBoxWidth() ? " relative" : "") << '\n';
+
+		virtual void printSettings(FILE* fptr) const {
+			fmt::print(fptr, 
+				"set boxwidth {:02f} {:s}\n",
+				this->boxWidth(), 
+				this->relativeBoxWidth() ? " relative" : "");
 		}
 		
-		virtual void printData(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid() << " << e\n";
+		virtual void printData(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 			
 			for(auto yitr = std::begin(*y_); yitr!=std::end(*y_); ++yitr)
-				stream << x_ << ' ' << *yitr << '\n';		
+				fmt::print(fptr, "{} {}\n", this->x_, *yitr);
 			
-			stream << "e\n";
+			fmt::print(fptr, "e\n");
 		}
 		
-		virtual void printPlot(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid() 
-					<< " using 1:2 with boxplot fs transparent solid " << this->opacity();
+		virtual void printPlot(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d} using 1:2 with boxplot fs transparent solid {:02f}", this->IPlot::uid(), this->opacity());
 			
 			if(this->IPlot::label().empty()){
-				stream << " notitle";
+				fmt::print(fptr, " notitle");
 			}else{
-				stream <<  " title '" << this->IPlot::label() << "'";
+				fmt::print(fptr, " title '{}'", this->IPlot::label());
 			}
 		}
+		
 		
 	private:
 		Tx x_;

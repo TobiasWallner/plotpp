@@ -17,6 +17,7 @@ int main() {
 		
 		Figure fig("Line Plot from XY");
 		fig.add(line(&x, &y1).label("1/x*30"));
+		fig.show();
 		//fig.save("line-plot.gp");
 		//fig.save("line-plot.png");
 	}

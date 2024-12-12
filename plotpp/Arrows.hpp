@@ -48,46 +48,45 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		virtual void printPlot(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid();
+		virtual void printPlot(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d}", this->IPlot::uid());
 			
 			if(this->dataRelation() == DataRelation::absolute){
-				stream << " using 1:2:(($3)-($1)):($4-$2)";
+				fmt::print(fptr, " using 1:2:(($3)-($1)):($4-$2)");
 			}else{
-				stream << " using 1:2:3:4";
+				fmt::print(fptr, " using 1:2:3:4");
 			}
 			
 			if(this->dataRelation() == DataRelation::polar){
-				stream << " with arrows";
+				fmt::print(fptr, " with arrows");
 			}else{
-				stream << " with vectors";
+				fmt::print(fptr, " with vectors");
 			}
 			
-			stream << " " << to_command(this->arrowHeadStyle());
-			stream << " lw " << this->lineWidth();
+			fmt::print(fptr, " {} lw {:02f}", this->arrowHeadStyle(), this->lineWidth());
 			
 			if(this->opt_color){
-				stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
+				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
 			}
 			
 			if(this->IPlot::label().empty()){
-				stream << " notitle";
+				fmt::print(fptr, " notitle");
 			}else{
-				stream <<  " title '" << this->IPlot::label() << "'";
+				fmt::print(fptr, " title '{}'", this->IPlot::label());
 			}
 		}
 		
-		virtual void printData(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid() << " << e\n";
+		virtual void printData(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 			auto x1itr = std::begin(*x1_);
 			auto y1itr = std::begin(*y1_);
 			auto x2itr = std::begin(*x2_);
 			auto y2itr = std::begin(*y2_);
 			for(; x1itr != std::end(*x1_) && y1itr != std::end(*y1_) && x2itr != std::end(*x2_) && y2itr != std::end(*y2_)
 				; (void)++x1itr, (void)++y1itr, (void)++x2itr, (void)++y2itr){
-				stream << *x1itr << ' ' << *y1itr << ' ' << *x2itr << ' ' << *y2itr << '\n';
+				fmt::print(fptr, "{} {} {} {}\n", *x1itr, *y1itr, *x2itr, *y2itr);
 			}
-			stream << "e\n";
+			fmt::print(fptr, "e\n");
 		}
 		
 	private:

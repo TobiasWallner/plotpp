@@ -3,6 +3,7 @@
 #include <plotpp/Figure.hpp>
 
 #include <vector>
+#include <cstdio>
 
 namespace plotpp{
 	
@@ -23,6 +24,33 @@ namespace plotpp{
 			title_.height = 20;
 			title_.bold = true;
 		}
+
+
+	FILE* Multiplot::gnuplot_pipe() {
+		if(this->gnuplot_pipe_ == nullptr){
+			#ifdef WIN32
+			this->gnuplot_pipe_ = _popen("gnuplot -persist", "w");
+			#else
+			this->gnuplot_pipe_ = popen("gnuplot -persist", "w");
+			#endif
+			
+		}
+		return this->gnuplot_pipe_;
+	}
+
+	void Multiplot::close(){
+		if(this->gnuplot_pipe_ != nullptr){
+			#ifdef WIN32
+			const int status = _pclose(this->gnuplot_pipe_);
+			#else
+			const int status = pclose(this->gnuplot_pipe_);
+			#endif	
+			
+			if (status != 0) {
+				throw std::runtime_error("Could not close the pipe stream");
+			}
+		}
+	}
 
 	Figure& Multiplot::at(size_t row, size_t col) {
 		const size_t index = col + row * this->columns_;
@@ -51,20 +79,6 @@ namespace plotpp{
 		this->rows_ = rows;
 		this->columns_ = columns;
 	}
-	
-	
-	void Multiplot::show(OutputFileType filetype) const {
-		if(filetype == OutputFileType::gp){
-			this->plot(std::cout, TerminalType::NONE);
-		}else{
-			this->show(to_terminal(filetype));
-		}
-	}
-			
-	void Multiplot::show(TerminalType TerminalType) const {
-		opstream gnuplot("gnuplot -persist");
-		this->plot(gnuplot, TerminalType);
-	}
 			
 	void Multiplot::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
 		if(filename.empty()) filename = this->title_;
@@ -84,27 +98,60 @@ namespace plotpp{
 		}
 		
 		if(filetype==OutputFileType::gp){
-			std::ofstream fstream(filename);
-			this->plot(fstream, terminalType);
+			FILE* fptr = fopen(filename.c_str(), "w");
+			this->plot(fptr, terminalType);
+			fclose(fptr);
 		}else{
-			opstream gnuplot("gnuplot -persist");
-			this->plot(gnuplot, terminalType, filename);	
+			
+			#ifdef WIN32
+			FILE* fptr = _popen("gnuplot -persist", "w");
+			#else
+			FILE* fptr = popen("gnuplot -persist", "w");
+			#endif
+			
+			if (fptr == nullptr) {
+				throw std::runtime_error("Could not open the pipe stream: 'gnuplot -persist'");
+			}
+			
+			this->plot(fptr, terminalType, filename);	
+			
+			#ifdef WIN32
+			const int status = _pclose(fptr);
+			#else
+			const int status = pclose(fptr);
+			#endif	
+			
+			if (status != 0) {
+				throw std::runtime_error("Could not close the pipe stream");
+			}
+		}
+	}	
+	
+	void Multiplot::show(OutputFileType filetype) {
+		if(filetype == OutputFileType::gp){
+			this->plot(stdout, TerminalType::NONE);
+		}else{
+			this->show(to_terminal(filetype));
 		}
 	}
+			
+	void Multiplot::show(TerminalType TerminalType) {
+		this->plot(this->gnuplot_pipe(), TerminalType);
+	}
 	
-	void Multiplot::plot(std::ostream& stream, TerminalType TerminalType, std::string saveAs) const {
-		if(TerminalType != TerminalType::NONE) stream << "set terminal " << to_command(TerminalType) << "\n";
-		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
+	void Multiplot::plot(FILE* fptr, TerminalType TerminalType, std::string saveAs) const {
+		if(TerminalType != TerminalType::NONE) fmt::print(fptr, "set terminal {:s}\n", to_command(TerminalType));
+		if(!saveAs.empty()) fmt::print(fptr, "set output '{}'\n", saveAs);
 		
-		stream << "set multiplot layout " << this->rows_ << "," << this->columns_ << " title " << this->title_ << "\n\n";
+		fmt::print(fptr, "set multiplot layout {:d},{:d} title \n\n", this->rows_, this->columns_, this->title_);
 		
 		{
 			size_t row = 0;
 			size_t column = 0;
 			for (const auto& fig : this->figs_){
-				stream << "\n# Figure at (" << row << ", " << column << ")\n";
+				fmt::print(fptr, "\n# Figure at ({:d}, {:d})\n", row, column);
 				
-				fig.plot(stream);
+				fig.plot(fptr);
 				
 				++column;
 				if(column >= this->columns_){
@@ -114,11 +161,9 @@ namespace plotpp{
 			}
 		}
 		
-		stream << "\n";
-		stream << "unset multiplot\n";
-		if(!saveAs.empty()) stream << "set output\n";
-		
-		stream.flush();
+		fmt::print(fptr, "\nunset multiplot\n");
+		if(!saveAs.empty()) fmt::print(fptr, "set output\n");
+		std::fflush(fptr);
 	}
 	
 }

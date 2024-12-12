@@ -50,25 +50,24 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		virtual void printPlot(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid() 
-					<< " using 1:2:3 with yerrorbars"
-					<< " ps " << this->pointSize()
-					<< " pt " << static_cast<int>(this->pointType());
+		virtual void printPlot(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d} using 1:2:3 with yerrorbars ps {:02f} pt {:d}", 
+				this->IPlot::uid(), this->pointSize(), static_cast<int>(this->pointType()));
 					
 			if(this->opt_color){
-				stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
+				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
 			}
 			
 			if(this->IPlot::label().empty()){
-				stream << " notitle";
+				fmt::print(fptr, " notitle");
 			}else{
-				stream <<  " title '" << this->IPlot::label() << "'";
+				fmt::print(fptr, " title '{}'", this->IPlot::label());
 			}
 		}
 		
-		virtual void printData(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid() << " << e\n";
+		virtual void printData(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
+
 			auto xitr = std::begin(*x_);
 			auto yitr = std::begin(*y_);
 			auto yerrItr = std::begin(*yerror_);
@@ -78,10 +77,11 @@ namespace plotpp{
 			const auto yerrEnd = std::end(*yerror_);
 
 			for (; xitr != xEnd && yitr != yEnd && yerrItr != yerrEnd; ++xitr, (void)++yitr, (void)yerrItr)
-				stream << *xitr << ' ' << *yitr << ' ' << *yerrItr << '\n';
+				fmt::print(fptr, "{} {} {}\n", *xitr, *yitr, *yerrItr);
 			
-			stream << "e\n";
+			fmt::print(fptr, "e\n");
 		}
+		
 		
 	public:
 		optional_ptr<Tx> x_;

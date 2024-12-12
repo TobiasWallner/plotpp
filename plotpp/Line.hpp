@@ -54,41 +54,23 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		virtual void printData(std::ostream& stream) const override {
-			stream << "$d" << this->IPlot::uid() << " << e\n";
-			if(this->x_){
-				auto xitr = std::begin(*x_);
-				auto yitr = std::begin(*y_);
-				
-				for (; xitr != std::end(*x_) && yitr != std::end(*y_); ++xitr, (void)++yitr)
-					stream << *xitr << ' ' << *yitr << '\n';	
-			}else{
-				size_t x = 0;
-				auto yitr = std::begin(*y_);
-				
-				for (; yitr != std::end(*y_); ++x, (void)++yitr)
-					stream << x << ' ' << *yitr << '\n';
-			}
-			stream << "e\n";
-		}
-		
-		virtual void printPlot(std::ostream& stream) const override {
-			stream << "$d" << this->IPlot::uid() 
-					<< " using 1:2 with lines lw " << this->lineWidth() 
-					<< " " << to_command(this->lineType());
+		virtual void printPlot(FILE* fptr) const override {
+			fmt::print(fptr, 
+				"$d{:d} using 1:2 with lines lw {:02f} dt {:d}", 
+				this->IPlot::uid(), this->lineWidth(), static_cast<int>(this->lineType()));
 					
 			if(this->opt_color){
-				stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
+				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
 			}
 			
 			if(this->IPlot::label().empty()){
-				stream << " notitle";
+				fmt::print(fptr, " notitle");
 			}else{
-				stream <<  " title '" << this->IPlot::label() << "'";
+				fmt::print(fptr, " title '{}'", this->IPlot::label());
 			}
 		}
 		
-		virtual void printData_fmt(FILE* fptr) const override {
+		virtual void printData(FILE* fptr) const override {
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
@@ -107,21 +89,7 @@ namespace plotpp{
 			fmt::print(fptr, "e\n");
 		}
 		
-		virtual void printPlot_fmt(FILE* fptr) const override {
-			fmt::print(fptr, 
-				"$d{:d} using 1:2 with lines lw {:02f} {:s}", 
-				this->IPlot::uid(), this->lineWidth(), to_command(this->lineType()));
-					
-			if(this->opt_color){
-				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
-			}
-			
-			if(this->IPlot::label().empty()){
-				fmt::print(fptr, " notitle");
-			}else{
-				fmt::print(fptr, " title '{}'", this->IPlot::label());
-			}
-		}
+		
 		
 		
 		

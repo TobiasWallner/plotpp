@@ -41,44 +41,15 @@ namespace plotpp{
 		}
 	}
 	
-	opstream& Figure::gnuplot() const {
-		if(this->gnuplot_.is_open() == false){
-			/*
-			The class Figure, that I am useing is talking to gnuplot over pipestreams, 
-			and the figure itself, the data and the plot types will not change, which 
-			is what the user will think of when useing the figure. The user will not 
-			think about the underlieing communication over pipes with gnuplot. So I 
-			think it is ok to violate const there, because all user data will still be 
-			kept const and only the setup of a new communication to gnuplot will be a 
-			changeing state.
-			*/
-			const_cast<opstream&>(this->gnuplot_).open("gnuplot -persist");
-			
-		}
-		return const_cast<opstream&>(this->gnuplot_);
-	}
-	
-	FILE* Figure::gnuplot_pipe() const {
+	FILE* Figure::gnuplot_pipe() {
 		if(this->gnuplot_pipe_ == nullptr){
-			/*
-			The class Figure, that I am useing is talking to gnuplot over pipestreams, 
-			and the figure itself, the data and the plot types will not change, which 
-			is what the user will think of when useing the figure. The user will not 
-			think about the underlieing communication over pipes with gnuplot. So I 
-			think it is ok to violate const there, because all user data will still be 
-			kept const and only the setup of a new communication to gnuplot will be a 
-			changeing state.
-			*/
-			
-			// open the FILE pointer
 			#ifdef WIN32
-			const_cast<Figure*>(this)->gnuplot_pipe_ = _popen("gnuplot -persist", "w");
+			this->gnuplot_pipe_ = _popen("gnuplot -persist", "w");
 			#else
-			const_cast<Figure*>(this)->gnuplot_pipe_ = popen("gnuplot -persist", "w");
+			this->gnuplot_pipe_ = popen("gnuplot -persist", "w");
 			#endif
-			
 		}
-		return const_cast<Figure*>(this)->gnuplot_pipe_;
+		return this->gnuplot_pipe_;
 	}
 	
 	void Figure::close() {
@@ -139,18 +110,6 @@ namespace plotpp{
 		this->title_ = std::move(title); 
 		return *this;
 	}
-	
-	void Figure::show(OutputFileType filetype) const {
-		if(filetype == OutputFileType::gp){
-			this->plot(std::cout, TerminalType::NONE);
-		}else{
-			this->show(to_terminal(filetype));
-		}
-	}
-			
-	void Figure::show(TerminalType TerminalType) const {
-		this->plot(this->gnuplot(), TerminalType);
-	}
 			
 	void Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
 		if(filename.empty()) filename = title_;
@@ -170,119 +129,49 @@ namespace plotpp{
 		}
 		
 		if(filetype==OutputFileType::gp){
-			std::ofstream fstream(filename);
-			this->plot(fstream, terminalType);
+			FILE* fptr = fopen(filename.c_str(), "w");
+			this->plot(fptr, terminalType);
+			fclose(fptr);
 		}else{
-			this->plot(this->gnuplot(), terminalType, filename);	
+			#ifdef WIN32
+			FILE* fptr = _popen("gnuplot -persist", "w");
+			#else
+			FILE* fptr = popen("gnuplot -persist", "w");
+			#endif
+			
+			if (fptr == nullptr) {
+				throw std::runtime_error("Could not open the pipe stream: 'gnuplot -persist'");
+			}
+			
+			this->plot(fptr, terminalType, filename);	
+			
+			#ifdef WIN32
+			const int status = _pclose(fptr);
+			#else
+			const int status = pclose(fptr);
+			#endif	
+			
+			if (status != 0) {
+				throw std::runtime_error("Could not close the pipe stream");
+			}
 		}
 	}
 	
-	void Figure::plot(std::ostream& stream, TerminalType terminalType, std::string saveAs) const {
-		{
-			size_t i = 0;
-			for(const std::shared_ptr<IPlot>& plot : this->plots) plot->uid(i);
-		}
-		
-		if(terminalType != TerminalType::NONE) stream << "set terminal " << to_command(terminalType) << "\n";
-		if(!saveAs.empty()) stream << "set output '" << saveAs << "'\n";
-		
-		if(this->plots.empty()){
-			stream << "set xrange [-1 : +1]\n";
-			stream << "set yrange [-1 : +1]\n";
-			stream << "$empty << EOD\n";
-			stream << "0 0\n";
-			stream << "EOD\n\n";
-			stream << "plot $empty with points notitle\n\n";
-			return;
-		}
-		
-		
-		// figure and axis configuration
-		if(!title_.empty()) stream << "set title " << title_ << "\n";
-		if(!xlabel.empty()) stream << "set xlabel " << xlabel << "\n";
-		if(!ylabel.empty()) stream << "set ylabel " << ylabel << "\n";
-		
-		if(this->xautoscale && this->yautoscale){
-			stream << "set autoscale\n";	
-		}else if(this->xautoscale){
-			stream << "set autoscale x\n";
-			stream << "set yrange [" << this->ymin << ":" << this->ymax << "]\n";
-		}else if(this->yautoscale){
-			stream << "set xrange [" << this->xmin << ":" << this->xmax << "]\n";
-			stream << "set autoscale y\n";
+
+	void Figure::show(OutputFileType filetype) {
+		if(filetype == OutputFileType::gp){
+			this->plot(stdout, TerminalType::NONE);
 		}else{
-			stream << "set xrange [" << this->xmin << ":" << this->xmax << "]\n";
-			stream << "set yrange [" << this->ymin << ":" << this->ymax << "]\n";
+			this->show(to_terminal(filetype));
 		}
-		
-		if(this->xreverse) stream << "set xrange reverse\n";
-		if(this->yreverse) stream << "set yrange reverse\n";
-		
-		if(this->logx_) stream << "set logscale x " << this->logx_base << "\n";
-		if(this->logy_) stream << "set logscale y " << this->logy_base << "\n";
-		
-		// set x-tics
-		if(!this->xtics_labels.empty()){
-			auto xlabel_itr = this->xtics_labels.cbegin();
-			auto xval_itr = this->xtics_values.cbegin();
-			
-			stream << "set xtics(";
-			
-			// TODO: checkout https://github.com/CommitThis/zip-iterator/tree/master
-			// for python-zip like iteration through parallel lists
-			for(; xlabel_itr != this->xtics_labels.cend() && xval_itr != this->xtics_values.cend(); ++xlabel_itr, (void)++xval_itr){
-				if(xlabel_itr != this->xtics_labels.begin()) stream << ", ";
-				stream << "\"" << *xlabel_itr << "\" " << *xval_itr;
-			}
-			stream << ")\n";
-		}
-		
-		// write settings demanded by plots
-		{
-			auto plt_itr=this->plots.cbegin();
-			for(; plt_itr!=this->plots.cend(); ++plt_itr){
-				(*plt_itr)->printSettings(stream);
-			}
-		}
-
-		// write data variables
-		{
-			auto plt_itr=this->plots.cbegin();
-			size_t i = 0;
-			for(; plt_itr!=this->plots.cend(); ++plt_itr, (void)++i){
-				(*plt_itr)->printData(stream);
-			}
-		}
-		
-		
-
-		// write plot commands			
-		{
-			if(!this->plots.empty()) stream << "plot ";
-			auto plot_itr = this->plots.cbegin();
-			for(; plot_itr!=this->plots.cend(); ++plot_itr){
-				if (plot_itr!=this->plots.cbegin()) stream << "     ";
-				(*plot_itr)->printPlot(stream);
-				auto next = plot_itr; 
-				++next;
-				if(next!=this->plots.cend()) stream << ", \\";
-				stream << "\n";
-			}
-		}
-		stream << "\n";
-
-		if(!saveAs.empty()) stream << "set output" << std::endl; // reset to default
-		
-		stream.flush();
 	}
-	
-			
-	void Figure::show_fmt(TerminalType TerminalType) const {
+
+	void Figure::show(TerminalType TerminalType) {
 		FILE* fptr = this->gnuplot_pipe();
-		this->plot_fmt(fptr, TerminalType);
+		this->plot(fptr, TerminalType);
 	}
 	
-	void Figure::plot_fmt(FILE* fptr, TerminalType terminalType, std::string saveAs) const {
+	void Figure::plot(FILE* fptr, TerminalType terminalType, std::string saveAs) const {
 		{
 			size_t i = 0;
 			for(const std::shared_ptr<IPlot>& plot : this->plots) plot->uid(i);
@@ -354,7 +243,7 @@ namespace plotpp{
 		{
 			auto plt_itr=this->plots.cbegin();
 			for(; plt_itr!=this->plots.cend(); ++plt_itr){
-				(*plt_itr)->printSettings_fmt(fptr);
+				(*plt_itr)->printSettings(fptr);
 			}
 		}
 		
@@ -363,7 +252,7 @@ namespace plotpp{
 			auto plt_itr=this->plots.cbegin();
 			size_t i = 0;
 			for(; plt_itr!=this->plots.cend(); ++plt_itr, (void)++i){
-				(*plt_itr)->printData_fmt(fptr);
+				(*plt_itr)->printData(fptr);
 			}
 		}
 		
@@ -373,7 +262,7 @@ namespace plotpp{
 			auto plot_itr = this->plots.cbegin();
 			for(; plot_itr!=this->plots.cend(); ++plot_itr){
 				if (plot_itr!=this->plots.cbegin()) fmt::print(fptr, "     ");
-				(*plot_itr)->printPlot_fmt(fptr);
+				(*plot_itr)->printPlot(fptr);
 				
 				auto next = plot_itr; 
 				++next;
@@ -384,7 +273,7 @@ namespace plotpp{
 		}
 		fmt::print(fptr, "\n");
 		
-		if(!saveAs.empty()) fmt::print(fptr, "set output"); // reset to default
+		if(!saveAs.empty()) fmt::print(fptr, "set output\n"); // reset to default
 		
 		std::fflush(fptr);
 	}

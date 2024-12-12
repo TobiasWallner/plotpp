@@ -72,12 +72,8 @@ namespace plotpp{
 	
 	
 	private:
-		/**
-			return the current pipe stream to gnuplot or creates one.
-		*/
-		opstream& gnuplot() const;
 		
-		FILE* gnuplot_pipe() const;
+		FILE* gnuplot_pipe();
 	public:
 		/**
 			closes this figure. following calls to show() will thus create a new window.
@@ -144,22 +140,16 @@ namespace plotpp{
 		Figure& title(const Text& title);
 		Figure& title(Text&& title);
 		
-		void show(OutputFileType filetype) const;
-		
-		void show(TerminalType terminalType = TerminalType::NONE) const;
 		
 		void save(	std::string filename = "", 
 					OutputFileType filetype=OutputFileType::NONE, 
 					TerminalType terminalType = TerminalType::NONE) const;
 
-		void plot(
-			std::ostream& stream, 
-			TerminalType terminalType = TerminalType::NONE,
-			std::string saveAs = "") const;
+		void show(OutputFileType filetype);
 		
-		void show_fmt(TerminalType terminalType = TerminalType::NONE) const;
+		void show(TerminalType terminalType = TerminalType::NONE);
 
-		void plot_fmt(
+		void plot(
 			FILE* fptr, 
 			TerminalType terminalType = TerminalType::NONE,
 			std::string saveAs = "") const;

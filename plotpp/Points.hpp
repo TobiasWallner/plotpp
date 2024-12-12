@@ -53,43 +53,40 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		virtual void printPlot(std::ostream& stream) const override {
-			stream << "$d" << this->IPlot::uid() 
-					<< " using 1:2 with points"
-					<< " ps " << this->pointSize() 
-					<< " pt " << static_cast<int>(this->pointType());
-			
+		virtual void printPlot(FILE* fptr) const override {
+			fmt::print(fptr, 
+				"$d{:d} using 1:2 with points ps {:02f} pt {:d}", 
+				this->IPlot::uid(), this->pointSize(), static_cast<int>(this->pointType()));
+					
 			if(this->opt_color){
-				stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
+				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
 			}
 			
 			if(this->IPlot::label().empty()){
-				stream << " notitle";
+				fmt::print(fptr, " notitle");
 			}else{
-				stream <<  " title '" << this->IPlot::label() << "'";
+				fmt::print(fptr, " title '{}'", this->IPlot::label());
 			}
-			
 		}
 		
-		virtual void printData(std::ostream& stream) const override {
-			stream << "$d" << this->IPlot::uid() << " << e\n";
+		virtual void printData(FILE* fptr) const override {
+			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
+
 			if(this->x_){
 				auto xitr = std::begin(*x_);
 				auto yitr = std::begin(*y_);
 				
 				for (; xitr != std::end(*x_) && yitr != std::end(*y_); ++xitr, (void)++yitr)
-					stream << *xitr << ' ' << *yitr << '\n';	
+					fmt::print(fptr, "{} {}\n", *xitr, *yitr);
 			}else{
 				size_t x = 0;
 				auto yitr = std::begin(*y_);
 				
 				for (; yitr != std::end(*y_); ++x, (void)++yitr)
-					stream << x << ' ' << *yitr << '\n';
+					fmt::print(fptr, "{} {}\n", x, *yitr);
 			}
-			stream << "e\n";
+			fmt::print(fptr, "e\n");
 		}
-		
-		
 		
 	private:
 		optional_ptr<Tx> x_;

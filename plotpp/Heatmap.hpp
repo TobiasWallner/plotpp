@@ -35,23 +35,21 @@ namespace plotpp{
 		Heatmap&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
 		
 		// ---- IPlot overloads ----
-		
-		virtual void printPlot(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid()
-					<< " matrix with image title '" << this->IPlot::label() << "'";
+
+		virtual void printPlot(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d} matrix with image title '{}'", this->IPlot::uid(), this->IPlot::label());
 		}
 		
-		virtual void printData(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid() << " << e\n";
+		virtual void printData(FILE* fptr) const {
+			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 			
 			for(size_t row=0; row < this->_rows; ++row){
 				for(size_t col=0; col < this->_columns; ++col){
-					stream << this->_at(*(this->_matrix), row, col) << ' ';
+					fmt::print(fptr, "{} ", this->_at(*(this->_matrix), row, col));
 				}
-				stream << '\n';
+				fmt::print(fptr, "\n");
 			}
-			
-			stream << "e\n";
+			fmt::print(fptr, "e\n");
 		}
 		
 	};

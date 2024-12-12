@@ -47,9 +47,9 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		virtual void printData(std::ostream& stream) const override;
+		virtual void printData(FILE* fptr) const override;
 		
-		virtual void printPlot(std::ostream& stream) const override;
+		virtual void printPlot(FILE* fptr) const override;
 	
 	private:
 		

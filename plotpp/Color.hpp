@@ -21,6 +21,9 @@ namespace plotpp{
 			: red_(std::max(std::min(red, 1.f), 0.f))
 			, green_(std::max(std::min(green, 1.f), 0.f))
 			, blue_(std::max(std::min(blue, 1.f), 0.f)){}
+			
+		constexpr Color(double red, double green, double blue)
+			: Color(static_cast<float>(red), static_cast<float>(green), static_cast<float>(blue)) {}
 		
 		constexpr Color(uint32_t rgb) 
 			: Color(

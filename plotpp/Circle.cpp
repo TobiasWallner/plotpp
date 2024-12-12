@@ -1,5 +1,7 @@
 #include "Circle.hpp"
 
+#include <fmt/core.h>
+
 namespace plotpp{
 	
 	Circle::Circle(float x, float y, float radius, float startAngle, float endAngle)
@@ -10,36 +12,33 @@ namespace plotpp{
 		, end_angle(endAngle)
 	{}
 	
-	void Circle::printData(std::ostream& stream) const {
-			stream << "$d" << this->IPlot::uid() << " << e\n";
-			stream << "0\n";
-			stream << "e\n\n";
+	void Circle::printData(FILE* fptr) const {
+			fmt::print(fptr, 
+				"# empty data to trick gnuplot\n"
+				"$d{:d} << e\n"
+				"0\n"
+				"e\n\n", 
+				this->IPlot::uid());
 		}
 		
-	void Circle::printPlot(std::ostream& stream) const {
-		stream << "$d" << this->IPlot::uid() 
-			<< " using (" << this->x_ 
-			<< "):(" << this->y_ 
-			<< "):(" << this->radius_ 
-			<< "):(" << this->start_angle 
-			<< "):(" << this->end_angle;
-			
-		stream << " with circles";
+	void Circle::printPlot(FILE* fptr) const {
+		fmt::print(fptr, "$d{:d} using ({:g}):({:g}):({:g}):({:g}):({:g}) with circles", 
+			this->IPlot::uid(), this->x_, this->y_, this->radius_, this->start_angle, this->end_angle);
 		
 		if(this->solid_){
-			stream << " fs solid " << this->opacity_;	
+			fmt::print(fptr, " fs solid {:02f}", this->opacity_);
 		}
 		
-		stream << " lw " << this->line_width;
+		fmt::print(fptr, " lw {:02f}", this->line_width);
 		
 		if(this->opt_color){
-			stream << " lc rgb \"#" << this->opt_color.value().to_hex() << "\"";
+			fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
 		}
 		
 		if(this->IPlot::label().empty()){
-			stream << " notitle";
+			fmt::print(fptr, " notitle");
 		}else{
-			stream <<  " title '" << this->IPlot::label() << "'";
+			fmt::print(fptr, " title '{}'", this->IPlot::label());
 		}
 	}
 	
