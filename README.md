@@ -28,6 +28,8 @@ Features
 - Heatmap
 - Boxes
 - Boxplot
+- Circle(TODO: s)
+- TODO: Pie-Charts
 
 ### Figure Styles
 - Labeled x axis
