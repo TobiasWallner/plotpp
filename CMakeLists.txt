@@ -4,6 +4,37 @@ cmake_minimum_required(VERSION 3.18.0)
 project(plotpp)
 
 # -----------------------------------------------------------------
+# 	CPM: An Awesome Dependency Manager for C++ with CMake
+#		https://github.com/cpm-cmake/CPM.cmake
+# -----------------------------------------------------------------
+
+set(CPM_CMAKE_PATH "${CMAKE_BINARY_DIR}/cmake/CPM.cmake")
+set(CPM_CMAKE_URL "https://github.com/cpm-cmake/CPM.cmake/releases/download/v0.40.2/CPM.cmake")
+
+# Check if CPM.cmake exists
+if(NOT EXISTS "${CPM_CMAKE_PATH}")
+    message(STATUS "CPM.cmake not found. Downloading from ${CPM_CMAKE_URL}...")
+    file(DOWNLOAD ${CPM_CMAKE_URL} ${CPM_CMAKE_PATH} STATUS download_status LOG download_log)
+    list(GET download_status 0 return_code)  # Get the numeric return code
+	list(GET download_status 1 error_message)  # Get the error message
+	if(return_code)
+		file(REMOVE ${CPM_CMAKE_PATH}) #cleanup
+		message(FATAL_ERROR 
+			"Error: ${error_message}.\n"
+			"    Failed to download CPM.cmake. Check the URL or download it manually and place it at:\n"
+			"    ${CPM_CMAKE_PATH}")
+	else()
+		message(STATUS "Successfully downloaded CPM.cmake.")
+    endif()
+else()
+    message(STATUS "Found CPM.cmake at ${CPM_CMAKE_PATH}.")
+endif()
+
+
+include(${CPM_CMAKE_PATH})
+option(CPM_USE_LOCAL_PACKAGES "Try `find_package` before downloading dependencies" ON)
+
+# -----------------------------------------------------------------
 # 					Add Modules / Dependencies
 # -----------------------------------------------------------------
 
@@ -24,6 +55,11 @@ else()
 endif()
  
 add_subdirectory(opstream)
+
+# {fmt}
+# Github: https://github.com/fmtlib/fmt
+# Documentation: https://fmt.dev/11.0/
+CPMAddPackage("gh:fmtlib/fmt#11.0.2")
 
 message(STATUS "======================== Plotpp: END: Fetching External Libraries =========================")
 
@@ -53,6 +89,7 @@ target_compile_features(plotpp PUBLIC cxx_std_20)
 
 target_link_libraries(plotpp PUBLIC
 	opstream
+	fmt::fmt
 )
 
 # optionally build examples with `-DBUILD_EXAMPLES=ON`
@@ -139,7 +176,7 @@ if(BUILD_EXAMPLES)
 	
 	# line
 	add_executable(line examples/line.cpp)
-	target_link_libraries(line PUBLIC plotpp)
+	target_link_libraries(line PUBLIC plotpp fmt::fmt)
 	target_compile_options(line PUBLIC ${COMPILER_FLAGS})
 	
 	# line

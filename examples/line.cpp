@@ -1,6 +1,9 @@
 #include <vector>
 #include <plotpp.hpp>
 #include <memory>
+#include <chrono>
+
+#include <fmt/core.h>
 
 int main() {
 	using namespace plotpp;
@@ -14,7 +17,23 @@ int main() {
 		
 		Figure fig("Line Plot from XY");
 		fig.add(line(&x, &y1).label("1/x*30"));
-		fig.show();
+		
+		{
+			
+			auto start = std::chrono::high_resolution_clock::now();
+			fig.show();
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> duration = end - start;
+			fmt::print("fig.show(): execution time: {} s\n", duration.count());
+		}
+		{
+			auto start = std::chrono::high_resolution_clock::now();
+			fig.show_fmt();
+			auto end = std::chrono::high_resolution_clock::now();
+			std::chrono::duration<double> duration = end - start;
+			fmt::print("fig.show_fmt(): execution time: {} s\n", duration.count());
+		}
+		
 		//fig.save("line-plot.gp");
 		//fig.save("line-plot.png");
 	}

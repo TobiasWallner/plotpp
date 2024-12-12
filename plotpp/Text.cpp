@@ -3,6 +3,8 @@
 #include <string>
 #include <ostream>
 
+#include <fmt/core.h>
+
 namespace plotpp{
 
 	Text::Text(std::string str) 
@@ -19,7 +21,7 @@ namespace plotpp{
 		return this->str;
 	}
 
-
+	// std stream object
 	std::ostream& operator<<(std::ostream& stream, const Text& text){
 		stream << "'";
 		if(text.italic) stream << "{/:Italic ";
@@ -30,4 +32,6 @@ namespace plotpp{
 		stream << "'" << " font \"" << "," << text.height << "\"";
 		return stream;
 	}
+	
+	
 }

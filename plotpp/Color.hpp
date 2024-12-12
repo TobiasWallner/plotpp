@@ -40,6 +40,14 @@ namespace plotpp{
 		constexpr Color& green(uint8_t green) {this->green_ = green; return *this;}
 		constexpr Color& blue(uint8_t blue) {this->blue_ = blue; return *this;}
 
+		constexpr std::int32_t to_int32() const {
+			const std::int32_t red = this->red_ui8();
+			const std::int32_t green = this->green_ui8();
+			const std::int32_t blue = this->blue_ui8();
+			const std::int32_t result = red << 16 | green << 8 | blue;
+			return result;
+		}
+
 		inline std::string to_hex() const {
 			return std::format("{:02x}{:02x}{:02x}", this->red_ui8(), this->green_ui8(), this->blue_ui8());
 		}

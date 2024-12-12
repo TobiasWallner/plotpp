@@ -1,8 +1,13 @@
 #include "plotpp/Figure.hpp"
+
+#include <cstdio>
 #include <cstdlib>
 #include <vector>
 #include <thread>
 #include <future>
+
+// {fmt}
+#include <fmt/core.h>
 
 namespace plotpp{
 	
@@ -18,10 +23,26 @@ namespace plotpp{
 		, ylabel(ylabel)
 	{}
 	
+	Figure::~Figure(){
+		this->close_pipe();
+	}
+	
+	void Figure::close_pipe(){
+		if(this->gnuplot_pipe_ != nullptr){
+			#ifdef WIN32
+			const int status = _pclose(this->gnuplot_pipe_);
+			#else
+			const int status = pclose(this->gnuplot_pipe_);
+			#endif	
+			
+			if (status != 0) {
+				throw std::runtime_error("Could not close the pipe stream");
+			}
+		}
+	}
+	
 	opstream& Figure::gnuplot() const {
-		std::cout << "function: "<< __FUNCTION__ << std::endl;
 		if(this->gnuplot_.is_open() == false){
-			std::cout << "  if(this->gnuplot_.is_open() == false)" << std::endl;
 			/*
 			The class Figure, that I am useing is talking to gnuplot over pipestreams, 
 			and the figure itself, the data and the plot types will not change, which 
@@ -35,6 +56,29 @@ namespace plotpp{
 			
 		}
 		return const_cast<opstream&>(this->gnuplot_);
+	}
+	
+	FILE* Figure::gnuplot_pipe() const {
+		if(this->gnuplot_pipe_ == nullptr){
+			/*
+			The class Figure, that I am useing is talking to gnuplot over pipestreams, 
+			and the figure itself, the data and the plot types will not change, which 
+			is what the user will think of when useing the figure. The user will not 
+			think about the underlieing communication over pipes with gnuplot. So I 
+			think it is ok to violate const there, because all user data will still be 
+			kept const and only the setup of a new communication to gnuplot will be a 
+			changeing state.
+			*/
+			
+			// open the FILE pointer
+			#ifdef WIN32
+			const_cast<Figure*>(this)->gnuplot_pipe_ = _popen("gnuplot -persist", "w");
+			#else
+			const_cast<Figure*>(this)->gnuplot_pipe_ = popen("gnuplot -persist", "w");
+			#endif
+			
+		}
+		return const_cast<Figure*>(this)->gnuplot_pipe_;
 	}
 	
 	void Figure::close() {
@@ -230,6 +274,119 @@ namespace plotpp{
 		if(!saveAs.empty()) stream << "set output" << std::endl; // reset to default
 		
 		stream.flush();
+	}
+	
+			
+	void Figure::show_fmt(TerminalType TerminalType) const {
+		FILE* fptr = this->gnuplot_pipe();
+		this->plot_fmt(fptr, TerminalType);
+	}
+	
+	void Figure::plot_fmt(FILE* fptr, TerminalType terminalType, std::string saveAs) const {
+		{
+			size_t i = 0;
+			for(const std::shared_ptr<IPlot>& plot : this->plots) plot->uid(i);
+		}
+		
+		if(terminalType != TerminalType::NONE) fmt::print(fptr, "set terminal {}\n", to_command(terminalType));
+		if(!saveAs.empty()) fmt::print(fptr, "set output '{}'\n", saveAs);
+		
+		if(this->plots.empty()){
+			fmt::print(fptr, 
+				"set xrange [-1 : +1]\n"
+				"set yrange [-1 : +1]\n"
+				"$empty << EOD\n"
+				"0 0\n"
+				"EOD\n\n"
+				"plot $empty with points notitle\n\n");
+			return;
+		}
+		
+		// figure and axis configuration
+		if(!title_.empty()) fmt::print(fptr, "set title {}\n", this->title_);
+		if(!xlabel.empty()) fmt::print(fptr, "set xlabel {}\n", this->xlabel);
+		if(!ylabel.empty()) fmt::print(fptr, "set ylabel {}\n", this->ylabel);
+		
+		if(this->xautoscale && this->yautoscale){
+			fmt::print(fptr, "set autoscale\n");
+		}else if(this->xautoscale){
+			fmt::print(fptr, 
+				"set autoscale x\n"
+				"set yrange [{}:{}]\n",
+				this->ymin, this->ymax);
+		}else if(this->yautoscale){
+			fmt::print(fptr,
+				"set xrange [{}:{}]\n"
+				"set autoscale y\n",
+				this->xmin, this->xmax);
+		}else{
+			fmt::print(fptr,
+				"set xrange [{}:{}]\n"
+				"set yrange [{}:{}]\n",
+				this->xmin, this->xmax, this->ymin, this->ymax);
+		}
+		
+		// optionally reverse the x and or y axis
+		if(this->xreverse) fmt::print(fptr, "set xrange reverse\n");
+		if(this->yreverse) fmt::print(fptr, "set yrange reverse\n");
+		
+		if(this->logx_) fmt::print(fptr, "set logscale x {}\n", this->logx_base);
+		if(this->logy_) fmt::print(fptr, "set logscale y {}\n", this->logy_base);
+		
+		// set x-tics
+		if(!this->xtics_labels.empty()){
+			auto xlabel_itr = this->xtics_labels.cbegin();
+			auto xval_itr = this->xtics_values.cbegin();
+			
+			fmt::print(fptr, "set xtics(");
+			
+			// TODO: checkout https://github.com/CommitThis/zip-iterator/tree/master
+			// for python-zip like iteration through parallel lists
+			for(; xlabel_itr != this->xtics_labels.cend() && xval_itr != this->xtics_values.cend(); ++xlabel_itr, (void)++xval_itr){
+				const char* seperator = (xlabel_itr != this->xtics_labels.begin()) ? ", " : "";
+				fmt::print(fptr, "{}\"{}\" {}", seperator, *xlabel_itr, *xval_itr);
+			}
+			
+			fmt::print(fptr, ")\n");
+		}
+		
+		// write settings demanded by plots
+		{
+			auto plt_itr=this->plots.cbegin();
+			for(; plt_itr!=this->plots.cend(); ++plt_itr){
+				(*plt_itr)->printSettings_fmt(fptr);
+			}
+		}
+		
+		// write data variables
+		{
+			auto plt_itr=this->plots.cbegin();
+			size_t i = 0;
+			for(; plt_itr!=this->plots.cend(); ++plt_itr, (void)++i){
+				(*plt_itr)->printData_fmt(fptr);
+			}
+		}
+		
+		// write plot commands			
+		{
+			if(!this->plots.empty()) fmt::print(fptr, "plot ");
+			auto plot_itr = this->plots.cbegin();
+			for(; plot_itr!=this->plots.cend(); ++plot_itr){
+				if (plot_itr!=this->plots.cbegin()) fmt::print(fptr, "     ");
+				(*plot_itr)->printPlot_fmt(fptr);
+				
+				auto next = plot_itr; 
+				++next;
+				
+				if(next!=this->plots.cend()) fmt::print(fptr, ", \\");
+				fmt::print(fptr, "\n");
+			}
+		}
+		fmt::print(fptr, "\n");
+		
+		if(!saveAs.empty()) fmt::print(fptr, "set output"); // reset to default
+		
+		std::fflush(fptr);
 	}
 
 }

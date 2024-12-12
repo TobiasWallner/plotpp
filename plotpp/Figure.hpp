@@ -1,5 +1,7 @@
 #pragma once
 
+// std
+#include <cstdio>
 #include <memory>
 #include <string>
 #include <list>
@@ -10,8 +12,8 @@
 #include <atomic>
 #include <thread>
 
+// plotpp
 #include "opstream.hpp"
-
 #include "plotpp/TerminalType.hpp"
 #include "plotpp/OutputFileType.hpp"
 #include "plotpp/Text.hpp"
@@ -34,6 +36,8 @@ namespace plotpp{
 		std::vector<double> xtics_values;
 		
 		opstream gnuplot_;
+		
+		FILE* gnuplot_pipe_ = nullptr;
 		
 		float xmin = -1;
 		float xmax = +1;
@@ -62,6 +66,8 @@ namespace plotpp{
 		
 		Figure(Text title, Text xlabel, Text ylabel);
 		
+		~Figure();
+		
 	public:
 	
 	
@@ -70,12 +76,16 @@ namespace plotpp{
 			return the current pipe stream to gnuplot or creates one.
 		*/
 		opstream& gnuplot() const;
+		
+		FILE* gnuplot_pipe() const;
 	public:
 		/**
 			closes this figure. following calls to show() will thus create a new window.
 			closes the pipe stream to the curren figure / gnuplot scession;
 		*/
 		void close();
+		
+		void close_pipe();
 	
 		template<class T>
 		Figure& add(std::shared_ptr<T> plot){
@@ -144,6 +154,13 @@ namespace plotpp{
 
 		void plot(
 			std::ostream& stream, 
+			TerminalType terminalType = TerminalType::NONE,
+			std::string saveAs = "") const;
+		
+		void show_fmt(TerminalType terminalType = TerminalType::NONE) const;
+
+		void plot_fmt(
+			FILE* fptr, 
 			TerminalType terminalType = TerminalType::NONE,
 			std::string saveAs = "") const;
 		
