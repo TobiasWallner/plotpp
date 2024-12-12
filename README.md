@@ -7,14 +7,17 @@ Allows plotting from custom containers/vectors if they use `begin()` and `end()`
 
 Requirements
 ============
-- Gnuplot:  
-	[Homepage](http://gnuplot.info/index.html)  
-	[Windows Download](https://sourceforge.net/projects/gnuplot/files/gnuplot/)  
-	[Linux install](https://riptutorial.com/gnuplot/example/11275/installation-or-setup):  
-	Note: The project can be build without gnuplot,
+- Gnuplot: [Homepage](http://gnuplot.info/index.html) [Windows Download](https://sourceforge.net/projects/gnuplot/files/gnuplot/) [Linux install](https://riptutorial.com/gnuplot/example/11275/installation-or-setup):  
+	*Note: The project can be build without gnuplot,
 	since this library will only communicate with gnuplot through pipes. 
-	But you will need gnuplot to display the graphical plots.
+	But you will need gnuplot to display the graphical plots.*
 - C++20
+
+Dependencies
+------------
+All dependencies are managed by the [CMake](https://cmake.org/) scripts and use [CPM](https://github.com/cpm-cmake/CPM.cmake)
+to manage the dependencies. The dependencies will be automatically downloaded, build and linked to the project.
+- {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/)
 
 Features
 ========
