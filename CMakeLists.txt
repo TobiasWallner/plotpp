@@ -233,6 +233,11 @@ if(BUILD_EXAMPLES)
 	add_executable(logscale examples/logscale.cpp)
 	target_link_libraries(logscale PUBLIC plotpp)
 	target_compile_options(logscale PUBLIC ${COMPILER_FLAGS})
+	
+	# circle
+	add_executable(circle examples/circle.cpp)
+	target_link_libraries(circle PUBLIC plotpp)
+	target_compile_options(circle PUBLIC ${COMPILER_FLAGS})
 endif()
 
 

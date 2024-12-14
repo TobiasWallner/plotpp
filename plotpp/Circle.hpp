@@ -11,6 +11,7 @@
 #include "optional_ptr.hpp"
 #include "plotpp/concepts.hpp"
 #include "plotpp/LineType.hpp"
+#include "plotpp/FillStyle.hpp"
 
 
 namespace plotpp{
@@ -45,6 +46,14 @@ namespace plotpp{
 		inline Circle& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
 		inline Circle&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
 		
+		inline const FillStyle& fill() const {return this->fill_style;}
+		inline Circle& fillSolid(float opacity = 1.0, bool transparent = false) & {this->fill_style.solid(opacity, transparent); return *this;}
+		inline Circle&& fillSolid(float opacity = 1.0, bool transparent = false) && {this->fill_style.solid(opacity, transparent); return std::move(*this);}
+		inline Circle& fillEmpty() & {this->fill_style.empty(); return *this;}
+		inline Circle&& fillEmpty() && {this->fill_style.empty(); return std::move(*this);}
+		inline Circle& fillPattern(int n) & {this->fill_style.pattern(n); return *this;}
+		inline Circle&& fillPattern(int n) && {this->fill_style.pattern(n); return std::move(*this);}
+		
 		// ---- IPlot overloads ----
 		
 		virtual void printData(FILE* fptr) const override;
@@ -58,12 +67,21 @@ namespace plotpp{
 		float radius_;
 		float start_angle;
 		float end_angle;
+		
 		float line_width = 1.5;
 		LineType line_type = LineType::solid;
-		float opacity_ = 0.5;
+		
+		FillStyle fill_style;
+		
 		std::optional<Color> opt_color = std::nullopt;
 		bool solid_ = false;
 		
 	};
+
+	// construction helper
+	// this one mostly exists for a uniform API
+	inline Circle circle(float x, float y, float radius=1.0f, float startAngle=0.0f, float endAngle=360.0f){
+		return Circle(x, y, radius, startAngle, endAngle);
+	}
 
 }
