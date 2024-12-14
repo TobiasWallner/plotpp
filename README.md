@@ -110,18 +110,18 @@ int main(){
 Integration
 ===========
 
-With CMake CPM
+With [CMake](https://cmake.org/) [CPM](https://github.com/cpm-cmake/CPM.cmake)
 --------------
-Why would one use CPM? https://github.com/cpm-cmake/CPM.cmake
+Why would one use [CPM](https://github.com/cpm-cmake/CPM.cmake)?
 - CMake Package Manager
 - Automatic Dependency Management in CMake
 - Package Version Control
 - Automatic Download and Build Integration
 
-### Quick CPM Setup:  
+### Quick [CPM](https://github.com/cpm-cmake/CPM.cmake) Setup:  
 Download the `CPM.cmake` file and put in the folder `cmake` 
 and includ it in your project. 
-CPM will then automatically download and build all dependencies.
+[CPM](https://github.com/cpm-cmake/CPM.cmake) will then automatically download and build all dependencies.
 
 ```cmake
 include(cmake/CPM.cmake)
@@ -132,13 +132,13 @@ add_executable(PROJECT_NAME main.cpp)
 target_link_libraries(PROJECT_NAME plotpp) 
 ```
 
-### Automatic CPM Setup:  
+### Automatic [CPM](https://github.com/cpm-cmake/CPM.cmake) Setup:  
 Instead of 
 ```cmake
 include(cmake/CPM.cmake)
 ```
 
-Use the following template to automatically download the CPM file 
+Use the following template to automatically download the [CPM](https://github.com/cpm-cmake/CPM.cmake) file 
 and check if this project is a nested project in which case it will use the most upper CPM.cmake
 instead of re-downloading it.
 
@@ -177,7 +177,7 @@ include(${CPM_CMAKE_PATH})
 option(CPM_USE_LOCAL_PACKAGES "Try `find_package` before downloading dependencies" ON)
 ```
 
-With CMake Fetch Content
+With [CMake](https://cmake.org/) Fetch Content
 ------------------------
 ```
 include(FetchContent)
