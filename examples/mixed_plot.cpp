@@ -26,7 +26,7 @@ int main() {
 	double arrow_y2[] = {-3, -4, -2, -3, -5};
 	
 	Figure fig("Title");
-	fig.legend = true;
+	fig.showLegend();
 	fig.add(heatmap(&array).label("Heatmap"));
 	fig.add(line(&x, &y1).label("1/x*30"));
 	fig.add(points(&x, &y2).label("1/x^2*30"));

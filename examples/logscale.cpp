@@ -7,17 +7,17 @@ int main(){
 	
 	Figure fig("logx");
 	fig.add(line(&x, &x));
-	fig.logx();
+	fig.xLog();
 	fig.show();
 	
 	fig.title("logy");
-	fig.logx(false);
-	fig.logy();
+	fig.xLog(false);
+	fig.yLog();
 	fig.show();
 	
 	fig.title("logxy");
-	fig.logx();
-	fig.logy();
+	fig.xLog();
+	fig.yLog();
 	fig.show();
 	
 	return 0;

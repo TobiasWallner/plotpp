@@ -25,39 +25,41 @@ namespace plotpp{
 	
 
 	class Figure{
-	public:
-		std::list<std::shared_ptr<IPlot>> plots;
+	private:
+		std::list<std::shared_ptr<IPlot>> plots_;
 		
 		Text title_;
-		Text xlabel;
-		Text ylabel;
+		Text xlabel_;
+		Text ylabel_;
 		
-		std::vector<std::string> xtics_labels;
-		std::vector<double> xtics_values;
+		std::vector<std::string> xtics_labels_;
+		std::vector<double> xtics_values_;
 		
 		opstream gnuplot_;
 		
 		FILE* gnuplot_pipe_ = nullptr;
 		
-		float xmin = -1;
-		float xmax = +1;
-		float ymin = -1;
-		float ymax = +1;
+		float min_x_ = -1;
+		float max_x_ = +1;
+		float min_y_ = -1;
+		float max_y_ = +1;
 		
-		float logx_base = 10.0;
-		float logy_base = 10.0;
+		float log_x_base_ = 10.0;
+		float log_y_base_ = 10.0;
 		
-		bool xautoscale = true;
-		bool yautoscale = true;
+		bool autoscale_x_ = true;
+		bool autoscale_y_ = true;
 		
-		bool yreverse = false;
-		bool xreverse = false;
+		bool reverse_x_ = false;
+		bool reverse_y_ = false;
 		
-		bool legend = false;
+		bool show_legend_ = false;
 		
-		bool logx_ = false;
-		bool logy_ = false;
-		
+		bool log_x_ = false;
+		bool log_y_ = false;
+
+	public:
+	
 		Figure() = default;
 		Figure(const Figure&) = delete;
 		Figure(Figure&&)=default;
@@ -68,9 +70,32 @@ namespace plotpp{
 		
 		~Figure();
 		
-	public:
+		Figure& title(const Text& title);
+		Figure& title(Text&& title);
+		Figure& xLabel(const Text& xlabel);
+		Figure& xLabel(Text&& xlabel);
+		Figure& yLabel(const Text& ylabel);
+		Figure& yLabel(Text&& ylabel);
 	
-	
+		Figure& xMin(float v);
+		Figure& xMax(float v);
+		Figure& yMin(float v);
+		Figure& yMax(float v);
+		
+		Figure& xLogBase(float base);
+		Figure& yLogBase(float base);
+		
+		Figure& xReverse(bool b = true);
+		Figure& yReverse(bool b = true);
+		
+		Figure& xAutoscale(bool b = true);
+		Figure& yAutoscale(bool b = true);
+		
+		Figure& xLog(bool b = true);
+		Figure& yLog(bool b = true);
+		
+		Figure& showLegend(bool b = true);
+		
 	private:
 		
 		FILE* gnuplot_pipe();
@@ -108,8 +133,8 @@ namespace plotpp{
 			size_t i = 0;
 			this->clear_xtics();
 			for(; itr != end; ++itr, (void)++i){
-				this->xtics_labels.emplace_back(*itr);
-				this->xtics_values.emplace_back(static_cast<double>(i));
+				this->xtics_labels_.emplace_back(*itr);
+				this->xtics_values_.emplace_back(static_cast<double>(i));
 			}
 		}
 		
@@ -125,21 +150,12 @@ namespace plotpp{
 			
 			this->clear_xtics();
 			for(; labels_itr != labels_end && values_itr != values_end; ++labels_itr, (void)++values_itr){
-				this->xtics_labels.emplace_back(*labels_itr);
-				this->xtics_values.emplace_back(static_cast<double>(*values_itr));
+				this->xtics_labels_.emplace_back(*labels_itr);
+				this->xtics_values_.emplace_back(static_cast<double>(*values_itr));
 			}
 		}
 		
 		void clear_xtics();
-		
-		Figure& logx(bool v = true);
-		Figure& logy(bool v = true);
-		Figure& logx(float v);
-		Figure& logy(float v);
-		
-		Figure& title(const Text& title);
-		Figure& title(Text&& title);
-		
 		
 		void save(	std::string filename = "", 
 					OutputFileType filetype=OutputFileType::NONE, 

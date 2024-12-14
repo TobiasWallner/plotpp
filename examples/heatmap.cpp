@@ -13,7 +13,7 @@ int main() {
 		};
 		Figure fig("Heatmap from 2d array");
 		fig.add(heatmap(&array).label("Heatmap"));
-		fig.yreverse = true;
+		fig.yReverse();
 		fig.show();
 	}
 
