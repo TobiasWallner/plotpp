@@ -15,8 +15,8 @@ Requirements
 
 Dependencies
 ------------
-All dependencies are managed by the [CMake](https://cmake.org/) scripts and use [CPM](https://github.com/cpm-cmake/CPM.cmake)
-to manage the dependencies. The dependencies will be automatically downloaded, build and linked to the project.
+All dependencies are managed by the [CMake](https://cmake.org/) scripts using [CPM](https://github.com/cpm-cmake/CPM.cmake). 
+The dependencies will be automatically downloaded, build and linked to the project.
 - {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/)
 
 Features
