@@ -55,14 +55,17 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(FILE* fptr) const override {
+			// Line Data, Width and Dash Type
 			fmt::print(fptr, 
 				"$d{:d} using 1:2 with lines lw {:02f} dt {:d}", 
 				this->IPlot::uid(), this->lineWidth(), static_cast<int>(this->lineType()));
-					
+			
+			// Color
 			if(this->opt_color){
 				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
 			}
 			
+			// Title
 			if(this->IPlot::label().empty()){
 				fmt::print(fptr, " notitle");
 			}else{
