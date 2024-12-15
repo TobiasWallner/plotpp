@@ -61,6 +61,12 @@ add_subdirectory(opstream)
 # Documentation: https://fmt.dev/11.0/
 CPMAddPackage("gh:fmtlib/fmt#11.0.2")
 
+# zip-iterator
+# Github: https://github.com/CommitThis/zip-iterator
+#CPMAddPackage("gh:CommitThis/zip-iterator#master")
+CPMAddPackage("gh:TobiasWallner/zip-iterator#256cd6247d447761c5b768ee2a6703335c66c605") # fork
+
+
 message(STATUS "======================== Plotpp: END: Fetching External Libraries =========================")
 
 # ------------------------------------------------------------------------------------------
@@ -83,6 +89,7 @@ add_library(plotpp STATIC
 target_include_directories(plotpp PUBLIC
 	.
 	optional_ptr
+	${zip-iterator_SOURCE_DIR}
 )
 
 target_compile_features(plotpp PUBLIC cxx_std_20)
@@ -238,6 +245,11 @@ if(BUILD_EXAMPLES)
 	add_executable(circle examples/circle.cpp)
 	target_link_libraries(circle PUBLIC plotpp)
 	target_compile_options(circle PUBLIC ${COMPILER_FLAGS})
+	
+	# piechart
+	add_executable(piechart examples/piechart.cpp)
+	target_link_libraries(piechart PUBLIC plotpp)
+	target_compile_options(piechart PUBLIC ${COMPILER_FLAGS})
 endif()
 
 
