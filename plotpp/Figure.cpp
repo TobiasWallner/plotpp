@@ -9,6 +9,9 @@
 // {fmt}
 #include <fmt/core.h>
 
+// zip-iterator
+#include <zip_tuple.hpp>
+
 namespace plotpp{
 	
 	Figure::Figure(std::string title_str){
@@ -227,11 +230,10 @@ namespace plotpp{
 			
 			fmt::print(fptr, "set xtics(");
 			
-			// TODO: checkout https://github.com/CommitThis/zip-iterator/tree/master
-			// for python-zip like iteration through parallel lists
-			for(; xlabel_itr != this->xtics_labels_.cend() && xval_itr != this->xtics_values_.cend(); ++xlabel_itr, (void)++xval_itr){
-				const char* seperator = (xlabel_itr != this->xtics_labels_.begin()) ? ", " : "";
-				fmt::print(fptr, "{}\"{}\" {}", seperator, *xlabel_itr, *xval_itr);
+			bool first = true;
+			for(const auto && [label, value] : c9::zip(this->xtics_labels_, this->xtics_values_)){
+				fmt::print(fptr, "{}\"{}\" {}", (first ? "" : ", "), label, value);
+				first = false;
 			}
 			
 			fmt::print(fptr, ")\n");

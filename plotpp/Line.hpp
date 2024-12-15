@@ -10,6 +10,9 @@
 // fmt
 #include <fmt/core.h>
 
+// zip-iterator
+#include <zip_tuple.hpp>
+
 // plotpp
 #include "plotpp/IPlot.hpp"
 #include "plotpp/LineType.hpp"
@@ -57,7 +60,7 @@ namespace plotpp{
 		virtual void printPlot(FILE* fptr) const override {
 			// Line Data, Width and Dash Type
 			fmt::print(fptr, 
-				"$d{:d} using 1:2 with lines lw {:02f} dt {:d}", 
+				"$d{:d} using 1:2 with lines lw {:.2f} dt {:d}", 
 				this->IPlot::uid(), this->lineWidth(), static_cast<int>(this->lineType()));
 			
 			// Color
@@ -77,17 +80,14 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xitr = std::begin(*x_);
-				auto yitr = std::begin(*y_);
-				
-				for (; xitr != std::end(*x_) && yitr != std::end(*y_); ++xitr, (void)++yitr)
-					fmt::print(fptr, "{} {}\n", *xitr, *yitr);
+				for(const auto && [x, y] : c9::zip(*(this->x_), *(this->y_)))
+					fmt::print(fptr, "{} {}\n", x, y);
+
 			}else{
 				size_t x = 0;
-				auto yitr = std::begin(*y_);
-				
-				for (; yitr != std::end(*y_); ++x, (void)++yitr)
-					fmt::print(fptr, "{} {}\n", x, *yitr);
+				for(const auto & y : *(this->y_))
+					fmt::print(fptr, "{} {}\n", x++, y);
+
 			}
 			fmt::print(fptr, "e\n");
 		}
