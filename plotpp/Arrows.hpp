@@ -63,7 +63,7 @@ namespace plotpp{
 				fmt::print(fptr, " with vectors");
 			}
 			
-			fmt::print(fptr, " {} lw {:02f}", this->arrowHeadStyle(), this->lineWidth());
+			fmt::print(fptr, " {} lw {:.2f}", this->arrowHeadStyle(), this->lineWidth());
 			
 			if(this->opt_color){
 				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());

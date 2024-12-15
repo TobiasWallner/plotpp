@@ -53,7 +53,7 @@ namespace plotpp{
 		
 		virtual void printSettings(FILE* fptr) const override{
 			fmt::print(fptr, 
-				"set boxwidth {:02f} {}\n", 
+				"set boxwidth {:.2f} {}\n", 
 				this->boxWidth(),
 				this->relativeBoxWidth() ? " relative" : "");
 		}
@@ -78,7 +78,7 @@ namespace plotpp{
 		}
 		
 		virtual void printPlot(FILE* fptr) const override{
-			fmt::print(fptr, "$d{:d} using 1:2 with boxes fs transparent solid {:02f}", this->IPlot::uid(), this->opacity());
+			fmt::print(fptr, "$d{:d} using 1:2 with boxes fs transparent solid {:.2f}", this->IPlot::uid(), this->opacity());
 			
 			if(this->IPlot::label().empty()){
 				fmt::print(fptr, " notitle");

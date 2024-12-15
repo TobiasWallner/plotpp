@@ -98,7 +98,7 @@ namespace fmt{
 				}
 				break; case plotpp::FillStyle::Type::Solid : {
 					fmt::format_to(ctx.out(), 
-						"fs {:s} solid {:02f} {:s}", 
+						"fs {:s} solid {:.2f} {:s}", 
 						fill.transparent() ? "transparent" : "",
 						fill.opacity(),
 						fill.border() ? "border" : "noborder");

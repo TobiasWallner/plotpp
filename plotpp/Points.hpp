@@ -55,7 +55,7 @@ namespace plotpp{
 		
 		virtual void printPlot(FILE* fptr) const override {
 			fmt::print(fptr, 
-				"$d{:d} using 1:2 with points ps {:02f} pt {:d}", 
+				"$d{:d} using 1:2 with points ps {:.2f} pt {:d}", 
 				this->IPlot::uid(), this->pointSize(), static_cast<int>(this->pointType()));
 					
 			if(this->opt_color){

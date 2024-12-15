@@ -21,7 +21,7 @@ namespace plotpp{
 				"0\n"
 				"e\n\n", 
 				this->IPlot::uid());
-		}
+	}
 		
 	void Circle::printPlot(FILE* fptr) const {
 		// Circle data
@@ -29,7 +29,7 @@ namespace plotpp{
 			this->IPlot::uid(), this->x_, this->y_, this->radius_, this->start_angle, this->end_angle);
 		
 		// Line Width, Dash and fill type
-		fmt::print(fptr, " lw {:02f} dt {:d} {}", 
+		fmt::print(fptr, " lw {:.2f} dt {:d} {}", 
 			this->line_width, 
 			static_cast<int>(this->lineType()),
 			this->fill_style);

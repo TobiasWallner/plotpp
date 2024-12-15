@@ -52,7 +52,7 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(FILE* fptr) const {
-			fmt::print(fptr, "$d{:d} using 1:2:3 with xerrorbars ps {:02f} pt {}", 
+			fmt::print(fptr, "$d{:d} using 1:2:3 with xerrorbars ps {:.2f} pt {}", 
 				this->IPlot::uid(), this->pointSize(), static_cast<int>(this->pointType()));
 					
 			if(this->opt_color){
