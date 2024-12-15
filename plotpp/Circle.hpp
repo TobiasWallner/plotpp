@@ -74,7 +74,6 @@ namespace plotpp{
 		FillStyle fill_style;
 		
 		std::optional<Color> opt_color = std::nullopt;
-		bool solid_ = false;
 		
 	};
 
