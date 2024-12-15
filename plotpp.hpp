@@ -15,3 +15,4 @@
 #include "plotpp/Colormaps.hpp"
 #include "plotpp/Boxplot.hpp"
 #include "plotpp/Circle.hpp"
+#include "plotpp/Piechart.hpp"

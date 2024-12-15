@@ -29,7 +29,7 @@ Features
 - Boxes
 - Boxplot
 - Circle(TODO: s)
-- TODO: Pie-Charts
+- Pie-Charts
 
 ### Figure Styles
 - Labeled x axis
