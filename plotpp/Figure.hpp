@@ -25,39 +25,6 @@ namespace plotpp{
 	
 
 	class Figure{
-	private:
-		std::list<std::shared_ptr<IPlot>> plots_;
-		
-		Text title_;
-		Text xlabel_;
-		Text ylabel_;
-		
-		std::vector<std::string> xtics_labels_;
-		std::vector<double> xtics_values_;
-		
-		opstream gnuplot_;
-		
-		FILE* gnuplot_pipe_ = nullptr;
-		
-		float min_x_ = -1;
-		float max_x_ = +1;
-		float min_y_ = -1;
-		float max_y_ = +1;
-		
-		float log_x_base_ = 10.0;
-		float log_y_base_ = 10.0;
-		
-		bool autoscale_x_ = true;
-		bool autoscale_y_ = true;
-		
-		bool reverse_x_ = false;
-		bool reverse_y_ = false;
-		
-		bool show_legend_ = false;
-		
-		bool log_x_ = false;
-		bool log_y_ = false;
-
 	public:
 	
 		Figure() = default;
@@ -93,6 +60,10 @@ namespace plotpp{
 		
 		Figure& xLog(bool b = true);
 		Figure& yLog(bool b = true);
+		
+		Figure& xGrid(bool b = true);
+		Figure& yGrid(bool b = true);
+		Figure& grid(bool b = true);
 		
 		Figure& showLegend(bool b = true);
 		
@@ -184,6 +155,42 @@ namespace plotpp{
 			fig->plot(fptr, terminalType, saveAs);
 			return *this;
 		}
+		
+	private:
+		std::list<std::shared_ptr<IPlot>> plots_;
+		
+		Text title_;
+		Text xlabel_;
+		Text ylabel_;
+		
+		std::vector<std::string> xtics_labels_;
+		std::vector<double> xtics_values_;
+		
+		opstream gnuplot_;
+		
+		FILE* gnuplot_pipe_ = nullptr;
+		
+		float min_x_ = -1;
+		float max_x_ = +1;
+		float min_y_ = -1;
+		float max_y_ = +1;
+		
+		float log_x_base_ = 10.0;
+		float log_y_base_ = 10.0;
+		
+		bool autoscale_x_ = true;
+		bool autoscale_y_ = true;
+		
+		bool reverse_x_ = false;
+		bool reverse_y_ = false;
+		
+		bool show_legend_ = false;
+		
+		bool log_x_ = false;
+		bool log_y_ = false;
+		
+		bool grid_x_ = false;
+		bool grid_y_ = false;
 		
 	};
 	

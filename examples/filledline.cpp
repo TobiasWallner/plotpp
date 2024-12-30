@@ -12,10 +12,12 @@ int main(){
 
 	Figure("filled line sin")
 		.add(line(&x, &sin).fill())
+		.grid()
 		.show();
 		
 	Figure("filled line tan")
 		.add(line(&x, &tan).fill())
+		.xGrid()
 		.show();
 	
 }

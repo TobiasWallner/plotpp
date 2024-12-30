@@ -58,6 +58,10 @@ namespace plotpp{
 	
 	Figure& Figure::showLegend(bool b){this->show_legend_ = b; return *this;}
 	
+	Figure& Figure::xGrid(bool b){this->grid_x_ = b; return *this;}
+	Figure& Figure::yGrid(bool b){this->grid_y_ = b; return *this;}
+	Figure& Figure::grid(bool b){return this->xGrid(b).yGrid(b);}
+	
 	void Figure::close_pipe(){
 		if(this->gnuplot_pipe_ != nullptr){
 			#ifdef WIN32
@@ -231,6 +235,15 @@ namespace plotpp{
 		if(this->log_x_) fmt::print(fptr, "set logscale x {}\n", this->log_x_base_);
 		if(this->log_y_) fmt::print(fptr, "set logscale y {}\n", this->log_y_base_);
 		
+		// optionally show the grid
+		if(this->grid_x_ == true && this->grid_y_ == true){
+			fmt::print(fptr, "set grid\n");
+		}else if(this->grid_x_ == true){
+			fmt::print(fptr, "set grid xtics\n");
+		}else if(this->grid_y_ == true){
+			fmt::print(fptr, "set grid ytics\n");	
+		}
+		
 		// set x-tics
 		if(!this->xtics_labels_.empty()){
 			auto xlabel_itr = this->xtics_labels_.cbegin();
@@ -247,7 +260,7 @@ namespace plotpp{
 			fmt::print(fptr, ")\n");
 		}
 		
-		// write settings demanded by plots_
+		// write settings demanded by plots
 		{
 			auto plt_itr=this->plots_.cbegin();
 			for(; plt_itr!=this->plots_.cend(); ++plt_itr){
