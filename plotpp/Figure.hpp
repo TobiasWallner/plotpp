@@ -124,10 +124,10 @@ namespace plotpp{
 		
 		Figure& add(std::shared_ptr<IPlot> plot);
 		
-		void xtics(std::vector<std::string> tic_labels);
+		Figure& xtics(std::vector<std::string> tic_labels);
 		
 		template<class T>
-		void xtics(const T& tic_labels){
+		Figure& xtics(const T& tic_labels){
 			auto itr = std::begin(tic_labels);
 			const auto end = std::end(tic_labels);
 			size_t i = 0;
@@ -136,12 +136,13 @@ namespace plotpp{
 				this->xtics_labels_.emplace_back(*itr);
 				this->xtics_values_.emplace_back(static_cast<double>(i));
 			}
+			return *this;
 		}
 		
-		void xtics(std::vector<std::string> tic_labels, std::vector<double> values);
+		Figure& xtics(std::vector<std::string> tic_labels, std::vector<double> values);
 		
 		template<ForwardRange T>
-		void xtics(const T& tic_labels, std::vector<double> values){
+		Figure& xtics(const T& tic_labels, std::vector<double> values){
 			auto labels_itr = std::begin(tic_labels);
 			const auto labels_end = std::end(tic_labels);
 			
@@ -153,22 +154,36 @@ namespace plotpp{
 				this->xtics_labels_.emplace_back(*labels_itr);
 				this->xtics_values_.emplace_back(static_cast<double>(*values_itr));
 			}
+			return *this;
 		}
 		
-		void clear_xtics();
+		Figure& clear_xtics();
 		
-		void save(	std::string filename = "", 
+		Figure& save(	std::string filename = "", 
 					OutputFileType filetype=OutputFileType::NONE, 
-					TerminalType terminalType = TerminalType::NONE) const;
-
-		void show(OutputFileType filetype);
+					TerminalType terminalType = TerminalType::NONE);
 		
-		void show(TerminalType terminalType = TerminalType::NONE);
+		Figure& show(OutputFileType filetype);
+		
+		Figure& show(TerminalType terminalType = TerminalType::NONE);
 
-		void plot(
+		const Figure& plot(
 			FILE* fptr, 
 			TerminalType terminalType = TerminalType::NONE,
 			std::string saveAs = "") const;
+			
+		/*
+			wrapper of `plot()` that returns a non-const object if called from a non-const object
+		*/
+		inline Figure& plot(
+			FILE* fptr, 
+			TerminalType terminalType = TerminalType::NONE,
+			std::string saveAs = "")
+		{
+			const Figure* fig = this;
+			fig->plot(fptr, terminalType, saveAs);
+			return *this;
+		}
 		
 	};
 	

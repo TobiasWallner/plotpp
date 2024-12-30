@@ -90,29 +90,33 @@ namespace plotpp{
 	Figure& Figure::add(std::shared_ptr<IPlot> plot){
 		this->plots_.push_back(std::move(plot));
 		return *this;
+		return *this;
 	}
 	
-	void Figure::xtics(std::vector<std::string> tic_labels){
+	Figure& Figure::xtics(std::vector<std::string> tic_labels){
 		this->xtics_labels_ = std::move(tic_labels);
 		this->xtics_values_.clear();
 		for(size_t i = 0; i < this->xtics_labels_.size(); ++i){
 			this->xtics_values_.emplace_back(static_cast<double>(i));
 		}
+		return *this;
 	}
 	
-	void Figure::xtics(std::vector<std::string> tic_labels, std::vector<double> tic_values){
+	Figure& Figure::xtics(std::vector<std::string> tic_labels, std::vector<double> tic_values){
 		this->xtics_labels_ = std::move(tic_labels);
 		this->xtics_values_ = std::move(tic_values);
+		return *this;
 	}
 	
-	void Figure::clear_xtics(){
+	Figure& Figure::clear_xtics(){
 		this->xtics_labels_.clear();
 		this->xtics_values_.clear();
+		return *this;
 	}
 	
 	
 			
-	void Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
+	Figure& Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) {
 		if(filename.empty()) filename = title_;
 		
 		if(filetype == OutputFileType::NONE){
@@ -155,24 +159,28 @@ namespace plotpp{
 			if (status != 0) {
 				throw std::runtime_error("Could not close the pipe stream");
 			}
+			
 		}
+		return *this;
 	}
 	
 
-	void Figure::show(OutputFileType filetype) {
+	Figure& Figure::show(OutputFileType filetype) {
 		if(filetype == OutputFileType::gp){
 			this->plot(stdout, TerminalType::NONE);
 		}else{
 			this->show(to_terminal(filetype));
 		}
+		return *this;
 	}
 
-	void Figure::show(TerminalType TerminalType) {
+	Figure& Figure::show(TerminalType TerminalType) {
 		FILE* fptr = this->gnuplot_pipe();
 		this->plot(fptr, TerminalType);
+		return *this;
 	}
 	
-	void Figure::plot(FILE* fptr, TerminalType terminalType, std::string saveAs) const {
+	const Figure& Figure::plot(FILE* fptr, TerminalType terminalType, std::string saveAs) const {
 		{
 			size_t i = 0;
 			for(const std::shared_ptr<IPlot>& plot : this->plots_) plot->uid(i);
@@ -189,7 +197,7 @@ namespace plotpp{
 				"0 0\n"
 				"EOD\n\n"
 				"plot $empty with points notitle\n\n");
-			return;
+			return *this;
 		}
 		
 		// figure and axis configuration
@@ -276,6 +284,8 @@ namespace plotpp{
 		if(!saveAs.empty()) fmt::print(fptr, "set output\n"); // reset to default
 		
 		std::fflush(fptr);
+		
+		return *this;
 	}
 
 }
