@@ -9,7 +9,7 @@ project(plotpp)
 # -----------------------------------------------------------------
 
 set(CPM_CMAKE_PATH "${CMAKE_BINARY_DIR}/cmake/CPM.cmake")
-set(CPM_CMAKE_URL "https://github.com/cpm-cmake/CPM.cmake/releases/download/v0.40.2/CPM.cmake")
+set(CPM_CMAKE_URL "https://github.com/cpm-cmake/CPM.cmake/releases/download/v0.40.4/CPM.cmake")
 
 # Check if CPM.cmake exists
 if(NOT EXISTS "${CPM_CMAKE_PATH}")
@@ -250,6 +250,11 @@ if(BUILD_EXAMPLES)
 	add_executable(piechart examples/piechart.cpp)
 	target_link_libraries(piechart PUBLIC plotpp)
 	target_compile_options(piechart PUBLIC ${COMPILER_FLAGS})
+	
+	# filled line
+	add_executable(filledline examples/filledline.cpp)
+	target_link_libraries(filledline PUBLIC plotpp)
+	target_compile_options(filledline PUBLIC ${COMPILER_FLAGS})
 endif()
 
 

@@ -55,13 +55,24 @@ namespace plotpp{
 		inline Line& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
 		inline Line&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
 		
+		inline bool isFilled() const {return this->filled_;}
+		inline Line& fill(bool v = true) & {this->filled_ = v; return *this;}
+		inline Line&& fill(bool v = true) && {this->filled_ = v; return std::move(*this);}
+		
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(FILE* fptr) const override {
-			// Line Data, Width and Dash Type
+			// data and line type
+			if(this->isFilled())
+				fmt::print(fptr, "$d{:d} using 1:2:(0) with filledcurves", this->IPlot::uid());
+			else{
+				fmt::print(fptr, "$d{:d} using 1:2 with lines", this->IPlot::uid());
+			}
+			
+			// Line Width and Dash Type
 			fmt::print(fptr, 
-				"$d{:d} using 1:2 with lines lw {:.2f} dt {:d}", 
-				this->IPlot::uid(), this->lineWidth(), static_cast<int>(this->lineType()));
+				" lw {:.2f} dt {:d}", 
+				this->lineWidth(), static_cast<int>(this->lineType()));
 			
 			// Color
 			if(this->opt_color){
@@ -109,6 +120,7 @@ namespace plotpp{
 		std::optional<Color> opt_color = std::nullopt;
 		LineType line_type = LineType::solid;
 		float line_width = 1.5;
+		bool filled_ = false;
 		
 	};
 
