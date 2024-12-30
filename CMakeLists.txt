@@ -255,6 +255,11 @@ if(BUILD_EXAMPLES)
 	add_executable(filledline examples/filledline.cpp)
 	target_link_libraries(filledline PUBLIC plotpp)
 	target_compile_options(filledline PUBLIC ${COMPILER_FLAGS})
+	
+	# filled curves
+	add_executable(filledcurves examples/filledcurves.cpp)
+	target_link_libraries(filledcurves PUBLIC plotpp)
+	target_compile_options(filledcurves PUBLIC ${COMPILER_FLAGS})
 endif()
 
 

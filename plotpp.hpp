@@ -16,3 +16,4 @@
 #include "plotpp/Boxplot.hpp"
 #include "plotpp/Circle.hpp"
 #include "plotpp/Piechart.hpp"
+#include "plotpp/Filledcurves.hpp"
