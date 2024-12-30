@@ -55,8 +55,18 @@ namespace plotpp{
 		inline Line& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
 		inline Line&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
 		
+		/**
+			returns true if the space between the line and the x-axis is filled
+		*/
 		inline bool isFilled() const {return this->filled_;}
+		/**
+			by default enables filling for the space between the line and the x-axis.
+		*/
 		inline Line& fill(bool v = true) & {this->filled_ = v; return *this;}
+		
+		/**
+			by default enables filling for the space between the line and the x-axis
+		*/
 		inline Line&& fill(bool v = true) && {this->filled_ = v; return std::move(*this);}
 		
 		// ---- IPlot overloads ----
