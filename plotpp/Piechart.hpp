@@ -76,14 +76,7 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		void printData(FILE* fptr) const {
-			fmt::print(fptr, 
-				"# empty data to trick gnuplot\n"
-				"$d{:d} << e\n"
-				"0\n"
-				"e\n\n", 
-				this->IPlot::uid());
-		}
+		void printData([[maybe_unused]]FILE* fptr) const {}
 		
 		void printPlot(FILE* fptr) const {
 			using NameItr = decltype(std::begin(*this->names_));
@@ -106,8 +99,7 @@ namespace plotpp{
 				first_iteration = false;
 				
 				// Circle data
-				fmt::print(fptr, "$d{:d} using (0):(0):(1):({:g}):({:g}) with circles", 
-					this->IPlot::uid(), start_angle, end_angle);
+				fmt::print(fptr, "'+' using (0):(0):(1):({:g}):({:g}) with circles", start_angle, end_angle);
 			
 				// Line Width, Dash and fill type
 				fmt::print(fptr, " lw {:.2f} dt {:d} {}", 
