@@ -17,3 +17,4 @@
 #include "plotpp/Circle.hpp"
 #include "plotpp/Piechart.hpp"
 #include "plotpp/Filledcurves.hpp"
+#include "plotpp/Impulses.hpp"
