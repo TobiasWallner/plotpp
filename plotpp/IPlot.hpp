@@ -8,6 +8,27 @@ namespace plotpp{
 
 	class Figure;
 
+	struct PlotTitle {
+		std::string str;
+		
+		inline PlotTitle(const PlotTitle&) = default;
+		inline PlotTitle(PlotTitle&&) = default;
+		inline PlotTitle& operator=(const PlotTitle&) = default;
+		inline PlotTitle& operator=(PlotTitle&&) = default;
+		
+		template <typename... Args> 
+		inline PlotTitle(Args&&... args) 
+			: str(std::forward<Args>(args)...) {}
+		
+		template <typename Arg> 
+		inline PlotTitle& operator=(Arg&& args) {
+			str = std::forward<Arg>(args); 
+			return *this;
+		}
+		
+		inline bool empty() const {return str.empty();}
+	};
+
 	class IPlot{
 	public:
 		friend class Figure;
@@ -24,8 +45,8 @@ namespace plotpp{
 		virtual void printData(FILE* fptr) const = 0;
 		virtual void printSettings(FILE* fptr) const {};
 		
-		inline std::string_view label() const {return this->label_;}
-		inline std::string& label() {return this->label_;}
+		inline const PlotTitle& label() const {return this->label_;}
+		inline PlotTitle& label() {return this->label_;}
 		
 		inline IPlot& label(const char* label) & {this->label_ = label; return *this;}
 		inline IPlot&& label(const char* label) && {this->label_ = label; return std::move(*this);}
@@ -43,10 +64,32 @@ namespace plotpp{
 		inline size_t uid() const {return this->uid_;}
 		
 	private:
-		std::string label_ = "";
+		PlotTitle label_ = "";
 		size_t uid_ = 0;
 	};
+}
 
+#include <fmt/format.h>
+
+namespace fmt{
+	template<>
+	struct formatter<plotpp::PlotTitle>{
+		
+		constexpr auto parse(format_parse_context& ctx){
+			return ctx.begin();
+		}
+		
+		template<typename FormatContext>
+		constexpr auto format(const plotpp::PlotTitle& title, FormatContext& ctx) const {
+			if(title.empty()){
+				fmt::format_to(ctx.out(), " notitle");
+			}else{
+				fmt::format_to(ctx.out(), " title '{}'", title.str);
+			}
+			return ctx.out();
+		}
+		
+	};
 
 }
 

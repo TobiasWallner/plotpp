@@ -2,6 +2,7 @@
 
 #include <string_view>
 
+
 namespace plotpp{
 
 	enum class LineType{
@@ -15,4 +16,23 @@ namespace plotpp{
 
 	std::string_view to_command(LineType dt);
 
+}
+
+#include <fmt/format.h>
+
+namespace fmt{
+	template<>
+	struct formatter<plotpp::LineType>{
+		
+		constexpr auto parse(format_parse_context& ctx){
+			return ctx.begin();
+		}
+		
+		template<typename FormatContext>
+		constexpr auto format(const plotpp::LineType& lt, FormatContext& ctx) const {
+			fmt::format_to(ctx.out(), "dt {:d}", static_cast<int>(lt));
+			return ctx.out();
+		}
+		
+	};
 }

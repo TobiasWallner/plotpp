@@ -15,8 +15,13 @@ int main(){
 		.grid()
 		.show();
 		
+	Figure("filled line sin v2")
+		.add(line(&x, &sin).fill().fillColor(0xFFFF00).lineColor(0xce902d))
+		.grid()
+		.show();
+		
 	Figure("filled line tan")
-		.add(line(&x, &tan).fill())
+		.add(line(&x, &tan).fill().color(0.8, 0.2, 0.2))
 		.xGrid()
 		.show();
 	

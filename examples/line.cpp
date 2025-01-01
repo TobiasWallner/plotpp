@@ -27,7 +27,7 @@ int main() {
 		for(size_t i=0; i < y.size(); ++i) y[i] = i*i;
 		
 		Figure fig("Line Plot from Y");
-		fig.add(line(std::move(y)).label("x^2"));
+		fig.add(line(std::move(y)).label("x^2").color(0.8, 0.1, 0.1));
 		fig.show();
 		//fig.save("line-plot.gp");
 		//fig.save("line-plot.png");

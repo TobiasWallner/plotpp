@@ -103,3 +103,30 @@ namespace plotpp{
 		return blend(color_map[bucket], color_map[bucket+1], k - bucket);
 	}
 }
+
+namespace fmt{
+	template<> struct formatter<plotpp::Color>{
+		constexpr auto parse(format_parse_context& ctx){
+			return ctx.begin();
+		}
+		
+		template<typename FormatContext>
+		constexpr auto format(const plotpp::Color& color, FormatContext& ctx) const {
+			fmt::format_to(ctx.out(), "lc rgb '#{:02x}{:02x}{:02x}'", 
+				color.red_ui8(), color.green_ui8(), color.blue_ui8());
+			return ctx.out();
+		}
+	};
+	
+	template<> struct formatter<std::optional<plotpp::Color>>{
+		constexpr auto parse(format_parse_context& ctx){
+			return ctx.begin();
+		}
+		
+		template<typename FormatContext>
+		constexpr auto format(const std::optional<plotpp::Color>& color, FormatContext& ctx) const {
+			if(color) fmt::format_to(ctx.out(), "{}", color.value());	
+			return ctx.out();
+		}
+	};
+}

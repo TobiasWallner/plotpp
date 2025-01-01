@@ -11,7 +11,7 @@ namespace plotpp{
 		, start_angle(startAngle)
 		, end_angle(endAngle)
 	{
-		this->fill_style.empty();
+		this->fill_style.clear();
 	}
 	
 	void Circle::printData(FILE* fptr) const {

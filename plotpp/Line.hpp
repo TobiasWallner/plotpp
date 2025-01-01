@@ -19,6 +19,7 @@
 #include "plotpp/Color.hpp"
 #include "optional_ptr.hpp"
 #include "plotpp/concepts.hpp"
+#include "plotpp/FillStyle.hpp"
 
 namespace plotpp{
 
@@ -30,7 +31,9 @@ namespace plotpp{
 		Line(optional_ptr<Tx> x, optional_ptr<Ty> y)
 			: x_(std::move(x))
 			, y_(std::move(y)) 
-			{}
+			{
+				fill_style.clear();
+			}
 		
 		Line(Line const &) = default;
 		Line(Line&&) = default;
@@ -47,54 +50,80 @@ namespace plotpp{
 		inline Line& lineWidth(float lw) & {this->line_width = lw; return *this;}
 		inline Line&& lineWidth(float lw) && {this->line_width = lw; return std::move(*this);}
 		
-		inline Color color() const {return this->opt_color.value_or(Color(0,0,0));}
-		inline Line& color(Color col) & {this->opt_color = col; return *this;}
-		inline Line&& color(Color col) && {this->opt_color = col; return std::move(*this);}
 		
-		inline bool isAutoColor() const {return this->opt_color.has_value();}
-		inline Line& setAutoColor() & {this->opt_color = std::nullopt; return *this;}
-		inline Line&& setAutoColor() && {this->opt_color = std::nullopt; return std::move(*this);}
+		inline Color lineColor() const {return this->opt_line_color.value_or(Color(0,0,0));}
+		inline Line& lineColor(Color col) & {this->opt_line_color = col; return *this;}
+		inline Line&& lineColor(Color col) && {this->opt_line_color = col; return std::move(*this);}
+		inline Line& lineColor(float r, float g, float b) & {return this->lineColor(Color(r, g, b));}
+		inline Line&& lineColor(float r, float g, float b) && {return std::move(this->lineColor(Color(r, g, b)));}
 		
-		/**
-			returns true if the space between the line and the x-axis is filled
-		*/
-		inline bool isFilled() const {return this->filled_;}
-		/**
-			by default enables filling for the space between the line and the x-axis.
-		*/
-		inline Line& fill(bool v = true) & {this->filled_ = v; return *this;}
+		inline Color fillColor() const {return this->opt_fill_color.value_or(Color(0,0,0));}
+		inline Line& fillColor(Color col) & {this->opt_fill_color = col; return *this;}
+		inline Line&& fillColor(Color col) && {this->opt_fill_color = col; return std::move(*this);}
+		inline Line& fillColor(float r, float g, float b) & {return this->fillColor(Color(r, g, b));}
+		inline Line&& fillColor(float r, float g, float b) && {return std::move(this->fillColor(Color(r, g, b)));}
 		
-		/**
-			by default enables filling for the space between the line and the x-axis
-		*/
-		inline Line&& fill(bool v = true) && {this->filled_ = v; return std::move(*this);}
+		inline Line& color(Color col) & {return this->lineColor(col).fillColor(col); return *this;}
+		inline Line&& color(Color col) && {return std::move(this->lineColor(col).fillColor(col));}
+		inline Line& color(float r, float g, float b) & {return this->color(Color(r, g, b));}
+		inline Line&& color(float r, float g, float b) && {return std::move(this->color(Color(r, g, b)));}
+		
+		inline Line& autoLineColor() & {this->opt_line_color = std::nullopt; return *this;}
+		inline Line&& autoLineColor() && {this->opt_line_color = std::nullopt; return std::move(*this);}
+		
+		inline Line& autoFillColor() & {this->opt_fill_color = std::nullopt; return *this;}
+		inline Line&& autoFillColor() && {this->opt_fill_color = std::nullopt; return std::move(*this);}
+		
+		inline Line& autoColor() & {return this->autoLineColor().autoFillColor();}
+		inline Line&& autoColor() && {return std::move(this->autoLineColor().autoFillColor);}
+		
+		inline Line& fill(float opacity = 0.3) & {this->fill_style.solid(opacity); return *this;}
+		inline Line&& fill(float opacity = 0.3) && {this->fill_style.solid(opacity); return std::move(*this);}
+		
+		inline Line& fillPattern(int n) & {this->fill_style.pattern(n); return *this;}
+		inline Line&& fillPattern(int n) && {this->fill_style.pattern(n); return std::move(*this);}
+		
+		inline Line& noFill() & {this->fill_style.clear(); return *this;}
+		inline Line&& noFill() && {this->fill_style.clear(); return std::move(*this);}
+		
+		inline bool isFilled() const {return !(this->fill_style.isEmpty());}
 		
 		// ---- IPlot overloads ----
 		
 		virtual void printPlot(FILE* fptr) const override {
-			// data and line type
-			if(this->isFilled())
-				fmt::print(fptr, "$d{:d} using 1:2:(0) with filledcurves", this->IPlot::uid());
-			else{
-				fmt::print(fptr, "$d{:d} using 1:2 with lines", this->IPlot::uid());
+			// Print Line
+			// ==========
+			
+			if(this->line_type != LineType::none){
+				fmt::print(fptr, 
+					"$d{:d} using 1:2 with lines lw {:.2f} {} {} {}", 
+					this->IPlot::uid(), 
+					this->lineWidth(), 
+					this->lineType(),
+					this->opt_line_color,
+					this->IPlot::label());
 			}
 			
-			// Line Width and Dash Type
-			fmt::print(fptr, 
-				" lw {:.2f} dt {:d}", 
-				this->lineWidth(), static_cast<int>(this->lineType()));
+			// Print Fill
+			// ==========
 			
-			// Color
-			if(this->opt_color){
-				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
+			if(this->isFilled()){
+				if(this->line_type != LineType::none) fmt::print(fptr, ", \\\n");
+
+				// data and line type
+				fmt::print(fptr, "$d{:d} using 1:2:(0) with filledcurves {} {}", 
+					this->IPlot::uid(),
+					this->fill_style,
+					this->opt_fill_color);
+				
+				// Title
+				if(this->line_type == LineType::none) {
+					fmt::print(fptr, " {}", this->IPlot::label());
+				}else{
+					fmt::print(fptr, " notitle");
+				}
 			}
 			
-			// Title
-			if(this->IPlot::label().empty()){
-				fmt::print(fptr, " notitle");
-			}else{
-				fmt::print(fptr, " title '{}'", this->IPlot::label());
-			}
 		}
 		
 		virtual void printData(FILE* fptr) const override {
@@ -127,10 +156,11 @@ namespace plotpp{
 	public:
 		optional_ptr<Tx> x_;
 		optional_ptr<Ty> y_;
-		std::optional<Color> opt_color = std::nullopt;
+		std::optional<Color> opt_line_color = std::nullopt;
+		std::optional<Color> opt_fill_color = std::nullopt;
 		LineType line_type = LineType::solid;
 		float line_width = 1.5;
-		bool filled_ = false;
+		FillStyle fill_style;
 		
 	};
 

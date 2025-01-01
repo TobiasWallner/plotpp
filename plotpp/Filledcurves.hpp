@@ -59,8 +59,8 @@ namespace plotpp{
 		inline const FillStyle& fill() const {return this->fill_style;}
 		inline Filledcurves& fillSolid(float opacity = 1.0, bool transparent = false) & {this->fill_style.solid(opacity, transparent); return *this;}
 		inline Filledcurves&& fillSolid(float opacity = 1.0, bool transparent = false) && {this->fill_style.solid(opacity, transparent); return std::move(*this);}
-		inline Filledcurves& fillEmpty() & {this->fill_style.empty(); return *this;}
-		inline Filledcurves&& fillEmpty() && {this->fill_style.empty(); return std::move(*this);}
+		inline Filledcurves& fillClear() & {this->fill_style.clear(); return *this;}
+		inline Filledcurves&& fillClear() && {this->fill_style.clear(); return std::move(*this);}
 		inline Filledcurves& fillPattern(int n) & {this->fill_style.pattern(n); return *this;}
 		inline Filledcurves&& fillPattern(int n) && {this->fill_style.pattern(n); return std::move(*this);}
 		

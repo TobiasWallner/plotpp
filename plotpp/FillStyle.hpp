@@ -5,13 +5,17 @@
 namespace plotpp{
 	class FillStyle{
 	public:
-		enum class Type{Empty, Solid, Pattern};
+		enum class Type{None, Solid, Pattern};
 		
-		inline void empty(){
-			this->type_ = Type::Empty;
+		inline void clear(){
+			this->type_ = Type::None;
 		}
 		
-		inline void solid(float opacity = 1.0, bool transparent = false){
+		inline bool isEmpty() const {
+			return this->type_ == Type::None;
+		}
+		
+		inline void solid(float opacity = 6.0, bool transparent = true){
 			if(!(0.0 <= opacity && opacity <= 1.0)){
 				throw std::invalid_argument(
 					"Invalid argument for plotpp::FillStyle::solid(float opacity). "
@@ -73,11 +77,13 @@ namespace plotpp{
 		Type type_ = Type::Solid;
 		float opacity_ = 0.6;
 		int pattern_ = 1;
-		bool transparent_ = false;
+		bool transparent_ = true;
 		bool border_ = false;	
 		
 	};
 }
+
+#include <fmt/format.h>
 
 // fmt formater
 namespace fmt{
@@ -91,7 +97,7 @@ namespace fmt{
 		template<typename FormatContext>
 		constexpr auto format(const plotpp::FillStyle& fill, FormatContext& ctx) const {
 			switch(fill.type()){
-				break; case plotpp::FillStyle::Type::Empty : {
+				break; case plotpp::FillStyle::Type::None : {
 					fmt::format_to(ctx.out(), 
 						"fs empty {:s}", 
 						fill.border() ? "border" : "noborder");

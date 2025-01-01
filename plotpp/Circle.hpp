@@ -49,8 +49,8 @@ namespace plotpp{
 		inline const FillStyle& fill() const {return this->fill_style;}
 		inline Circle& fillSolid(float opacity = 1.0, bool transparent = false) & {this->fill_style.solid(opacity, transparent); return *this;}
 		inline Circle&& fillSolid(float opacity = 1.0, bool transparent = false) && {this->fill_style.solid(opacity, transparent); return std::move(*this);}
-		inline Circle& fillEmpty() & {this->fill_style.empty(); return *this;}
-		inline Circle&& fillEmpty() && {this->fill_style.empty(); return std::move(*this);}
+		inline Circle& fillClear() & {this->fill_style.clear(); return *this;}
+		inline Circle&& fillClear() && {this->fill_style.clear(); return std::move(*this);}
 		inline Circle& fillPattern(int n) & {this->fill_style.pattern(n); return *this;}
 		inline Circle&& fillPattern(int n) && {this->fill_style.pattern(n); return std::move(*this);}
 		
