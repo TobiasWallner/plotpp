@@ -13,11 +13,13 @@ Requirements
 	But you will need gnuplot to display the graphical plots.*
 - C++20
 
+
 Dependencies
 ------------
 All dependencies are managed by the [CMake](https://cmake.org/) scripts using [CPM](https://github.com/cpm-cmake/CPM.cmake). 
-The dependencies will be automatically downloaded, build and linked to the project.
+The dependencies will be automatically downloaded, build and linked to the project - if not already know by CMake.
 - {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/)
+- zip-iterator
 
 Features
 ========
