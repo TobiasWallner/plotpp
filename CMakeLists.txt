@@ -265,6 +265,11 @@ if(BUILD_EXAMPLES)
 	add_executable(impulses examples/impulses.cpp)
 	target_link_libraries(impulses PUBLIC plotpp)
 	target_compile_options(impulses PUBLIC ${COMPILER_FLAGS})
+	
+	# filled curves
+	add_executable(steps examples/steps.cpp)
+	target_link_libraries(steps PUBLIC plotpp)
+	target_compile_options(steps PUBLIC ${COMPILER_FLAGS})
 endif()
 
 
