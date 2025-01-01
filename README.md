@@ -24,18 +24,16 @@ The dependencies will be automatically downloaded, build and linked to the proje
 Features
 ========
 ### Plotting Styles
-- Line
+- Line/filled Line/filled Curves
 - Poins/Scatter/XError/YError/XYError
 - Arrows/Vectors/Quiver
 - Heatmap
 - Boxes
 - Boxplot
-- Circle(TODO: s)
+- Circle
 - Pie-Charts
-
-### Figure Styles
-- Labeled x axis
-- Logarithmic axes
+- Impulses
+- Steps/filled Steps
 
 Examples
 ========
