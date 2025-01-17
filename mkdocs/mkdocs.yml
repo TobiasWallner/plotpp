@@ -4,4 +4,3 @@ nav:
     - Plotting Styles: plotting_styles.md
 theme:
   name: material
-site_dir: ../docs
