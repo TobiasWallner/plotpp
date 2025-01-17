@@ -2,8 +2,9 @@ Plotpp
 ======
 
 A plotting library for C++ that uses Gnuplot as a backend.
-
 Allows plotting from custom containers/vectors if they use `begin()` and `end()` iterators as well as plotting from built in arrays.
+
+[Documentation](https://tobiaswallner.github.io/plotpp/)
 
 Requirements
 ============
