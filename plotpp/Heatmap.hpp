@@ -12,6 +12,32 @@
 #include "plotpp/IPlot.hpp"
 #include "plotpp/concepts.hpp"
 
+/*
+TODO: custom color palettes like with:
+
+set title '{/:Bold Heatmap from 2d array}' font ",20"
+set autoscale
+set yrange reverse
+
+# Define a custom color palette
+set palette defined ( \
+    0 '#440154', \
+    0.25 '#3b528b', \
+    0.5 '#21908d', \
+    0.75 '#5dc963', \
+    1 '#fde725' \
+)
+
+$d0 << e
+1 2 3
+11 12 13
+21 22 23
+31 32 33
+e
+plot $d0 matrix with image title 'Heatmap'
+
+*/
+
 namespace plotpp{
 	/*
 		Heat Map for custom matrix like objects
@@ -44,7 +70,9 @@ namespace plotpp{
 		// ---- IPlot overloads ----
 
 		virtual void printPlot(FILE* fptr) const {
-			fmt::print(fptr, "$d{:d} matrix with image title '{}'", this->IPlot::uid(), this->IPlot::label());
+			fmt::print(fptr, "$d{:d} matrix with image {}", 
+			this->IPlot::uid(), 
+			this->IPlot::label());
 		}
 		
 		virtual void printData(FILE* fptr) const {

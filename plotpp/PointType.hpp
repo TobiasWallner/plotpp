@@ -1,5 +1,7 @@
 #pragma once
 
+#include <fmt/format.h>
+
 namespace plotpp{
 	enum class PointType : int {
 		None = -1,
@@ -19,5 +21,22 @@ namespace plotpp{
 		RhombusFilled = 13,
 		Heptagon = 14,
 		HeptagonFilled = 15
+	};
+}
+
+namespace fmt{
+	template<>
+	struct formatter<plotpp::PointType>{
+		
+		constexpr auto parse(format_parse_context& ctx){
+			return ctx.begin();
+		}
+		
+		template<typename FormatContext>
+		constexpr auto format(const plotpp::PointType& pt, FormatContext& ctx) const {
+			fmt::format_to(ctx.out(), "pt {:d}", static_cast<int>(pt));
+			return ctx.out();
+		}
+		
 	};
 }

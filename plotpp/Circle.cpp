@@ -12,39 +12,19 @@ namespace plotpp{
 		, end_angle(endAngle)
 	{
 		this->fill_style.clear();
+		this->fill_style.border(true);
 	}
 	
-	void Circle::printData(FILE* fptr) const {
-			fmt::print(fptr, 
-				"# empty data to trick gnuplot\n"
-				"$d{:d} << e\n"
-				"0\n"
-				"e\n\n", 
-				this->IPlot::uid());
-	}
+	void Circle::printData([[maybe_unused]]FILE* fptr) const {}
 		
 	void Circle::printPlot(FILE* fptr) const {
-		// Circle data
-		fmt::print(fptr, "$d{:d} using ({:g}):({:g}):({:g}):({:g}):({:g}) with circles", 
-			this->IPlot::uid(), this->x_, this->y_, this->radius_, this->start_angle, this->end_angle);
-		
-		// Line Width, Dash and fill type
-		fmt::print(fptr, " lw {:.2f} dt {:d} {}", 
+		fmt::print(fptr, "'+' using ({:g}):({:g}):({:g}):({:g}):({:g}) with circles lw {:.2f} {} {} {} {}", 
+			this->x_, this->y_, this->radius_, this->start_angle, this->end_angle,
 			this->line_width, 
-			static_cast<int>(this->lineType()),
-			this->fill_style);
-		
-		// Color
-		if(this->opt_color){
-			fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
-		}
-		
-		// Title
-		if(this->IPlot::label().empty()){
-			fmt::print(fptr, " notitle");
-		}else{
-			fmt::print(fptr, " title '{}'", this->IPlot::label());
-		}
+			this->lineType(),
+			this->fill_style,
+			this->opt_color,
+			this->IPlot::label());
 	}
 	
 	

@@ -82,9 +82,9 @@ namespace fmt{
 		template<typename FormatContext>
 		constexpr auto format(const plotpp::PlotTitle& title, FormatContext& ctx) const {
 			if(title.empty()){
-				fmt::format_to(ctx.out(), " notitle");
+				fmt::format_to(ctx.out(), "notitle");
 			}else{
-				fmt::format_to(ctx.out(), " title '{}'", title.str);
+				fmt::format_to(ctx.out(), "title '{}'", title.str);
 			}
 			return ctx.out();
 		}

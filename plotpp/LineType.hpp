@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string_view>
-
+#include <fmt/format.h>
 
 namespace plotpp{
 
@@ -17,8 +17,6 @@ namespace plotpp{
 	std::string_view to_command(LineType dt);
 
 }
-
-#include <fmt/format.h>
 
 namespace fmt{
 	template<>

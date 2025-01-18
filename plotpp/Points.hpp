@@ -61,18 +61,12 @@ namespace plotpp{
 		
 		virtual void printPlot(FILE* fptr) const override {
 			fmt::print(fptr, 
-				"$d{:d} using 1:2 with points ps {:.2f} pt {:d}", 
-				this->IPlot::uid(), this->pointSize(), static_cast<int>(this->pointType()));
-					
-			if(this->opt_color){
-				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
-			}
-			
-			if(this->IPlot::label().empty()){
-				fmt::print(fptr, " notitle");
-			}else{
-				fmt::print(fptr, " title '{}'", this->IPlot::label());
-			}
+				"$d{0:d} using 1:2 with points ps {1:.2f} {2} {3} {4}", 
+				this->IPlot::uid(), 
+				this->pointSize(), 
+				this->pointType(),
+				this->opt_color,
+				this->IPlot::label());
 		}
 		
 		virtual void printData(FILE* fptr) const override {

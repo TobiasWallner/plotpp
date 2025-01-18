@@ -54,8 +54,8 @@ namespace plotpp{
 		
 		
 		inline const FillStyle& fill() const {return this->fill_style;}
-		inline Filledcurves& fillSolid(float opacity = 1.0, bool transparent = false) & {this->fill_style.solid(opacity, transparent); return *this;}
-		inline Filledcurves&& fillSolid(float opacity = 1.0, bool transparent = false) && {this->fill_style.solid(opacity, transparent); return std::move(*this);}
+		inline Filledcurves& fillSolid(float opacity = 0.6, bool transparent = true) & {this->fill_style.solid(opacity, transparent); return *this;}
+		inline Filledcurves&& fillSolid(float opacity = 0.6, bool transparent = true) && {this->fill_style.solid(opacity, transparent); return std::move(*this);}
 		inline Filledcurves& fillClear() & {this->fill_style.clear(); return *this;}
 		inline Filledcurves&& fillClear() && {this->fill_style.clear(); return std::move(*this);}
 		inline Filledcurves& fillPattern(int n) & {this->fill_style.pattern(n); return *this;}
@@ -65,19 +65,11 @@ namespace plotpp{
 		
 		virtual void printPlot(FILE* fptr) const override {
 			// data and line type and fill style
-			fmt::print(fptr, "$d{:d} using 1:2:3 with filledcurves {}", this->IPlot::uid(), this->fill_style);
-			
-			// Color
-			if(this->opt_color){
-				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
-			}
-			
-			// Title
-			if(this->IPlot::label().empty()){
-				fmt::print(fptr, " notitle");
-			}else{
-				fmt::print(fptr, " title '{}'", this->IPlot::label());
-			}
+			fmt::print(fptr, "$d{:d} using 1:2:3 with filledcurves {} {} {}", 
+			this->IPlot::uid(), 
+			this->fill_style,
+			this->opt_color,
+			this->IPlot::label());
 		}
 		
 		virtual void printData(FILE* fptr) const override {

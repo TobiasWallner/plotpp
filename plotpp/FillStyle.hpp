@@ -15,7 +15,7 @@ namespace plotpp{
 			return this->type_ == Type::None;
 		}
 		
-		inline void solid(float opacity = 6.0, bool transparent = true){
+		inline void solid(float opacity = 1.0, bool transparent = true){
 			if(!(0.0 <= opacity && opacity <= 1.0)){
 				throw std::invalid_argument(
 					"Invalid argument for plotpp::FillStyle::solid(float opacity). "
