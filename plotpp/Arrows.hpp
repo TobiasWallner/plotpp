@@ -54,32 +54,15 @@ namespace plotpp{
 		
 		// ---- IPlot overloads ----
 		
-		virtual void printPlot(FILE* fptr) const {
-			fmt::print(fptr, "$d{:d}", this->IPlot::uid());
-			
-			if(this->dataRelation() == DataRelation::absolute){
-				fmt::print(fptr, " using 1:2:(($3)-($1)):($4-$2)");
-			}else{
-				fmt::print(fptr, " using 1:2:3:4");
-			}
-			
-			if(this->dataRelation() == DataRelation::polar){
-				fmt::print(fptr, " with arrows");
-			}else{
-				fmt::print(fptr, " with vectors");
-			}
-			
-			fmt::print(fptr, " {} lw {:.2f}", this->arrowHeadStyle(), this->lineWidth());
-			
-			if(this->opt_color){
-				fmt::print(fptr, " lc rgb '#{:06x}'", this->opt_color.value().to_int32());
-			}
-			
-			if(this->IPlot::label().empty()){
-				fmt::print(fptr, " notitle");
-			}else{
-				fmt::print(fptr, " title '{}'", this->IPlot::label());
-			}
+		virtual void printPlot(FILE* fptr) const {	
+			fmt::print(fptr, "$d{0} {1} {2} {3} lw {4:.2f} {5} {6}",
+				this->IPlot::uid(),
+				(this->dataRelation() == DataRelation::absolute) ? " using 1:2:(($3)-($1)):($4-$2)" : " using 1:2:3:4",
+				(this->dataRelation() == DataRelation::polar) ? " with arrows" : " with vectors",
+				this->arrowHeadStyle(), 
+				this->lineWidth(), 
+				this->opt_color,
+				this->IPlot::label());
 		}
 		
 		virtual void printData(FILE* fptr) const {
