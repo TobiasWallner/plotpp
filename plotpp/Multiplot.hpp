@@ -1,8 +1,11 @@
 #pragma once
 
+// std
+#include <cstdio>
 #include <vector>
 
-#include <plotpp/Figure.hpp>
+// plotpp
+#include "plotpp/Figure.hpp"
 
 namespace plotpp{
 
@@ -31,7 +34,7 @@ namespace plotpp{
 	
 		Multiplot() = default;
 	
-		Multiplot(Text title);
+		Multiplot(Text title="");
 		
 		Multiplot(size_t rows, size_t columns, Text title="");
 			

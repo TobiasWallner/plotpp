@@ -1,7 +1,9 @@
-# Ignore
-build*/
-.vs/
-Makefile
+# Ignore folders
+build_gcc/*
+.vs/*
+conan_profiles/*
+
+# Ignore file types
 *.fig
 *.html
 *.jpg
@@ -11,8 +13,12 @@ Makefile
 *.webp
 *.gp
 *.svg
+
+
+# Ignore specific files
+Makefile
 TODO.txt
+CMakeUserPresets.json
 
 # Allow
 !images/*
-!docs/*

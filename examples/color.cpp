@@ -3,6 +3,7 @@
 #include <functional>
 #include <format>
 #include <chrono>
+#include <iostream>
 
 std::vector<float> linspace(float from, float to, size_t N){
 	std::vector<float> result;

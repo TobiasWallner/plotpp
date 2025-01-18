@@ -5,15 +5,9 @@
 #include <memory>
 #include <string>
 #include <list>
-#include <ostream>
-#include <iostream>
-#include <fstream>
 #include <vector>
-#include <atomic>
-#include <thread>
 
 // plotpp
-#include "opstream.hpp"
 #include "plotpp/TerminalType.hpp"
 #include "plotpp/OutputFileType.hpp"
 #include "plotpp/Text.hpp"
@@ -67,17 +61,8 @@ namespace plotpp{
 		
 		Figure& showLegend(bool b = true);
 		
-	private:
-		
-		FILE* gnuplot_pipe();
-	public:
-		/**
-			closes this figure. following calls to show() will thus create a new window.
-			closes the pipe stream to the curren figure / gnuplot scession;
-		*/
-		void close();
-		
-		void close_pipe();
+		FILE* get_gnuplot_pipe();
+		void close_gnuplot_pipe();
 	
 		template<class T>
 		Figure& add(std::shared_ptr<T> plot){
@@ -165,8 +150,6 @@ namespace plotpp{
 		
 		std::vector<std::string> xtics_labels_;
 		std::vector<double> xtics_values_;
-		
-		opstream gnuplot_;
 		
 		FILE* gnuplot_pipe_ = nullptr;
 		

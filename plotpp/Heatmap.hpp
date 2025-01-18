@@ -1,7 +1,14 @@
 #pragma once
 
+// std
 #include <ostream>
 #include <functional>
+
+// {fmt}
+#include <fmt/core.h>
+
+// project
+#include "optional_ptr.hpp"
 #include "plotpp/IPlot.hpp"
 #include "plotpp/concepts.hpp"
 

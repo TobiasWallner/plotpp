@@ -8,8 +8,8 @@
 #include <optional>
 #include <numeric>
 
-// zip iterator
-#include <zip_tuple.hpp>
+// {fmt}
+#include <fmt/core.h>
 
 // project
 #include "plotpp/IPlot.hpp"
@@ -92,7 +92,17 @@ namespace plotpp{
 			
 			size_t i = 1;
 			bool first_iteration = true;
-			for(const auto && [start_angle, end_angle] : c9::zip(this->start_angles_, this->end_angles_)){
+			
+			auto startAngleItr = this->start_angles_.cbegin();
+			const auto startAngleEnd = this->start_angles_.cend();
+			
+			auto endAngleItr = this->end_angles_.cbegin();
+			const auto endAngleEnd = this->end_angles_.cend();
+			
+			for(; (startAngleItr != startAngleEnd) && (endAngleItr != endAngleEnd); ++startAngleItr, (void)++endAngleItr){
+				const auto& start_angle = *startAngleItr; 
+				const auto& end_angle = *endAngleItr;
+				
 				if (first_iteration == false){
 					fmt::print(fptr, ", \\\n     ");
 				}

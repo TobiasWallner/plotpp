@@ -10,9 +10,6 @@
 // fmt
 #include <fmt/core.h>
 
-// zip-iterator
-#include <zip_tuple.hpp>
-
 // plotpp
 #include "plotpp/IPlot.hpp"
 #include "plotpp/LineType.hpp"
@@ -130,14 +127,23 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				for(const auto && [x, y] : c9::zip(*(this->x_), *(this->y_)))
+				auto xItr = std::cbegin(*(this->x_));
+				const auto xEnd = std::cend(*(this->x_));
+				auto yItr = std::cbegin(*(this->y_));
+				const auto yEnd = std::cend(*(this->y_));
+				for(; (xItr != xEnd) && (yItr != yEnd); ++xItr, (void)++yItr){
+					const auto& x = *xItr;
+					const auto& y = *yItr;
 					fmt::print(fptr, "{} {}\n", x, y);
-
+				}
 			}else{
 				size_t x = 0;
-				for(const auto & y : *(this->y_))
-					fmt::print(fptr, "{} {}\n", x++, y);
-
+				auto yItr = std::cbegin(*(this->y_));
+				const auto yEnd = std::cend(*(this->y_));
+				for(;yItr != yEnd; ++x, (void)++yItr){
+					const auto& y = *yItr;
+					fmt::print(fptr, "{} {}\n", x, y);
+				}
 			}
 			fmt::print(fptr, "e\n");
 		}

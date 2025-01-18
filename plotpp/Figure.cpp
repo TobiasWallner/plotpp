@@ -1,16 +1,12 @@
 #include "plotpp/Figure.hpp"
 
+// std
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
-#include <thread>
-#include <future>
 
 // {fmt}
 #include <fmt/core.h>
-
-// zip-iterator
-#include <zip_tuple.hpp>
 
 namespace plotpp{
 	
@@ -27,7 +23,7 @@ namespace plotpp{
 	{}
 	
 	Figure::~Figure(){
-		this->close_pipe();
+		this->close_gnuplot_pipe();
 	}
 	
 	
@@ -62,7 +58,7 @@ namespace plotpp{
 	Figure& Figure::yGrid(bool b){this->grid_y_ = b; return *this;}
 	Figure& Figure::grid(bool b){return this->xGrid(b).yGrid(b);}
 	
-	void Figure::close_pipe(){
+	void Figure::close_gnuplot_pipe(){
 		if(this->gnuplot_pipe_ != nullptr){
 			#ifdef WIN32
 			const int status = _pclose(this->gnuplot_pipe_);
@@ -76,7 +72,7 @@ namespace plotpp{
 		}
 	}
 	
-	FILE* Figure::gnuplot_pipe() {
+	FILE* Figure::get_gnuplot_pipe() {
 		if(this->gnuplot_pipe_ == nullptr){
 			#ifdef WIN32
 			this->gnuplot_pipe_ = _popen("gnuplot -persist", "w");
@@ -85,10 +81,6 @@ namespace plotpp{
 			#endif
 		}
 		return this->gnuplot_pipe_;
-	}
-	
-	void Figure::close() {
-		this->gnuplot_.close();
 	}
 	
 	Figure& Figure::add(std::shared_ptr<IPlot> plot){
@@ -179,7 +171,7 @@ namespace plotpp{
 	}
 
 	Figure& Figure::show(TerminalType TerminalType) {
-		FILE* fptr = this->gnuplot_pipe();
+		FILE* fptr = this->get_gnuplot_pipe();
 		this->plot(fptr, TerminalType);
 		return *this;
 	}
@@ -252,9 +244,19 @@ namespace plotpp{
 			fmt::print(fptr, "set xtics(");
 			
 			bool first = true;
-			for(const auto && [label, value] : c9::zip(this->xtics_labels_, this->xtics_values_)){
-				fmt::print(fptr, "{}\"{}\" {}", (first ? "" : ", "), label, value);
-				first = false;
+			{
+				auto labelItr = this->xtics_labels_.cbegin();
+				const auto labelEnd = this->xtics_labels_.cend();
+				
+				auto valueItr = this->xtics_values_.cbegin();
+				const auto valueEnd = this->xtics_values_.cend();
+
+				for(; (labelItr != labelEnd) && (valueItr != valueEnd); ++labelItr, (void)++valueItr){
+					const auto& label = *labelItr;
+					const auto& value = *valueItr;
+					fmt::print(fptr, "{}\"{}\" {}", (first ? "" : ", "), label, value);
+					first = false;
+				}
 			}
 			
 			fmt::print(fptr, ")\n");

@@ -1,10 +1,16 @@
 #pragma once
 
+// std
 #include <ostream>
 #include <iterator>
 #include <vector>
 #include <optional>
 
+// {fmt}
+#include <fmt/core.h>
+
+// project
+#include "optional_ptr.hpp"
 #include "plotpp/IPlot.hpp"
 #include "plotpp/PointType.hpp"
 #include "plotpp/Color.hpp"

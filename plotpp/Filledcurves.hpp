@@ -10,9 +10,6 @@
 // fmt
 #include <fmt/core.h>
 
-// zip-iterator
-#include <zip_tuple.hpp>
-
 // plotpp
 #include "plotpp/IPlot.hpp"
 #include "plotpp/LineType.hpp"
@@ -87,13 +84,29 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				for(const auto && [x, y1, y2] : c9::zip(*(this->x_), *(this->y1_), *(this->y2_)))
+				auto xItr = std::cbegin(*(this->x_));
+				const auto xEnd = std::cend(*(this->x_));
+				auto y1Itr = std::cbegin(*(this->y1_));
+				const auto y1End = std::cend(*(this->y1_));
+				auto y2Itr = std::cbegin(*(this->y2_));
+				const auto y2End = std::cend(*(this->y2_));
+				for(; (xItr != xEnd) && (y1Itr != y1End) && (y2Itr != y2End); ++xItr, (void)++y1Itr, (void)++y2Itr){
+					const auto& x = *xItr;
+					const auto& y1 = *y1Itr;
+					const auto& y2 = *y2Itr;
 					fmt::print(fptr, "{} {} {}\n", x, y1, y2);
-
+				}
 			}else{
 				size_t x = 0;
-				for(const auto && [y1, y2] : c9::zip(*(this->y1_), *(this->y2_)))
-					fmt::print(fptr, "{} {} {}\n", x++, y1, y2);
+				auto y1Itr = std::cbegin(*(this->y1_));
+				const auto y1End = std::cend(*(this->y1_));
+				auto y2Itr = std::cbegin(*(this->y2_));
+				const auto y2End = std::cend(*(this->y2_));
+				for(; (y1Itr != y1End) && (y2Itr != y2End); ++x, (void)++y1Itr, (void)++y2Itr){
+					const auto& y1 = *y1Itr;
+					const auto& y2 = *y2Itr;
+					fmt::print(fptr, "{} {} {}\n", x, y1, y2);
+				}
 			}
 			fmt::print(fptr, "e\n");
 		}

@@ -1,38 +1,7 @@
-cmake_minimum_required(VERSION 3.18.0)
+cmake_minimum_required(VERSION 3.18.0) 
 
 # project building process: 
 project(plotpp)
-
-# -----------------------------------------------------------------
-# 	CPM: An Awesome Dependency Manager for C++ with CMake
-#		https://github.com/cpm-cmake/CPM.cmake
-# -----------------------------------------------------------------
-
-set(CPM_CMAKE_PATH "${CMAKE_BINARY_DIR}/cmake/CPM.cmake")
-set(CPM_CMAKE_URL "https://github.com/cpm-cmake/CPM.cmake/releases/download/v0.40.4/CPM.cmake")
-
-# Check if CPM.cmake exists
-if(NOT EXISTS "${CPM_CMAKE_PATH}")
-    message(STATUS "CPM.cmake not found. Downloading from ${CPM_CMAKE_URL}...")
-    file(DOWNLOAD ${CPM_CMAKE_URL} ${CPM_CMAKE_PATH} STATUS download_status LOG download_log)
-    list(GET download_status 0 return_code)  # Get the numeric return code
-	list(GET download_status 1 error_message)  # Get the error message
-	if(return_code)
-		file(REMOVE ${CPM_CMAKE_PATH}) #cleanup
-		message(FATAL_ERROR 
-			"Error: ${error_message}.\n"
-			"    Failed to download CPM.cmake. Check the URL or download it manually and place it at:\n"
-			"    ${CPM_CMAKE_PATH}")
-	else()
-		message(STATUS "Successfully downloaded CPM.cmake.")
-    endif()
-else()
-    message(STATUS "Found CPM.cmake at ${CPM_CMAKE_PATH}.")
-endif()
-
-
-include(${CPM_CMAKE_PATH})
-option(CPM_USE_LOCAL_PACKAGES "Try `find_package` before downloading dependencies" ON)
 
 # -----------------------------------------------------------------
 # 					Add Modules / Dependencies
@@ -53,19 +22,8 @@ else()
                     "    - On Windows: Download the installer from https://sourceforge.net/projects/gnuplot/\n"
 	                "    You will still be able to compile your project but it will not be able to talk to gnuplot and plot figures")
 endif()
- 
-add_subdirectory(opstream)
 
-# {fmt}
-# Github: https://github.com/fmtlib/fmt
-# Documentation: https://fmt.dev/11.0/
-CPMAddPackage("gh:fmtlib/fmt#11.0.2")
-
-# zip-iterator
-# Github: https://github.com/CommitThis/zip-iterator
-#CPMAddPackage("gh:CommitThis/zip-iterator#master")
-CPMAddPackage("gh:TobiasWallner/zip-iterator#256cd6247d447761c5b768ee2a6703335c66c605") # fork
-
+find_package(fmt REQUIRED)
 
 message(STATUS "======================== Plotpp: END: Fetching External Libraries =========================")
 
@@ -86,28 +44,29 @@ add_library(plotpp STATIC
 	plotpp/TerminalType.cpp
 )
 
+# add OS specific definitions
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_compile_definitions(plotpp PRIVATE -DWIN32)
+endif()
+
 target_include_directories(plotpp PUBLIC
 	.
 	optional_ptr
-	${zip-iterator_SOURCE_DIR}
 )
 
 target_compile_features(plotpp PUBLIC cxx_std_20)
 
-target_link_libraries(plotpp PUBLIC
-	opstream
-	fmt::fmt
-)
+target_link_libraries(plotpp PUBLIC fmt::fmt)
 
+# --------------------------------------------------------------------------
+# 								Examples
+#
 # optionally build examples with `-DBUILD_EXAMPLES=ON`
 # --------------------------------------------------------------------------
 
 option(BUILD_EXAMPLES "Description of the feature" OFF)
 
 if(BUILD_EXAMPLES)
-	
-	
-
 	# Compiler Options for Clang:
 	# ===========================
 	if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -183,10 +142,10 @@ if(BUILD_EXAMPLES)
 	
 	# line
 	add_executable(line examples/line.cpp)
-	target_link_libraries(line PUBLIC plotpp fmt::fmt)
+	target_link_libraries(line PUBLIC plotpp)
 	target_compile_options(line PUBLIC ${COMPILER_FLAGS})
 	
-	# line
+	# points
 	add_executable(points examples/points.cpp)
 	target_link_libraries(points PUBLIC plotpp)
 	target_compile_options(points PUBLIC ${COMPILER_FLAGS})

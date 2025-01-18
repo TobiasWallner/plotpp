@@ -1,13 +1,18 @@
-
-#include <plotpp/Multiplot.hpp>
-#include <plotpp/Figure.hpp>
-
-#include <vector>
+// std
 #include <cstdio>
+#include <cstdlib>
+#include <vector>
+
+// plotpp
+#include "plotpp/Multiplot.hpp"
+#include "plotpp/Figure.hpp"
+
+
+
 
 namespace plotpp{
 	
-	Multiplot::Multiplot(Text title="")
+	Multiplot::Multiplot(Text title)
 		: figs_(0)
 		, title_(title)
 		, rows_(0)
