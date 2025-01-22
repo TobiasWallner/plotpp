@@ -19,8 +19,7 @@ Dependencies
 ------------
 All dependencies are managed by the [CMake](https://cmake.org/) scripts using [CPM](https://github.com/cpm-cmake/CPM.cmake). 
 The dependencies will be automatically downloaded, build and linked to the project - if not already know by CMake.
-- {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/)
-- zip-iterator
+- {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/), [Conan](https://conan.io/center/recipes/fmt?version=)
 
 Features
 ========
@@ -111,86 +110,68 @@ int main(){
 Integration
 ===========
 
-With [CMake](https://cmake.org/) [CPM](https://github.com/cpm-cmake/CPM.cmake)
---------------
-Why would one use [CPM](https://github.com/cpm-cmake/CPM.cmake)?
-- CMake Package Manager
-- Automatic Dependency Management in CMake
-- Package Version Control
-- Automatic Download and Build Integration
-
-### Quick [CPM](https://github.com/cpm-cmake/CPM.cmake) Setup:  
-Download the `CPM.cmake` file and put in the folder `cmake` 
-and includ it in your project. 
-[CPM](https://github.com/cpm-cmake/CPM.cmake) will then automatically download and build all dependencies.
-
+[CMake](https://cmake.org/)
+---------------------------
 ```cmake
-include(cmake/CPM.cmake)
+cmake_minimum_required(VERSION 3.15)
+project(PROJECT_NAME CXX)
 
-CPMAddPackage("gh:TobiasWallner/plotpp")
+find_package(plotpp CONFIG REQUIRED)
 
-add_executable(PROJECT_NAME main.cpp)
-target_link_libraries(PROJECT_NAME plotpp) 
+add_executable(main src/main.cpp)
+target_link_libraries(main plotpp::plotpp)
 ```
 
-### Automatic [CPM](https://github.com/cpm-cmake/CPM.cmake) Setup:  
-Instead of 
-```cmake
-include(cmake/CPM.cmake)
+[Conan](https://conan.io/) **TO be done**
+--------------------------
+`conanfile.txt`
+```conanfile
+[requires]
+plotpp/<version>
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout
 ```
 
-Use the following template to automatically download the [CPM](https://github.com/cpm-cmake/CPM.cmake) file 
-and check if this project is a nested project in which case it will use the most upper CPM.cmake
-instead of re-downloading it.
-
-```cmake
-project(PROJECT_NAME)
-
-# -----------------------------------------------------------------
-# 	CPM: An Awesome Dependency Manager for C++ with CMake
-#		https://github.com/cpm-cmake/CPM.cmake
-# -----------------------------------------------------------------
-
-set(CPM_CMAKE_PATH "${CMAKE_BINARY_DIR}/cmake/CPM.cmake")
-set(CPM_CMAKE_URL "https://github.com/cpm-cmake/CPM.cmake/releases/download/v0.40.2/CPM.cmake")
-
-# Check if CPM.cmake exists
-if(NOT EXISTS "${CPM_CMAKE_PATH}")
-    message(STATUS "CPM.cmake not found. Downloading from ${CPM_CMAKE_URL}...")
-    file(DOWNLOAD ${CPM_CMAKE_URL} ${CPM_CMAKE_PATH} STATUS download_status LOG download_log)
-    list(GET download_status 0 return_code)  # Get the numeric return code
-	list(GET download_status 1 error_message)  # Get the error message
-	if(return_code)
-		file(REMOVE ${CPM_CMAKE_PATH}) #cleanup
-		message(FATAL_ERROR 
-			"Error: ${error_message}.\n"
-			"    Failed to download CPM.cmake. Check the URL or download it manually and place it at:\n"
-			"    ${CPM_CMAKE_PATH}")
-	else()
-		message(STATUS "Successfully downloaded CPM.cmake.")
-    endif()
-else()
-    message(STATUS "Found CPM.cmake at ${CPM_CMAKE_PATH}.")
-endif()
+`conanfile.py`
+```py
+from conan import ConanFile
+from conan.tools.cmake import cmake_layout
 
 
-include(${CPM_CMAKE_PATH})
-option(CPM_USE_LOCAL_PACKAGES "Try `find_package` before downloading dependencies" ON)
+class ExampleRecipe(ConanFile):
+    settings = "os", "compiler", "build_type", "arch"
+    generators = "CMakeDeps", "CMakeToolchain"
+
+    def requirements(self):
+        self.requires("plotpp/<version>")
+
+    def layout(self):
+        cmake_layout(self)
 ```
 
-With [CMake](https://cmake.org/) Fetch Content
-------------------------
-```
-include(FetchContent)
-FetchContent_Declare(
-  Plotpp
-  GIT_REPOSITORY https://github.com/TobiasWallner/Plotpp.git
-  GIT_TAG main
-)
-FetchContent_MakeAvailable(Plotpp)
+build instructions with conan
+```bash
+# install dependencies
+conan install . --build=missing --output-folder build
+
+# Optional: set your prefered compile
+set CC=gcc
+set CXX=g++
+set LD=ld
+
+# generate build scripts (for the build tool e.g.: -G "Ninja Multi-Config")
+cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
+
+# build the project
+cmake --build build_gcc --config Release
 ```
 
-With add_subdirectory
+Manually with [add_subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
 ------------------------
 Manually download the library and add it via `add_subdirectory`.
 ```cmake
@@ -198,6 +179,8 @@ add_subdirectory(path/to/Plotpp)
 add_executable(PROJECT_NAME main.cpp)
 target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
 ```
+Note: you would also need to add and link against fmt
+
 Manual Build
 ------------
 - include the folder containing `plotpp.hpp`
