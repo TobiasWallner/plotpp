@@ -160,9 +160,9 @@ build instructions with conan
 conan install . --build=missing --output-folder build
 
 # Optional: set your prefered compile
-set CC=gcc
-set CXX=g++
-set LD=ld
+set CC=<path/to/C-compiler>
+set CXX=<path/to/C++-compiler>
+set LD=<path/to/Linker>
 
 # generate build scripts (for the build tool e.g.: -G "Ninja Multi-Config")
 cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
@@ -170,6 +170,37 @@ cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/gen
 # build the project
 cmake --build build_gcc --config Release
 ```
+
+### Conan FAQ
++ 	How can I make Conan use a different CMake generator?  
+	Add to your profile:
+	```
+	[conf]
+	tools.cmake.cmaketoolchain:generator=Ninja
+	```
++	Conan selects the wrong compiler?
+	Add to your profile:
+	```
+	[conf]
+	tools.build:compiler_executables={"c" : "gcc", "cpp" : "g++"}
+	```
+	or:
+	```
+	[buildenv]
+	CC=gcc
+	CXX=g++
+	LD=ld
+	```
++	Where can I find the default profile?
+	```bash
+	conan profile path default
+	```
++	I want to create a library but with `conan create . --build=missing` it cannot find the header files
+	Enable transitive headers in your `conanfile.py`:
+	```py
+	def requirements(self):
+		self.requires("<library/version>", transitive_headers=True)
+	```
 
 Manually with [add_subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
 ------------------------
