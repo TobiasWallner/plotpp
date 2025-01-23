@@ -159,6 +159,11 @@ build instructions with conan
 # install dependencies
 conan install . --build=missing --output-folder build
 
+# Optional: set your prefered compile
+set CC=<path/to/C-compiler>
+set CXX=<path/to/C++-compiler>
+set LD=<path/to/Linker>
+
 # generate build scripts (for the build tool e.g.: -G "Ninja Multi-Config")
 cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
 
@@ -178,13 +183,6 @@ cmake --build build_gcc --config Release
 	```
 	[conf]
 	tools.build:compiler_executables={"c" : "gcc", "cpp" : "g++"}
-	```
-	or:
-	```
-	[buildenv]
-	CC=gcc
-	CXX=g++
-	LD=ld
 	```
 +	Where can I find the default profile?
 	```bash
