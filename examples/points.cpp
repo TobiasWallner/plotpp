@@ -14,6 +14,7 @@ int main() {
 		Figure fig("Points-Plot from XY values");
 		fig.add(points(&x, &y2).label("1/x^2*30"));
 		fig.show();
+		fig.save("points-plot.svg");
 		//fig.save("points-plot.gp");
 		//fig.save("points-plot.png");	
 	}

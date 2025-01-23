@@ -47,7 +47,7 @@ void plot_sin_with_mapped_palette(std::string title, const std::array<plotpp::Co
 	const auto x = linspace(-3.1415, 3.1415, 100);
 	
 	Figure fig(std::move(title));
-	for(int i = 0; i < 40; ++i){
+	for(int i = 0; i < 1; ++i){
 		float f = i/20.;
 		auto function = [f](float x) -> float {return std::sin(x + f);};
 		const auto y = apply(x, function);
@@ -63,7 +63,6 @@ int main() {
 	auto start = std::chrono::high_resolution_clock::now();
 	
 	plot_sin_with_mapped_palette("Special: plasma mapped", color_map::plasma);
-	
 	// --------------- special color ranges ---------------
 	plot_sin_with_color_palette("Special: magma", color_map::magma);
 	plot_sin_with_color_palette("Special: inferno", color_map::inferno);
