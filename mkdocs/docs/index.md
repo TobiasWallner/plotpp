@@ -19,9 +19,9 @@ Requirements
 
 Dependencies
 ------------
-All dependencies are managed by the [CMake](https://cmake.org/) scripts using [CPM](https://github.com/cpm-cmake/CPM.cmake). 
-The dependencies will be automatically downloaded, build and linked to the project - if not already know by CMake.
 - {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/), [Conan](https://conan.io/center/recipes/fmt?version=)
+
+A [conan](https://conan.io/) recipe is provided
 
 Features
 ========
