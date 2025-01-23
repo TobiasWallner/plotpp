@@ -10,7 +10,7 @@
       
       
       
-        <link rel="next" href="plotting_styles/">
+        <link rel="next" href="plotting_styles/plotting_styles/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -219,7 +219,7 @@
   
   
     <li class="md-nav__item">
-      <a href="plotting_styles/" class="md-nav__link">
+      <a href="plotting_styles/plotting_styles/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -266,8 +266,156 @@
 
 
 <h1 id="welcome-to-plotpp">Welcome to Plotpp</h1>
-<p>I am getting started with the documentation. 
-So please for now have a look at the examples provided in the folder of the same name. </p>
+<h1 id="plotpp">Plotpp</h1>
+<p>A plotting library for C++ that uses Gnuplot as a backend.
+Allows plotting from custom containers/vectors if they use <code>begin()</code> and <code>end()</code> iterators as well as plotting from built in arrays.</p>
+<p><a href="https://tobiaswallner.github.io/plotpp/">Documentation</a></p>
+<h1 id="requirements">Requirements</h1>
+<ul>
+<li>Gnuplot: <a href="http://gnuplot.info/index.html">Homepage</a> <a href="https://sourceforge.net/projects/gnuplot/files/gnuplot/">Windows Download</a> <a href="https://riptutorial.com/gnuplot/example/11275/installation-or-setup">Linux install</a>:<br />
+<em>Note: The project can be build without gnuplot,
+    since this library will only communicate with gnuplot through pipes. 
+    But you will need gnuplot to display the graphical plots.</em></li>
+<li>C++20</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<p>All dependencies are managed by the <a href="https://cmake.org/">CMake</a> scripts using <a href="https://github.com/cpm-cmake/CPM.cmake">CPM</a>. 
+The dependencies will be automatically downloaded, build and linked to the project - if not already know by CMake.
+- {fmt}: <a href="https://github.com/fmtlib/fmt">GitHub</a>, <a href="https://fmt.dev/11.0/">Documentation</a>, <a href="https://conan.io/center/recipes/fmt?version=">Conan</a></p>
+<h1 id="features">Features</h1>
+<h3 id="plotting-styles">Plotting Styles</h3>
+<ul>
+<li>Line/filled Line/filled Curves</li>
+<li>Poins/Scatter/XError/YError/XYError</li>
+<li>Arrows/Vectors/Quiver</li>
+<li>Heatmap</li>
+<li>Boxes</li>
+<li>Boxplot</li>
+<li>Circle</li>
+<li>Pie-Charts</li>
+<li>Impulses</li>
+<li>Steps/filled Steps</li>
+</ul>
+<h1 id="examples">Examples</h1>
+<p>You can see all examples in the <code>examples/</code> folder.</p>
+<h2 id="line-plot">Line Plot</h2>
+<div style="display: flex; align-items: flex-start;">
+
+    <div style="margin-right: 20px; width: 60%;">
+
+<pre><code class="language-C++">int main() {
+    using namespace plotpp;
+
+    {
+        std::vector&lt;double&gt; x(20);
+        for(size_t i=0; i &lt; x.size(); ++i) x[i] = i;
+
+        std::vector&lt;double&gt; y1(20);
+        for(size_t i=0; i &lt; y1.size(); ++i) y1[i] = 1./i*30;
+
+        Figure fig(&quot;Line Plot from XY&quot;);
+        fig.add(line(&amp;x, &amp;y1).label(&quot;1/x*30&quot;));
+        fig.show();
+    }
+}
+</code></pre>
+
+    </div>
+
+    <div style="width: 40%;">
+        <img src="line-plot.svg" alt="Image" width="300">
+    </div>
+
+</div>
+
+<h1 id="integration">Integration</h1>
+<h2 id="cmake"><a href="https://cmake.org/">CMake</a></h2>
+<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.15)
+project(PROJECT_NAME CXX)
+
+find_package(plotpp CONFIG REQUIRED)
+
+add_executable(main src/main.cpp)
+target_link_libraries(main plotpp::plotpp)
+</code></pre>
+<h2 id="conan-to-be-done"><a href="https://conan.io/">Conan</a> <strong>TO be done</strong></h2>
+<p><code>conanfile.txt</code></p>
+<pre><code class="language-conanfile">[requires]
+plotpp/&lt;version&gt;
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout
+</code></pre>
+<p><code>conanfile.py</code></p>
+<pre><code class="language-py">from conan import ConanFile
+from conan.tools.cmake import cmake_layout
+
+
+class ExampleRecipe(ConanFile):
+    settings = &quot;os&quot;, &quot;compiler&quot;, &quot;build_type&quot;, &quot;arch&quot;
+    generators = &quot;CMakeDeps&quot;, &quot;CMakeToolchain&quot;
+
+    def requirements(self):
+        self.requires(&quot;plotpp/&lt;version&gt;&quot;)
+
+    def layout(self):
+        cmake_layout(self)
+</code></pre>
+<p>build instructions with conan</p>
+<pre><code class="language-bash"># install dependencies
+conan install . --build=missing --output-folder build
+
+# Optional: set your prefered compile
+set CC=&lt;path/to/C-compiler&gt;
+set CXX=&lt;path/to/C++-compiler&gt;
+set LD=&lt;path/to/Linker&gt;
+
+# generate build scripts (for the build tool e.g.: -G &quot;Ninja Multi-Config&quot;)
+cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
+
+# build the project
+cmake --build build_gcc --config Release
+</code></pre>
+<h3 id="conan-faq">Conan FAQ</h3>
+<ul>
+<li>How can I make Conan use a different CMake generator?<br />
+    Add to your profile:
+    <code>[conf]
+    tools.cmake.cmaketoolchain:generator=Ninja</code></li>
+<li>Conan selects the wrong compiler?
+    Add to your profile:
+    <code>[conf]
+    tools.build:compiler_executables={"c" : "gcc", "cpp" : "g++"}</code>
+    or:
+    <code>[buildenv]
+    CC=gcc
+    CXX=g++
+    LD=ld</code></li>
+<li>Where can I find the default profile?
+    <code>bash
+    conan profile path default</code></li>
+<li>I want to create a library but with <code>conan create . --build=missing</code> it cannot find the header files
+    Enable transitive headers in your <code>conanfile.py</code>:
+    <code>py
+    def requirements(self):
+        self.requires("&lt;library/version&gt;", transitive_headers=True)</code></li>
+</ul>
+<h2 id="manually-with-add_subdirectory">Manually with <a href="https://cmake.org/cmake/help/latest/command/add_subdirectory.html">add_subdirectory</a></h2>
+<p>Manually download the library and add it via <code>add_subdirectory</code>.</p>
+<pre><code class="language-cmake">add_subdirectory(path/to/Plotpp)
+add_executable(PROJECT_NAME main.cpp)
+target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
+</code></pre>
+<p>Note: you would also need to add and link against fmt</p>
+<h2 id="manual-build">Manual Build</h2>
+<ul>
+<li>include the folder containing <code>plotpp.hpp</code></li>
+<li>compile and link all <code>*.cpp</code> files in <code>plotpp/</code></li>
+</ul>
 
 
 
