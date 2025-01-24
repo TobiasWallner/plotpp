@@ -1,0 +1,1409 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Plotting library for C++. Alows plotting into popup-windows as well as saveing them in a large variety of dataformats. Uses Gnuplot as a backend.">
+      
+      
+        <meta name="author" content="Tobias Wallner">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>plotpp::Figure - Plotpp</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#plotppfigure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Plotpp" class="md-header__button md-logo" aria-label="Plotpp" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Plotpp
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              plotpp::Figure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/TobiasWallner/plotpp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    TobiasWallner/plotpp
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../plotting_styles/plotting_styles/" class="md-tabs__link">
+        
+  
+    
+  
+  Plotting Styles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Plotpp" class="md-nav__button md-logo" aria-label="Plotpp" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Plotpp
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/TobiasWallner/plotpp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    TobiasWallner/plotpp
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../plotting_styles/plotting_styles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plotting Styles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Classes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Namespaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Namespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Public Functions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-functions-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Public Functions Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Public Functions Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-figure" class="md-nav__link">
+    <span class="md-ellipsis">
+      function Figure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-figure_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function Figure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-figure_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      function Figure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-figure_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      function Figure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-figure_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      function Figure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-figure_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      function ~Figure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-title" class="md-nav__link">
+    <span class="md-ellipsis">
+      function title
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-title_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function title
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xlabel" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xLabel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xlabel_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xLabel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ylabel" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yLabel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ylabel_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yLabel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xMin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xmax" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xMax
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ymin" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yMin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ymax" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yMax
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xlim" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xLim
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ylim" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yLim
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-lim" class="md-nav__link">
+    <span class="md-ellipsis">
+      function lim
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xlogbase" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xLogBase
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ylogbase" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yLogBase
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xreverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xReverse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-yreverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yReverse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xautoscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xAutoscale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-yautoscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yAutoscale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xlog" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xLog
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ylog" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yLog
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xgrid" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xGrid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-ygrid" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yGrid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      function grid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-showlegend" class="md-nav__link">
+    <span class="md-ellipsis">
+      function showLegend
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-get_gnuplot_pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      function get_gnuplot_pipe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-close_gnuplot_pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      function close_gnuplot_pipe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-add" class="md-nav__link">
+    <span class="md-ellipsis">
+      function add
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-add_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function add
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-add_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      function add
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xtics" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xtics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xtics_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xtics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xtics_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xtics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-xtics_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      function xtics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-clear_xtics" class="md-nav__link">
+    <span class="md-ellipsis">
+      function clear_xtics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      function save
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-show" class="md-nav__link">
+    <span class="md-ellipsis">
+      function show
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-show_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function show
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      function plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-plot_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function plot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/TobiasWallner/plotpp/edit/master/docs/API/Classes/classplotpp_1_1_figure.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/TobiasWallner/plotpp/raw/master/docs/API/Classes/classplotpp_1_1_figure.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="plotppfigure">plotpp::Figure</h1>
+<h2 id="public-functions">Public Functions</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-figure">Figure</a></strong>() =default</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-figure">Figure</a></strong>(const <a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp; ) =delete</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-figure">Figure</a></strong>(<a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;&amp; ) =default</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-figure">Figure</a></strong>(std::string title_str)</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-figure">Figure</a></strong>(<a href="/API/Classes/classplotpp_1_1_text/">Text</a> title, <a href="/API/Classes/classplotpp_1_1_text/">Text</a> xlabel, <a href="/API/Classes/classplotpp_1_1_text/">Text</a> ylabel)</td>
+</tr>
+<tr>
+<td></td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-~figure">~Figure</a></strong>()</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-title">title</a></strong>(const <a href="/API/Classes/classplotpp_1_1_text/">Text</a> &amp; title)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-title">title</a></strong>(<a href="/API/Classes/classplotpp_1_1_text/">Text</a> &amp;&amp; title)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xlabel">xLabel</a></strong>(const <a href="/API/Classes/classplotpp_1_1_text/">Text</a> &amp; xlabel)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xlabel">xLabel</a></strong>(<a href="/API/Classes/classplotpp_1_1_text/">Text</a> &amp;&amp; xlabel)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ylabel">yLabel</a></strong>(const <a href="/API/Classes/classplotpp_1_1_text/">Text</a> &amp; ylabel)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ylabel">yLabel</a></strong>(<a href="/API/Classes/classplotpp_1_1_text/">Text</a> &amp;&amp; ylabel)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xmin">xMin</a></strong>(float v)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xmax">xMax</a></strong>(float v)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ymin">yMin</a></strong>(float v)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ymax">yMax</a></strong>(float v)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xlim">xLim</a></strong>(float x_min, float x_max)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ylim">yLim</a></strong>(float y_min, float y_max)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-lim">lim</a></strong>(float x_min, float x_max, float y_min, float y_max)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xlogbase">xLogBase</a></strong>(float base)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ylogbase">yLogBase</a></strong>(float base)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xreverse">xReverse</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-yreverse">yReverse</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xautoscale">xAutoscale</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-yautoscale">yAutoscale</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xlog">xLog</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ylog">yLog</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xgrid">xGrid</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-ygrid">yGrid</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-grid">grid</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-showlegend">showLegend</a></strong>(bool b =true)</td>
+</tr>
+<tr>
+<td>FILE *</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-get-gnuplot-pipe">get_gnuplot_pipe</a></strong>()</td>
+</tr>
+<tr>
+<td>void</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-close-gnuplot-pipe">close_gnuplot_pipe</a></strong>()</td>
+</tr>
+<tr>
+<td>template &lt;class T &gt; <br><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-add">add</a></strong>(std::shared_ptr&lt; T &gt; plot)</td>
+</tr>
+<tr>
+<td>template &lt;class T &gt; <br><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-add">add</a></strong>(T &amp;&amp; plot)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-add">add</a></strong>(std::shared_ptr&lt; <a href="/API/Classes/classplotpp_1_1_i_plot/">IPlot</a> &gt; plot)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xtics">xtics</a></strong>(std::vector&lt; std::string &gt; tic_labels)</td>
+</tr>
+<tr>
+<td>template &lt;class T &gt; <br><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xtics">xtics</a></strong>(const T &amp; tic_labels)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xtics">xtics</a></strong>(std::vector&lt; std::string &gt; tic_labels, std::vector&lt; double &gt; values)</td>
+</tr>
+<tr>
+<td>template &lt;ForwardRange T&gt; <br><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-xtics">xtics</a></strong>(const T &amp; tic_labels, std::vector&lt; double &gt; values)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-clear-xtics">clear_xtics</a></strong>()</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-save">save</a></strong>(std::string filename ="", OutputFileType filetype =OutputFileType::NONE, TerminalType terminalType =TerminalType::NONE)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-show">show</a></strong>(OutputFileType filetype)</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-show">show</a></strong>(TerminalType terminalType =TerminalType::NONE)</td>
+</tr>
+<tr>
+<td>const <a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-plot">plot</a></strong>(FILE * fptr, TerminalType terminalType =TerminalType::NONE, std::string saveAs ="") const</td>
+</tr>
+<tr>
+<td><a href="/API/Classes/classplotpp_1_1_figure/">Figure</a> &amp;</td>
+<td><strong><a href="/API/Classes/classplotpp_1_1_figure/#function-plot">plot</a></strong>(FILE * fptr, TerminalType terminalType =TerminalType::NONE, std::string saveAs ="")</td>
+</tr>
+</tbody>
+</table>
+<h2 id="public-functions-documentation">Public Functions Documentation</h2>
+<h3 id="function-figure">function Figure</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="k">default</span>
+</code></pre></div>
+<h3 id="function-figure_1">function Figure</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span>
+<span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="k">delete</span>
+</code></pre></div>
+<h3 id="function-figure_2">function Figure</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
+<span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="k">default</span>
+</code></pre></div>
+<h3 id="function-figure_3">function Figure</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">title_str</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-figure_4">function Figure</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="n">title</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="n">xlabel</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="n">ylabel</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-figure_5">function ~Figure</h3>
+<div class="highlight"><pre><span></span><code><span class="o">~</span><span class="n">Figure</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="function-title">function title</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">title</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">Text</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">title</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-title_1">function title</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">title</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">title</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xlabel">function xLabel</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xLabel</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">Text</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xlabel</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xlabel_1">function xLabel</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xLabel</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">xlabel</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ylabel">function yLabel</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yLabel</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">Text</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ylabel</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ylabel_1">function yLabel</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yLabel</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">ylabel</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xmin">function xMin</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xMin</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">v</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xmax">function xMax</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xMax</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">v</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ymin">function yMin</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yMin</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">v</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ymax">function yMax</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yMax</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">v</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xlim">function xLim</h3>
+<div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xLim</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x_min</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x_max</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ylim">function yLim</h3>
+<div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yLim</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y_min</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y_max</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-lim">function lim</h3>
+<div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">lim</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x_min</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">x_max</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y_min</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">y_max</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xlogbase">function xLogBase</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xLogBase</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">base</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ylogbase">function yLogBase</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yLogBase</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">base</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xreverse">function xReverse</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xReverse</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-yreverse">function yReverse</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yReverse</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xautoscale">function xAutoscale</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xAutoscale</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-yautoscale">function yAutoscale</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yAutoscale</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xlog">function xLog</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xLog</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ylog">function yLog</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yLog</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xgrid">function xGrid</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xGrid</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-ygrid">function yGrid</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">yGrid</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-grid">function grid</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">grid</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-showlegend">function showLegend</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">showLegend</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="nb">true</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-get_gnuplot_pipe">function get_gnuplot_pipe</h3>
+<div class="highlight"><pre><span></span><code><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">get_gnuplot_pipe</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="function-close_gnuplot_pipe">function close_gnuplot_pipe</h3>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">close_gnuplot_pipe</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="function-add">function add</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">add</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">plot</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-add_1">function add</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">add</span><span class="p">(</span>
+<span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">plot</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-add_2">function add</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">add</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="w"> </span><span class="n">IPlot</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">plot</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xtics">function xtics</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xtics</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tic_labels</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xtics_1">function xtics</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">&gt;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xtics</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">tic_labels</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xtics_2">function xtics</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xtics</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tic_labels</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-xtics_3">function xtics</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">ForwardRange</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">xtics</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">tic_labels</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-clear_xtics">function clear_xtics</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">clear_xtics</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="function-save">function save</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">save</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OutputFileType</span><span class="w"> </span><span class="n">filetype</span><span class="w"> </span><span class="o">=</span><span class="n">OutputFileType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-show">function show</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">show</span><span class="p">(</span>
+<span class="w">    </span><span class="n">OutputFileType</span><span class="w"> </span><span class="n">filetype</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-show_1">function show</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">show</span><span class="p">(</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="function-plot">function plot</h3>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fptr</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">saveAs</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span>
+<span class="p">)</span><span class="w"> </span><span class="k">const</span>
+</code></pre></div>
+<h3 id="function-plot_1">function plot</h3>
+<div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fptr</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">saveAs</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<hr />
+<p>Updated on 2025-01-24 at 18:09:05 +0100</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Tobias Wallner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.edit", "content.action.view", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "navigation.expand", "search.highlight", "search.share", "search.suggest", "toc.follow", "content.code.copy", "content.code.highlight", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  </body>
+</html>

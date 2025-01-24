@@ -1,0 +1,1292 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Plotting library for C++. Alows plotting into popup-windows as well as saveing them in a large variety of dataformats. Uses Gnuplot as a backend.">
+      
+      
+        <meta name="author" content="Tobias Wallner">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>plotpp::color_map - Plotpp</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#plotppcolor_map" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Plotpp" class="md-header__button md-logo" aria-label="Plotpp" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Plotpp
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              plotpp::color_map
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/TobiasWallner/plotpp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    TobiasWallner/plotpp
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../plotting_styles/plotting_styles/" class="md-tabs__link">
+        
+  
+    
+  
+  Plotting Styles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Classes/" class="md-tabs__link">
+          
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Plotpp" class="md-nav__button md-logo" aria-label="Plotpp" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Plotpp
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/TobiasWallner/plotpp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    TobiasWallner/plotpp
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../plotting_styles/plotting_styles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plotting Styles
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Classes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Classes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Namespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attributes-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attributes Documentation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variable-magma" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable magma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-inferno" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable inferno
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-viridis" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable viridis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-plasma" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable plasma
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-jet" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable jet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-bentcoolwarm" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable bentcoolwarm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-moreland" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable moreland
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-chromajs" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable chromajs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-parula" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable parula
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-sand" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable sand
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-turbo" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable turbo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-rainbow" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable rainbow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-set1" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable set1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-set1_light" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable set1_light
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-set2" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable set2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-set2_light" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable set2_light
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-set3" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable set3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-matlab" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable matlab
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-blues" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable blues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-blue_greens" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable blue_greens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-blue_purples" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable blue_purples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-green_blues" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable green_blues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-greens" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable greens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-greys" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable greys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-oranges" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable oranges
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-orange_reds" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable orange_reds
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-yellow_orange_reds" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable yellow_orange_reds
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-yellow_orange_browns" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable yellow_orange_browns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-yellow_greens" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable yellow_greens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-reds" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable reds
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-red_purples" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable red_purples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-yellow_green_blues" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable yellow_green_blues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-purples" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable purples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-purple_reds" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable purple_reds
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-purple_blue_greens" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable purple_blue_greens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-purple_blues" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable purple_blues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-brown_white_bluegreen" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable brown_white_bluegreen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-green_white_purple" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable green_white_purple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-red_yellow_green" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable red_yellow_green
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-red_yellow_blue" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable red_yellow_blue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-red_white_grey" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable red_white_grey
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-red_white_blue" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable red_white_blue
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-orange_white_purple" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable orange_white_purple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-purple_white_green" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable purple_white_green
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variable-pink_white_yellowgreen" class="md-nav__link">
+    <span class="md-ellipsis">
+      variable pink_white_yellowgreen
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/TobiasWallner/plotpp/edit/master/docs/API/Namespaces/namespaceplotpp_1_1color__map.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/TobiasWallner/plotpp/raw/master/docs/API/Namespaces/namespaceplotpp_1_1color__map.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="plotppcolor_map">plotpp::color_map</h1>
+<h2 id="attributes">Attributes</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-magma">magma</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-inferno">inferno</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-viridis">viridis</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-plasma">plasma</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 7 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-jet">jet</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-bentcoolwarm">bentcoolwarm</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-moreland">moreland</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-chromajs">chromajs</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-parula">parula</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 10 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-sand">sand</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-turbo">turbo</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-rainbow">rainbow</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 10 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-set1">set1</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 10 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-set1-light">set1_light</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-set2">set2</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 9 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-set2-light">set2_light</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-set3">set3</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-matlab">matlab</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-blues">blues</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-blue-greens">blue_greens</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-blue-purples">blue_purples</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-green-blues">green_blues</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-greens">greens</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-greys">greys</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-oranges">oranges</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-orange-reds">orange_reds</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-yellow-orange-reds">yellow_orange_reds</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-yellow-orange-browns">yellow_orange_browns</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-yellow-greens">yellow_greens</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-reds">reds</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-red-purples">red_purples</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-yellow-green-blues">yellow_green_blues</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-purples">purples</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-purple-reds">purple_reds</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-purple-blue-greens">purple_blue_greens</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-purple-blues">purple_blues</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-brown-white-bluegreen">brown_white_bluegreen</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 10 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-green-white-purple">green_white_purple</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-red-yellow-green">red_yellow_green</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-red-yellow-blue">red_yellow_blue</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-red-white-grey">red_white_grey</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-red-white-blue">red_white_blue</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-orange-white-purple">orange_white_purple</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-purple-white-green">purple_white_green</a></strong></td>
+</tr>
+<tr>
+<td>std::array&lt; <a href="/API/Classes/classplotpp_1_1_color/">Color</a>, 8 &gt;</td>
+<td><strong><a href="/API/Namespaces/namespaceplotpp_1_1color__map/#variable-pink-white-yellowgreen">pink_white_yellowgreen</a></strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="attributes-documentation">Attributes Documentation</h2>
+<h3 id="variable-magma">variable magma</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">magma</span><span class="w"> </span><span class="p">{</span><span class="mh">0x000004</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1c1044</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4f127b</span><span class="p">,</span><span class="w"> </span><span class="mh">0x812581</span><span class="p">,</span><span class="w"> </span><span class="mh">0xb5367a</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe55964</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfb8761</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfec287</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfbfdbf</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-inferno">variable inferno</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">inferno</span><span class="w"> </span><span class="p">{</span><span class="mh">0x000004</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1f0c48</span><span class="p">,</span><span class="w"> </span><span class="mh">0x550f6d</span><span class="p">,</span><span class="w"> </span><span class="mh">0x88226a</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa83655</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe35933</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf9950a</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf8c932</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfcffa4</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-viridis">variable viridis</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">viridis</span><span class="w"> </span><span class="p">{</span><span class="mh">0x440154</span><span class="p">,</span><span class="w"> </span><span class="mh">0x472c7a</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3b518b</span><span class="p">,</span><span class="w"> </span><span class="mh">0x2c718e</span><span class="p">,</span><span class="w"> </span><span class="mh">0x21908d</span><span class="p">,</span><span class="w"> </span><span class="mh">0x27ad81</span><span class="p">,</span><span class="w"> </span><span class="mh">0x5cc863</span><span class="p">,</span><span class="w"> </span><span class="mh">0xaadc32</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfde725</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-plasma">variable plasma</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">plasma</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0c0887</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4b03a1</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7d03a8</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa82296</span><span class="p">,</span><span class="w"> </span><span class="mh">0xcb4679</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe56b5d</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf89441</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfdc328</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0f921</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-jet">variable jet</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">jet</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0000ff</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0080ff</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00ffff</span><span class="p">,</span><span class="w"> </span><span class="mh">0x80ff80</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffff00</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff8000</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff0000</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-bentcoolwarm">variable bentcoolwarm</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">bentcoolwarm</span><span class="w"> </span><span class="p">{</span><span class="mh">0x5548c1</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7982d7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xabb8e7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xdde3ef</span><span class="p">,</span><span class="w"> </span><span class="mh">0xead3c6</span><span class="p">,</span><span class="w"> </span><span class="mh">0xdba188</span><span class="p">,</span><span class="w"> </span><span class="mh">0xca6b55</span><span class="p">,</span><span class="w"> </span><span class="mh">0xb10027</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-moreland">variable moreland</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">moreland</span><span class="w"> </span><span class="p">{</span><span class="mh">0x3b4cc0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x688aef</span><span class="p">,</span><span class="w"> </span><span class="mh">0x99baff</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc9d8ef</span><span class="p">,</span><span class="w"> </span><span class="mh">0xedd1c2</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf7a789</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe36a53</span><span class="p">,</span><span class="w"> </span><span class="mh">0xb40426</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-chromajs">variable chromajs</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">chromajs</span><span class="w"> </span><span class="p">{</span><span class="mh">0xffffe0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffdfb8</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffbc94</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff9777</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff6962</span><span class="p">,</span><span class="w"> </span><span class="mh">0xee4256</span><span class="p">,</span><span class="w"> </span><span class="mh">0xd21f47</span><span class="p">,</span><span class="w"> </span><span class="mh">0xb0062c</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8b0000</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-parula">variable parula</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">parula</span><span class="w"> </span><span class="p">{</span><span class="mh">0x352a87</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0f5cdd</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1481d6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x06a4ca</span><span class="p">,</span><span class="w"> </span><span class="mh">0x2eb7a4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x87bf77</span><span class="p">,</span><span class="w"> </span><span class="mh">0xd1bb59</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfec832</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf9fb0e</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-sand">variable sand</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">sand</span><span class="w"> </span><span class="p">{</span><span class="mh">0x604860</span><span class="p">,</span><span class="w"> </span><span class="mh">0x784860</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa86060</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc07860</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf0a848</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf8ca8c</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfeecae</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfff4c2</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfff7db</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfffcf6</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-turbo">variable turbo</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">turbo</span><span class="w"> </span><span class="p">{</span><span class="mh">0x30123b</span><span class="p">,</span><span class="w"> </span><span class="mh">0x466be3</span><span class="p">,</span><span class="w"> </span><span class="mh">0x28bceb</span><span class="p">,</span><span class="w"> </span><span class="mh">0x32f298</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa4fc3c</span><span class="p">,</span><span class="w"> </span><span class="mh">0xeecf3a</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfb7e21</span><span class="p">,</span><span class="w"> </span><span class="mh">0xd02f05</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7a0403</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-rainbow">variable rainbow</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">rainbow</span><span class="w"> </span><span class="p">{</span><span class="mh">0xD53E4F</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF46D43</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDAE61</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE08B</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE6F598</span><span class="p">,</span><span class="w"> </span><span class="mh">0xABDDA4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x66C2A5</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3288BD</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-set1">variable set1</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">set1</span><span class="w"> </span><span class="p">{</span><span class="mh">0x1f77b4</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff7f0e</span><span class="p">,</span><span class="w"> </span><span class="mh">0x2ca02c</span><span class="p">,</span><span class="w"> </span><span class="mh">0xd62728</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9467bd</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8c564b</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe377c2</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7f7f7f</span><span class="p">,</span><span class="w"> </span><span class="mh">0xbcbd22</span><span class="p">,</span><span class="w"> </span><span class="mh">0x17becf</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-set1_light">variable set1_light</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">set1_light</span><span class="w"> </span><span class="p">{</span><span class="mh">0xaec7e8</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffbb78</span><span class="p">,</span><span class="w"> </span><span class="mh">0x98df8a</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff9896</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc5b0d5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc49c94</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf7b6d2</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc7c7c7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xdbdb8d</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9edae5</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-set2">variable set2</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="p">{</span><span class="mh">0xe41a1c</span><span class="p">,</span><span class="w"> </span><span class="mh">0x377eb8</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4daf4a</span><span class="p">,</span><span class="w"> </span><span class="mh">0x984ea3</span><span class="p">,</span><span class="w"> </span><span class="mh">0xff7f00</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa65628</span><span class="p">,</span><span class="w"> </span><span class="mh">0xf781bf</span><span class="p">,</span><span class="w"> </span><span class="mh">0x999999</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffff33</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-set2_light">variable set2_light</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">set2_light</span><span class="w"> </span><span class="p">{</span><span class="mh">0xff4244</span><span class="p">,</span><span class="w"> </span><span class="mh">0x5fa6e0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x75d772</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc076cb</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffa728</span><span class="p">,</span><span class="w"> </span><span class="mh">0xce7e50</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffa9e7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc1c1c1</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffff5b</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-set3">variable set3</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">set3</span><span class="w"> </span><span class="p">{</span><span class="mh">0x66c2a5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xfc8d62</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8da0cb</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe78ac3</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa6d854</span><span class="p">,</span><span class="w"> </span><span class="mh">0xffd92f</span><span class="p">,</span><span class="w"> </span><span class="mh">0xe5c494</span><span class="p">,</span><span class="w"> </span><span class="mh">0xb3b3b3</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-matlab">variable matlab</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">matlab</span><span class="w"> </span><span class="p">{</span><span class="mh">0x0072bd</span><span class="p">,</span><span class="w"> </span><span class="mh">0xd95319</span><span class="p">,</span><span class="w"> </span><span class="mh">0xedb120</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7e2f8e</span><span class="p">,</span><span class="w"> </span><span class="mh">0x77ac30</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4dbeee</span><span class="p">,</span><span class="w"> </span><span class="mh">0xa2142f</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-blues">variable blues</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">blues</span><span class="w"> </span><span class="p">{</span><span class="mh">0xF7FBFF</span><span class="p">,</span><span class="w"> </span><span class="mh">0xDEEBF7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xC6DBEF</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9ECAE1</span><span class="p">,</span><span class="w"> </span><span class="mh">0x6BAED6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4292C6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x2171B5</span><span class="p">,</span><span class="w"> </span><span class="mh">0x084594</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-blue_greens">variable blue_greens</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">blue_greens</span><span class="w"> </span><span class="p">{</span><span class="mh">0xF7FCFD</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE5F5F9</span><span class="p">,</span><span class="w"> </span><span class="mh">0xCCECE6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x99D8C9</span><span class="p">,</span><span class="w"> </span><span class="mh">0x66C2A4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x41AE76</span><span class="p">,</span><span class="w"> </span><span class="mh">0x238B45</span><span class="p">,</span><span class="w"> </span><span class="mh">0x005824</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-blue_purples">variable blue_purples</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">blue_purples</span><span class="w"> </span><span class="p">{</span><span class="mh">0xF7FCFD</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE0ECF4</span><span class="p">,</span><span class="w"> </span><span class="mh">0xBFD3E6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9EBCDA</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8C96C6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8C6BB1</span><span class="p">,</span><span class="w"> </span><span class="mh">0x88419D</span><span class="p">,</span><span class="w"> </span><span class="mh">0x6E016B</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-green_blues">variable green_blues</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">green_blues</span><span class="w"> </span><span class="p">{</span><span class="mh">0xF7FCF0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE0F3DB</span><span class="p">,</span><span class="w"> </span><span class="mh">0xCCEBC5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xA8DDB5</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7BCCC4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4EB3D3</span><span class="p">,</span><span class="w"> </span><span class="mh">0x2B8CBE</span><span class="p">,</span><span class="w"> </span><span class="mh">0x08589E</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-greens">variable greens</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">greens</span><span class="w"> </span><span class="p">{</span><span class="mh">0xF7FCF5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE5F5E0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xC7E9C0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xA1D99B</span><span class="p">,</span><span class="w"> </span><span class="mh">0x74C476</span><span class="p">,</span><span class="w"> </span><span class="mh">0x41AB5D</span><span class="p">,</span><span class="w"> </span><span class="mh">0x238B45</span><span class="p">,</span><span class="w"> </span><span class="mh">0x005A32</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-greys">variable greys</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">greys</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFFFFF</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF0F0F0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD9D9D9</span><span class="p">,</span><span class="w"> </span><span class="mh">0xBDBDBD</span><span class="p">,</span><span class="w"> </span><span class="mh">0x969696</span><span class="p">,</span><span class="w"> </span><span class="mh">0x737373</span><span class="p">,</span><span class="w"> </span><span class="mh">0x525252</span><span class="p">,</span><span class="w"> </span><span class="mh">0x252525</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-oranges">variable oranges</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">oranges</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFF5EB</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE6CE</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDD0A2</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDAE6B</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFD8D3C</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF16913</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD94801</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8C2D04</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-orange_reds">variable orange_reds</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">orange_reds</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFF7EC</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE8C8</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDD49E</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDBB84</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFC8D59</span><span class="p">,</span><span class="w"> </span><span class="mh">0xEF6548</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD7301F</span><span class="p">,</span><span class="w"> </span><span class="mh">0xCA0D21</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-yellow_orange_reds">variable yellow_orange_reds</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">yellow_orange_reds</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFFFCC</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFFEDA0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFED976</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEB24C</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFD8D3C</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFC4E2A</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE31A1C</span><span class="p">,</span><span class="w"> </span><span class="mh">0xB10026</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-yellow_orange_browns">variable yellow_orange_browns</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">yellow_orange_browns</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFFFE5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFFF7BC</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE391</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEC44F</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFE9929</span><span class="p">,</span><span class="w"> </span><span class="mh">0xEC7014</span><span class="p">,</span><span class="w"> </span><span class="mh">0xCC4C02</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8C2D04</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-yellow_greens">variable yellow_greens</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">yellow_greens</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFFFE5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF7FCB9</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD9F0A3</span><span class="p">,</span><span class="w"> </span><span class="mh">0xADDD8E</span><span class="p">,</span><span class="w"> </span><span class="mh">0x78C679</span><span class="p">,</span><span class="w"> </span><span class="mh">0x41AB5D</span><span class="p">,</span><span class="w"> </span><span class="mh">0x238443</span><span class="p">,</span><span class="w"> </span><span class="mh">0x005A32</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-reds">variable reds</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">reds</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFF5F0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE0D2</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFCBBA1</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFC9272</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFB6A4A</span><span class="p">,</span><span class="w"> </span><span class="mh">0xEF3B2C</span><span class="p">,</span><span class="w"> </span><span class="mh">0xCB181D</span><span class="p">,</span><span class="w"> </span><span class="mh">0x99000D</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-red_purples">variable red_purples</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">red_purples</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFF7F3</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDE0DD</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFCC5C0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFA9FB5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF768A1</span><span class="p">,</span><span class="w"> </span><span class="mh">0xDD3497</span><span class="p">,</span><span class="w"> </span><span class="mh">0xAE017E</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7A0177</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-yellow_green_blues">variable yellow_green_blues</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">yellow_green_blues</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFFFD9</span><span class="p">,</span><span class="w"> </span><span class="mh">0xEDF8B1</span><span class="p">,</span><span class="w"> </span><span class="mh">0xC7E9B4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7FCDBB</span><span class="p">,</span><span class="w"> </span><span class="mh">0x41B6C4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1D91C0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x225EA8</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0C2C84</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-purples">variable purples</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">purples</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFCFBFD</span><span class="p">,</span><span class="w"> </span><span class="mh">0xEFEDF5</span><span class="p">,</span><span class="w"> </span><span class="mh">0xDADAEB</span><span class="p">,</span><span class="w"> </span><span class="mh">0xBCBDDC</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9E9AC8</span><span class="p">,</span><span class="w"> </span><span class="mh">0x807DBA</span><span class="p">,</span><span class="w"> </span><span class="mh">0x6A51A3</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4A1486</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-purple_reds">variable purple_reds</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">purple_reds</span><span class="w"> </span><span class="p">{</span><span class="mh">0xF7F4F9</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE7E1EF</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD4B9DA</span><span class="p">,</span><span class="w"> </span><span class="mh">0xC994C7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xDF65B0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE7298A</span><span class="p">,</span><span class="w"> </span><span class="mh">0xCE1256</span><span class="p">,</span><span class="w"> </span><span class="mh">0x91003F</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-purple_blue_greens">variable purple_blue_greens</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">purple_blue_greens</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFF7FB</span><span class="p">,</span><span class="w"> </span><span class="mh">0xECE2F0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD0D1E6</span><span class="p">,</span><span class="w"> </span><span class="mh">0xA6BDDB</span><span class="p">,</span><span class="w"> </span><span class="mh">0x67A9CF</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3690C0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x02818A</span><span class="p">,</span><span class="w"> </span><span class="mh">0x016540</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-purple_blues">variable purple_blues</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">purple_blues</span><span class="w"> </span><span class="p">{</span><span class="mh">0xFFF7FB</span><span class="p">,</span><span class="w"> </span><span class="mh">0xECE7F2</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD0D1E6</span><span class="p">,</span><span class="w"> </span><span class="mh">0xA6BDDB</span><span class="p">,</span><span class="w"> </span><span class="mh">0x74A9CF</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3690C0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0570B0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x034E7B</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-brown_white_bluegreen">variable brown_white_bluegreen</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">brown_white_bluegreen</span><span class="w"> </span><span class="p">{</span><span class="mh">0x8C510A</span><span class="p">,</span><span class="w"> </span><span class="mh">0xBF812D</span><span class="p">,</span><span class="w"> </span><span class="mh">0xDFC27D</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF6E8C3</span><span class="p">,</span><span class="w"> </span><span class="mh">0xC7EAE5</span><span class="p">,</span><span class="w"> </span><span class="mh">0x80CDC1</span><span class="p">,</span><span class="w"> </span><span class="mh">0x35978F</span><span class="p">,</span><span class="w"> </span><span class="mh">0x01665E</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-green_white_purple">variable green_white_purple</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">green_white_purple</span><span class="w"> </span><span class="p">{</span><span class="mh">0x396353</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0db14b</span><span class="p">,</span><span class="w"> </span><span class="mh">0x6dc067</span><span class="p">,</span><span class="w"> </span><span class="mh">0xabd69b</span><span class="p">,</span><span class="w"> </span><span class="mh">0xdaeac1</span><span class="p">,</span><span class="w"> </span><span class="mh">0xdfcce4</span><span class="p">,</span><span class="w"> </span><span class="mh">0xc7b2d6</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9474b4</span><span class="p">,</span><span class="w"> </span><span class="mh">0x754098</span><span class="p">,</span><span class="w"> </span><span class="mh">0x504971</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-red_yellow_green">variable red_yellow_green</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">red_yellow_green</span><span class="w"> </span><span class="p">{</span><span class="mh">0xD73027</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF46D43</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDAE61</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE08B</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD9EF8B</span><span class="p">,</span><span class="w"> </span><span class="mh">0xA6D96A</span><span class="p">,</span><span class="w"> </span><span class="mh">0x66BD63</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1A9850</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-red_yellow_blue">variable red_yellow_blue</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">red_yellow_blue</span><span class="w"> </span><span class="p">{</span><span class="mh">0xD73027</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF46D43</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDAE61</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE090</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE0F3F8</span><span class="p">,</span><span class="w"> </span><span class="mh">0xABD9E9</span><span class="p">,</span><span class="w"> </span><span class="mh">0x74ADD1</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4575B4</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-red_white_grey">variable red_white_grey</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">red_white_grey</span><span class="w"> </span><span class="p">{</span><span class="mh">0xB2182B</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD6604D</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF4A582</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDDBC7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE0E0E0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xBABABA</span><span class="p">,</span><span class="w"> </span><span class="mh">0x878787</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4D4D4D</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-red_white_blue">variable red_white_blue</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">red_white_blue</span><span class="w"> </span><span class="p">{</span><span class="mh">0xB2182B</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD6604D</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF4A582</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDDBC7</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD1E5F0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x92C5DE</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4393C3</span><span class="p">,</span><span class="w"> </span><span class="mh">0x2166AC</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-orange_white_purple">variable orange_white_purple</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">orange_white_purple</span><span class="w"> </span><span class="p">{</span><span class="mh">0xB35806</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE08214</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDB863</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFEE0B6</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD8DAEB</span><span class="p">,</span><span class="w"> </span><span class="mh">0xB2ABD2</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8073AC</span><span class="p">,</span><span class="w"> </span><span class="mh">0x542788</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-purple_white_green">variable purple_white_green</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">purple_white_green</span><span class="w"> </span><span class="p">{</span><span class="mh">0x762A83</span><span class="p">,</span><span class="w"> </span><span class="mh">0x9970AB</span><span class="p">,</span><span class="w"> </span><span class="mh">0xC2A5CF</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE7D4E8</span><span class="p">,</span><span class="w"> </span><span class="mh">0xD9F0D3</span><span class="p">,</span><span class="w"> </span><span class="mh">0xA6DBA0</span><span class="p">,</span><span class="w"> </span><span class="mh">0x5AAE61</span><span class="p">,</span><span class="w"> </span><span class="mh">0x1B7837</span><span class="p">};</span>
+</code></pre></div>
+<h3 id="variable-pink_white_yellowgreen">variable pink_white_yellowgreen</h3>
+<div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">pink_white_yellowgreen</span><span class="w"> </span><span class="p">{</span><span class="mh">0xC51B7D</span><span class="p">,</span><span class="w"> </span><span class="mh">0xDE77AE</span><span class="p">,</span><span class="w"> </span><span class="mh">0xF1B6DA</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFDE0EF</span><span class="p">,</span><span class="w"> </span><span class="mh">0xE6F5D0</span><span class="p">,</span><span class="w"> </span><span class="mh">0xB8E186</span><span class="p">,</span><span class="w"> </span><span class="mh">0x7FBC41</span><span class="p">,</span><span class="w"> </span><span class="mh">0x4D922</span><span class="p">};</span>
+</code></pre></div>
+<hr />
+<p>Updated on 2025-01-24 at 18:09:05 +0100</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Tobias Wallner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.edit", "content.action.view", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "navigation.expand", "search.highlight", "search.share", "search.suggest", "toc.follow", "content.code.copy", "content.code.highlight", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  </body>
+</html>
