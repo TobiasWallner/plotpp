@@ -56,7 +56,7 @@ private:
 };
 
 
-// Concept that checks for correct ways of constructing a smart pointer
+// Concept that checks for correct ways of constructing an optional pointer
 template <typename T>
 concept PtrOrMoved = 
     std::is_pointer_v<std::remove_reference_t<T>> ||                       					// Raw pointer
