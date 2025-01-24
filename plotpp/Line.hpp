@@ -20,7 +20,7 @@
 
 namespace plotpp{
 
-	template<ForwardRange Tx, ForwardRange Ty>
+	template<std::ranges::forward_range Tx, std::ranges::forward_range Ty>
 	class Line : public IPlot{	
 	public:
 		
@@ -174,24 +174,24 @@ namespace plotpp{
 		Deduces the template parameters for `Line` and constructs it with perfect argument forwarding.
 		This guarantees that no unnecessary copies are made for what could be huge datasets for `x` and `y`.
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2>
-	auto line(U1&& x, U2&& y) 
+	template<PtrOrMoved Ux, PtrOrMoved Uy>
+	auto line(Ux&& x, Uy&& y) 
 	{
-		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
-		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		using Tx = remove_ptr_t<std::remove_reference_t<Ux>>;
+		using Ty = remove_ptr_t<std::remove_reference_t<Uy>>;
 		return Line<Tx, Ty>(
-					optional_ptr<Tx>(std::forward<U1>(x)), 
-					optional_ptr<Ty>(std::forward<U2>(y)));
+					optional_ptr<Tx>(std::forward<Ux>(x)), 
+					optional_ptr<Ty>(std::forward<Uy>(y)));
 	}
 
 	/*constructor helper*/
-	template<PtrOrMoved U2>
-	auto line(U2&& y) {
+	template<PtrOrMoved Uy>
+	auto line(Uy&& y) {
 		using Tx = std::vector<int>; // placeholder type
-		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
+		using Ty = remove_ptr_t<std::remove_reference_t<Uy>>;
 		return Line<Tx, Ty>(
 					optional_ptr<Tx>(), 
-					optional_ptr<Ty>(std::forward<U2>(y)));
+					optional_ptr<Ty>(std::forward<Uy>(y)));
 	}
 
 }
