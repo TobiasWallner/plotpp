@@ -1,9 +1,5 @@
 #include <vector>
 #include <plotpp.hpp>
-#include <memory>
-#include <chrono>
-
-#include <fmt/core.h>
 
 int main() {
 	using namespace plotpp;
