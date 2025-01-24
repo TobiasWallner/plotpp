@@ -210,4 +210,18 @@ Manual Build
 - include the folder containing `plotpp.hpp`
 - compile and link all `*.cpp` files in `plotpp/`
 
+# Build the Documentation
+
+- [Doxygen](https://doxygen.nl/index.html) to analyse the code, extract all symbols and doc-comments.
+- [doxybook2](https://github.com/matusnovak/doxybook2) to convert the XML files from Doxygen into MarkDown pages.
+- [mkdocs](https://www.mkdocs.org/) to build the website
+  - [Material](https://squidfunk.github.io/mkdocs-material/) as a theme for mkdocs
+  
+Build the documentation with:
+```bash
+doxygen
+if not exist $(MD_OUTPUT) mkdir docs\docs\API
+doxybook2 --input docs\doxygen\xml --output docs\docs\API --config docs/doxybook2-config.json
+mkdocs build -f docs/mkdocs.yml
+```
 

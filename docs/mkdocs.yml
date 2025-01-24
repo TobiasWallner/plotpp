@@ -1,0 +1,45 @@
+# Project information
+site_name: Plotpp
+site_author: Tobias Wallner
+site_description: >-
+    Plotting library for C++. Alows plotting into popup-windows as well as saveing them
+    in a large variety of dataformats. Uses Gnuplot as a backend.
+
+# Repo     
+repo_name: TobiasWallner/plotpp
+repo_url: https://github.com/TobiasWallner/plotpp
+
+
+# Copyright
+copyright: Copyright &copy; Tobias Wallner
+
+nav:
+  - Home: index.md
+  - Plotting Styles: plotting_styles/plotting_styles.md
+  - API:
+    - Classes: API/Classes/index.md
+    - Namespaces: API/Namespaces/index.md  
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/git-alt
+  features:
+    - content.action.edit
+    - content.action.view
+    - navigation.sections
+    - navigation.tabs # Uses tabs in the header instead of at the left of the page
+    - navigation.top
+    - navigation.tracking
+    - navigation.expand
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - content.code.copy  # Adds a "copy" button to code blocks
+    - content.code.highlight  # Enable Highlight.js for client-side highlighting
+    - content.code.annotate
+    
+markdown_extensions:
+  - pymdownx.highlight:
+      use_pygments: true
+  - pymdownx.superfences

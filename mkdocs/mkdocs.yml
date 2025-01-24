@@ -1,6 +1,0 @@
-site_name: Plotpp
-nav:
-    - Home: index.md
-    - Plotting Styles: plotting_styles/plotting_styles.md
-theme:
-    name: material

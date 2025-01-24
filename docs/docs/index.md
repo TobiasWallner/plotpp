@@ -1,55 +1,36 @@
-# Welcome to Plotpp
+# **Welcome to Plotpp**
 
-Plotpp
-======
+## **Plotpp**
 
 A plotting library for C++ that uses Gnuplot as a backend.
 Allows plotting from custom containers/vectors if they use `begin()` and `end()` iterators as well as plotting from built in arrays.
 
 [Documentation](https://tobiaswallner.github.io/plotpp/)
 
-Requirements
-============
-- Gnuplot: [Homepage](http://gnuplot.info/index.html) [Windows Download](https://sourceforge.net/projects/gnuplot/files/gnuplot/) [Linux install](https://riptutorial.com/gnuplot/example/11275/installation-or-setup):  
+## **Requirements**
+
+- Gnuplot: [Homepage](http://gnuplot.info/index.html){ data-preview } [Windows Download](https://sourceforge.net/projects/gnuplot/files/gnuplot/) [Linux install](https://riptutorial.com/gnuplot/example/11275/installation-or-setup):  
 	*Note: The project can be build without gnuplot,
 	since this library will only communicate with gnuplot through pipes. 
 	But you will need gnuplot to display the graphical plots.*
 - C++20
 
+## **Dependencies**
 
-Dependencies
-------------
 - {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/), [Conan](https://conan.io/center/recipes/fmt?version=)
 
 A [conan](https://conan.io/) recipe is provided
 
-Features
-========
-### Plotting Styles
-- Line/filled Line/filled Curves
-- Poins/Scatter/XError/YError/XYError
-- Arrows/Vectors/Quiver
-- Heatmap
-- Boxes
-- Boxplot
-- Circle
-- Pie-Charts
-- Impulses
-- Steps/filled Steps
-
-Examples
-========
+## **Examples**
 
 You can see all examples in the `examples/` folder.
 
-Line Plot
----------
-
+### **Line Plot**
 
 <div style="display: flex; align-items: flex-start;">
 
 	<div style="margin-right: 20px; width: 60%;">
-```C++
+```cpp
 int main() {
 	using namespace plotpp;
 
@@ -75,11 +56,10 @@ int main() {
 </div>
 
 
-Integration
-===========
+## **Integration**
 
-[CMake](https://cmake.org/)
----------------------------
+### **[CMake](https://cmake.org/)**
+
 ```cmake
 cmake_minimum_required(VERSION 3.15)
 project(PROJECT_NAME CXX)
@@ -90,10 +70,16 @@ add_executable(main src/main.cpp)
 target_link_libraries(main plotpp::plotpp)
 ```
 
-[Conan](https://conan.io/) **TO be done**
---------------------------
+### **CPM (CMake Package Manager)**
+
+TODO
+
+### **[Conan Package Manager](https://conan.io/)**
+
+Note: not yet added to the [ConanCenter](https://conan.io/center)
+
 `conanfile.txt`
-```conanfile
+```ini
 [requires]
 plotpp/<version>
 
@@ -127,11 +113,6 @@ build instructions with conan
 # install dependencies
 conan install . --build=missing --output-folder build
 
-# Optional: set your prefered compile
-set CC=<path/to/C-compiler>
-set CXX=<path/to/C++-compiler>
-set LD=<path/to/Linker>
-
 # generate build scripts (for the build tool e.g.: -G "Ninja Multi-Config")
 cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
 
@@ -139,16 +120,16 @@ cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/gen
 cmake --build build_gcc --config Release
 ```
 
-### Conan FAQ
+#### **Conan FAQ**
 + 	How can I make Conan use a different CMake generator?  
 	Add to your profile:
-```
+```ini
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 ```
 +	Conan selects the wrong compiler?
 	Add to your profile:
-```
+```ini
 [conf]
 tools.build:compiler_executables={"c" : "gcc", "cpp" : "g++"}
 ```
@@ -163,8 +144,8 @@ def requirements(self):
 	self.requires("<library/version>", transitive_headers=True)
 ```
 
-Manually with [add_subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
-------------------------
+### **Manually with [add_subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)**
+
 Manually download the library and add it via `add_subdirectory`.
 ```cmake
 add_subdirectory(path/to/Plotpp)
@@ -173,8 +154,8 @@ target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
 ```
 Note: you would also need to add and link against fmt
 
-Manual Build
-------------
+### **Manual Build**
+
 - include the folder containing `plotpp.hpp`
 - compile and link all `*.cpp` files in `plotpp/`
 
