@@ -1,7 +1,7 @@
 {
-  "baseUrl": "/API/",
+  "baseUrl": "../",
   "indexInFolders": true,
-  "linkSuffix": "/",
+  "linkSuffix": ".md",
   "indexClassesName": "index",
   "indexFilesName": "index",
   "indexGroupsName": "index",
