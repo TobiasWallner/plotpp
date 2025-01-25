@@ -28,6 +28,13 @@ else
     RM = rm -rf
 endif
 
+# create a timestamp file
+ifeq ($(OS),Windows_NT)
+	TIMESTAMP = type nul > $@
+else
+	TIMESTAMP = touch $@
+endif
+
 # Define OPEN_BROWSER command based on the OS
 ifeq ($(OS),Windows_NT)
     OPEN_BROWSER = cmd /c start
@@ -70,16 +77,19 @@ build_gcc/build/Release/generators/conan_toolchain.cmake: conanfile.py conan_pro
 	conan install . --profile conan_profiles/gcc.ini --build=missing --output-folder build_gcc
 	
 # private: generate the build configuration for ninja
+BUILD_GENERATOR = "Ninja Multi-Config"
+TOOLCHAIN_FILE = build/Release/generators/conan_toolchain.cmake
 build_gcc/CMakeCache.txt: CMakeLists.txt build_gcc/build/Release/generators/conan_toolchain.cmake
-	cmake -S . -B build_gcc -G "Ninja Multi-Config" -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
+	cmake -S . -B build_gcc -G $(BUILD_GENERATOR) -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN_FILE)
 
 # private: compile the project
-build_gcc\examples\Release: build_gcc/CMakeCache.txt plotpp/*
+build_gcc\examples\Release\.timestamp: build_gcc/CMakeCache.txt plotpp/*
 	cmake --build build_gcc --config Release
+	$(TIMESTAMP)
 
 # public: build the project
 .PHONY: build-gcc
-build-gcc: cls build_gcc\examples\Release
+build-gcc: cls build_gcc\examples\Release\.timestamp
 
 # public: run one of the compiled executables
 exe=line
@@ -113,33 +123,36 @@ rebuild-gcc: clean-gcc build-gcc
 # 	deploys the website to the branch `gh-pages` and pushes it
 
 # private: build doxygen xml from the source code
-docs/doxygen/*: plotpp/* Doxyfile
+docs/doxygen/.timestamp: plotpp/* Doxyfile
 	doxygen Doxyfile
+	$(TIMESTAMP)
 
 # private: convert doxygen xml to markdown
 XML_INPUT = docs\doxygen\xml
 MD_OUTPUT = docs\docs\API
-docs/docs/API/*: docs/doxybook2-config.json docs/doxygen/*
+docs/docs/API/.timestamp: docs/doxybook2-config.json docs/doxygen/.timestamp
 	if not exist $(MD_OUTPUT) mkdir $(MD_OUTPUT)
 	doxybook2 --input $(XML_INPUT) --output $(MD_OUTPUT) --config docs/doxybook2-config.json
+	$(TIMESTAMP)
 
 # private: build the website with mkdocs from the markdown files
-docs/site: docs/mkdocs.yml docs/docs/* docs/docs/API/*
+docs/site/.timestamp: docs/mkdocs.yml docs/docs/* docs/docs/API/.timestamp
 	mkdocs build -f docs/mkdocs.yml
+	$(TIMESTAMP)
 
 # public: build the documentation
 .PHONY: build-docs
-build-docs: docs/site
+build-docs: docs/site/.timestamp
 
 # public: show the documentation	
 .PHONY: show-docs
-show-docs: docs
+show-docs: build-docs
 	$(OPEN_BROWSER) http://127.0.0.1:8000/
 	mkdocs serve -f docs/mkdocs.yml
 
 # public: deploy the documentation to github
 .PHONY: deploy-docs
-deploy-docs: docs
+deploy-docs: build-docs
 	mkdocs gh-deploy -f docs/mkdocs.yml
 	
 .PHONY: clean-docs
