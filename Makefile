@@ -12,7 +12,7 @@ help:
 	@echo Build the Documentation
 	@echo =======================
 	@echo build-docs    builds the documentation with Doxygen/doxybook2/mkdocs
-	@echo show-docs     opens a browser to show the documentation and starts an html server
+	@echo serve-docs     opens a browser to show the documentation and starts an html server
 	@echo deploy-docs   deploys the website to the branch `gh-pages` and pushes it
 
 #############################################################
@@ -116,7 +116,7 @@ rebuild-gcc: clean-gcc build-gcc
 # make build-docs
 #	builds the documentation with Doxygen/doxybook2/mkdocs
 #
-# make show-docs
+# make serve-docs
 #	opens a browser to show the documentation and starts an html server
 #
 # make deploy-docs
@@ -145,8 +145,8 @@ docs/site/.timestamp: docs/mkdocs.yml docs/docs/* docs/docs/API/.timestamp
 build-docs: docs/site/.timestamp
 
 # public: show the documentation	
-.PHONY: show-docs
-show-docs: build-docs
+.PHONY: serve-docs
+serve-docs: build-docs
 	$(OPEN_BROWSER) http://127.0.0.1:8000/
 	mkdocs serve -f docs/mkdocs.yml
 
