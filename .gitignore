@@ -16,7 +16,6 @@ conan_profiles/*
 
 
 # Ignore specific files
-Makefile
 TODO.txt
 CMakeUserPresets.json
 
