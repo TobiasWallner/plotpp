@@ -6,7 +6,11 @@
 #include <fmt/format.h>
 
 namespace plotpp{
-
+	/**
+		\brief Enum for the differnt arrow head styles used for vectors, quivers and the like.
+		
+		\see to_command(ArrowHeadStyle)
+	*/
 	enum class ArrowHeadStyle{
 		nohead,
 		head,
@@ -17,6 +21,11 @@ namespace plotpp{
 		empty_backhead,
 	};
 	
+	/**	
+		\brief turns the enum plotpp::ArrowHeadStyle into its corresponding gnuplot command. 
+		
+		\returns a c-string with the command
+	*/
 	constexpr const char* to_command(ArrowHeadStyle ahs){
 		switch(ahs){
 			case ArrowHeadStyle::nohead : return "nohead";
@@ -42,6 +51,9 @@ namespace plotpp{
 
 // fmt formater
 namespace fmt{
+	/**
+		\brief formats \ref plotpp::ArrowHeadStyle for {fmt} strings.
+	*/
 	template<>
 	struct formatter<plotpp::ArrowHeadStyle>{
 		
@@ -49,6 +61,12 @@ namespace fmt{
 			return ctx.begin();
 		}
 		
+		/**
+			\brief formats plotpp::ArrowHeadStyle for {fmt} strings.
+			
+			Turns \ref plotpp::ArrowHeadStyle enum-items into a {fmt} formatted string
+			using \ref plotpp::to_command()
+		*/
 		template<typename FormatContext>
 		constexpr auto format(const plotpp::ArrowHeadStyle& ahs, FormatContext& ctx) const {
 			using namespace plotpp;

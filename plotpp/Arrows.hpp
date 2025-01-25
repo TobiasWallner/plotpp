@@ -4,6 +4,7 @@
 #include <ostream>
 #include <iterator>
 #include <optional>
+#include <ranges>
 
 // {fmt}
 #include <fmt/core.h>
@@ -16,7 +17,16 @@
 
 namespace plotpp{
 	
-	template<class Tx1, class Ty1, class Tx2, class Ty2>
+	/**
+		\brief class for plotting arrows in \ref plotpp::Figures<>
+		
+		Arrows contains the start and end coordinates for vectors. 
+		The relationship between the datasets ([x1, y1] and [x2, y2]) can be set using \ref plotpp::DataRelation. 
+		In every case [x1, y1] will be the absolute start coordinate of the vector and [x2, y2] can the absolute end coordinate or relative to the start.
+		
+		\tparam Tx1, Ty1, Tx2, Ty2 Generic types that store the data for plotting and are [forward ranges](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have `begin()` and `end()` iterators)
+	*/
+	template<std::ranges::forward_range Tx1, std::ranges::forward_range Ty1, std::ranges::forward_range Tx2, std::ranges::forward_range Ty2>
 	class Arrows : public IPlot{
 	public:
 
