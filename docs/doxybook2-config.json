@@ -10,5 +10,6 @@
   "indexExamplesName": "index",
   "mainPageInRoot": true,
   "mainPageName": "index",
-  "foldersToGenerate": ["classes", "namespaces"]
+  "foldersToGenerate": ["classes", "namespaces"],
+  "replaceUnderscoresInAnchors": false
 }
