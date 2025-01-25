@@ -13,7 +13,7 @@ conan_profiles/*
 *.webp
 *.gp
 *.svg
-
+**/.timestamp
 
 # Ignore specific files
 TODO.txt
