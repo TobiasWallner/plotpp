@@ -6,6 +6,7 @@
 #include <memory>
 #include <type_traits>
 #include <optional>
+#include <ranges>
 
 // fmt
 #include <fmt/core.h>
