@@ -8,7 +8,8 @@
 #include "plotpp/Figure.hpp"
 
 namespace plotpp{
-
+	
+	/* !!! TODO: Rename to Multifigure !!! */
 	class Multiplot{
 	private:
 		std::vector<Figure> figs_;
