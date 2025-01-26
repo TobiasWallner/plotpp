@@ -14,11 +14,14 @@ repo_url: https://github.com/TobiasWallner/plotpp
 copyright: Copyright &copy; Tobias Wallner
 
 nav:
-  - Home: index.md
-  - Plotting Styles: plotting_styles/plotting_styles.md
-  - API:
-    - Classes: API/Classes/index.md
-    - Namespaces: API/Namespaces/index.md  
+    - Home: index.md
+    - Plotting Styles: 
+        - Overview: plotting_styles/index.md
+        - Line: plotting_styles/Line.md
+    - API:
+        - Classes: API/Classes/index.md
+        - Namespaces: API/Namespaces/index.md
+        - Examples: API/Examples/index.md
 theme:
   name: material
   icon:
@@ -31,12 +34,10 @@ theme:
     - navigation.top
     - navigation.tracking
     - navigation.expand
-    - search.highlight
     - search.share
     - search.suggest
     - toc.follow
     - content.code.copy  # Adds a "copy" button to code blocks
-    - content.code.highlight  # Enable Highlight.js for client-side highlighting
     - content.code.annotate
     
 markdown_extensions:
