@@ -150,9 +150,6 @@ namespace plotpp{
 		}
 		
 		
-		
-		
-		
 		inline Line& label(const char* label) & {this->IPlot::label(label); return *this;}
 		inline Line&& label(const char* label) && {this->IPlot::label(label); return std::move(*this);}
 		inline Line& label(std::string_view label) & {this->IPlot::label(label); return *this;}
@@ -160,7 +157,13 @@ namespace plotpp{
 		inline Line& label(std::string&& label) & {this->IPlot::label(label); return *this;}
 		inline Line&& label(std::string&& label) && {this->IPlot::label(std::move(label)); return std::move(*this);}
 		
-	public:
+		inline Tx* x() {return this->x_.get();}
+		inline const Tx* x() const {return this->x_.get();}
+		
+		inline Ty* y() {return this->y_.get();}
+		inline const Ty* y() const {return this->y_.get();}		
+		
+	private:
 		optional_ptr<Tx> x_;
 		optional_ptr<Ty> y_;
 		std::optional<Color> opt_line_color = std::nullopt;
