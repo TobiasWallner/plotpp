@@ -200,16 +200,17 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="../../../plotting_styles/plotting_styles/" class="md-tabs__link">
-        
-  
     
+    
+      <li class="md-tabs__item">
+        <a href="../../../plotting_styles/" class="md-tabs__link">
+          
   
   Plotting Styles
 
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
       
@@ -302,16 +303,87 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../../plotting_styles/plotting_styles/" class="md-nav__link">
+    
+    
+    
+      
+      
         
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Plotting Styles
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Plotting Styles
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../plotting_styles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../plotting_styles/Line/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Line
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -391,6 +463,27 @@
   
   <span class="md-ellipsis">
     Namespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Examples/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
   </span>
   
 
@@ -696,7 +789,8 @@
 
 
 <h1 id="plotpparrows">plotpp::Arrows</h1>
-<p><a href="#detailed-description">More...</a></p>
+<p>class for plotting arrows in <a href="">plotpp::Figure</a> <a href="#detailed-description">More...</a></p>
+<p><code>#include &lt;Arrows.hpp&gt;</code></p>
 <p>Inherits from <a href="../classplotpp_1_1_i_plot/">plotpp::IPlot</a></p>
 <h2 id="public-functions">Public Functions</h2>
 <table>
@@ -709,11 +803,11 @@
 <tbody>
 <tr>
 <td></td>
-<td><strong><a href="./#function-arrows">Arrows</a></strong>(<a href="../classoptional__ptr/">optional_ptr</a>&lt; const Tx1 &gt; x1, <a href="../classoptional__ptr/">optional_ptr</a>&lt; const Ty1 &gt; y1, <a href="../classoptional__ptr/">optional_ptr</a>&lt; const Tx2 &gt; x2, <a href="../classoptional__ptr/">optional_ptr</a>&lt; const Ty2 &gt; y2)</td>
+<td><strong><a href="./#function-arrows">Arrows</a></strong>(<a href="../classoptional__ptr/">optional_ptr</a>&lt; const Tx1 &gt; x1, <a href="../classoptional__ptr/">optional_ptr</a>&lt; const Ty1 &gt; y1, <a href="../classoptional__ptr/">optional_ptr</a>&lt; const Tx2 &gt; x2, <a href="../classoptional__ptr/">optional_ptr</a>&lt; const Ty2 &gt; y2)<br>Constructs an Arrow from x and y data for plotting <a href="">plotpp::Figure</a>.</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;</td>
-<td><strong><a href="./#function-label">label</a></strong>(const char * label)</td>
+<td><strong><a href="./#function-label">label</a></strong>(const char * label)<br>adds a label to the plot which can be seen in legends</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;&amp;</td>
@@ -741,7 +835,7 @@
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;</td>
-<td><strong><a href="./#function-linewidth">lineWidth</a></strong>(float lw)</td>
+<td><strong><a href="./#function-linewidth">lineWidth</a></strong>(float lw)<br>Changes the width of the line.</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;&amp;</td>
@@ -749,27 +843,27 @@
 </tr>
 <tr>
 <td>DataRelation</td>
-<td><strong><a href="./#function-datarelation">dataRelation</a></strong>() const</td>
+<td><strong><a href="./#function-datarelation">dataRelation</a></strong>() const<br>Returns the relation of [x2, y2].</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;</td>
-<td><strong><a href="./#function-datarelation">dataRelation</a></strong>(float dr)</td>
+<td><strong><a href="./#function-datarelation">dataRelation</a></strong>(DataRelation dr)<br>Changes the relation of the start and end data points.</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;&amp;</td>
-<td><strong><a href="./#function-datarelation">dataRelation</a></strong>(float dr)</td>
+<td><strong><a href="./#function-datarelation">dataRelation</a></strong>(DataRelation dr)</td>
 </tr>
 <tr>
-<td>ArrowHeadStyle</td>
+<td><a href="../../Namespaces/namespaceplotpp/#enum-arrowheadstyle">ArrowHeadStyle</a></td>
 <td><strong><a href="./#function-arrowheadstyle">arrowHeadStyle</a></strong>() const</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;</td>
-<td><strong><a href="./#function-arrowheadstyle">arrowHeadStyle</a></strong>(float ahs)</td>
+<td><strong><a href="./#function-arrowheadstyle">arrowHeadStyle</a></strong>(<a href="../../Namespaces/namespaceplotpp/#enum-arrowheadstyle">ArrowHeadStyle</a> ahs)</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;&amp;</td>
-<td><strong><a href="./#function-arrowheadstyle">arrowHeadStyle</a></strong>(float ahs)</td>
+<td><strong><a href="./#function-arrowheadstyle">arrowHeadStyle</a></strong>(<a href="../../Namespaces/namespaceplotpp/#enum-arrowheadstyle">ArrowHeadStyle</a> ahs)</td>
 </tr>
 <tr>
 <td><a href="../classplotpp_1_1_color/">Color</a></td>
@@ -777,7 +871,7 @@
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;</td>
-<td><strong><a href="./#function-color">color</a></strong>(<a href="../classplotpp_1_1_color/">Color</a> col)</td>
+<td><strong><a href="./#function-color">color</a></strong>(<a href="../classplotpp_1_1_color/">Color</a> col)<br>Sets the color of the line.</td>
 </tr>
 <tr>
 <td><a href="./">Arrows</a> &amp;&amp;</td>
@@ -785,11 +879,11 @@
 </tr>
 <tr>
 <td>virtual void</td>
-<td><strong><a href="./#function-printplot">printPlot</a></strong>(FILE * fptr) const</td>
+<td><strong><a href="./#function-printplot">printPlot</a></strong>(FILE * fptr) const<br>Prints the plot command for gnuplot.</td>
 </tr>
 <tr>
 <td>virtual void</td>
-<td><strong><a href="./#function-printdata">printData</a></strong>(FILE * fptr) const</td>
+<td><strong><a href="./#function-printdata">printData</a></strong>(FILE * fptr) const<br>Prints the data for gnuplot.</td>
 </tr>
 </tbody>
 </table>
@@ -835,7 +929,7 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="../classplotpp_1_1_i_plot/">IPlot</a> &amp;</td>
+<td>virtual <a href="../classplotpp_1_1_i_plot/">IPlot</a> &amp;</td>
 <td><strong><a href="../classplotpp_1_1_i_plot/#function-uid">uid</a></strong>(size_t &amp; uid_io)</td>
 </tr>
 <tr>
@@ -860,12 +954,19 @@
 </tbody>
 </table>
 <h2 id="detailed-description">Detailed Description</h2>
-<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">Tx1</span><span class="w"> </span><span class="p">,</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Ty1</span><span class="w"> </span><span class="p">,</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Tx2</span><span class="w"> </span><span class="p">,</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Ty2</span><span class="w"> </span><span class="o">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">ranges</span><span class="o">::</span><span class="n">forward_range</span><span class="w"> </span><span class="n">Tx1</span><span class="p">,</span>
+<span class="n">std</span><span class="o">::</span><span class="n">ranges</span><span class="o">::</span><span class="n">forward_range</span><span class="w"> </span><span class="n">Ty1</span><span class="p">,</span>
+<span class="n">std</span><span class="o">::</span><span class="n">ranges</span><span class="o">::</span><span class="n">forward_range</span><span class="w"> </span><span class="n">Tx2</span><span class="p">,</span>
+<span class="n">std</span><span class="o">::</span><span class="n">ranges</span><span class="o">::</span><span class="n">forward_range</span><span class="w"> </span><span class="n">Ty2</span><span class="o">&gt;</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">plotpp</span><span class="o">::</span><span class="n">Arrows</span><span class="p">;</span>
 </code></pre></div>
+<p>class for plotting arrows in <a href="">plotpp::Figure</a></p>
+<p><strong>Template Parameters</strong>: </p>
+<ul>
+<li><strong>Tx1Ty1Tx2Ty2</strong> Generic types that store the data for plotting and are <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">forward ranges</a> (aka. have <code>begin()</code> and <code>end()</code> iterators)</li>
+</ul>
+<p><strong>See</strong>: <a href="../../Namespaces/namespaceplotpp/#function-arrows">arrows<PtrOrMoved, PtrOrMoved, PtrOrMoved, PtrOrMoved></a> function to help construct an Arrow. </p>
+<p><a href="./">Arrows</a> contains the start and end coordinates for vectors. The relationship between the datasets ([x1, y1] and [x2, y2]) can be set using plotpp::DataRelation. In every case [x1, y1] will be the absolute start coordinate of the vector and [x2, y2] can the absolute end coordinate or relative to the start.</p>
 <h2 id="public-functions-documentation">Public Functions Documentation</h2>
 <h3 id="function-arrows">function Arrows</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="p">(</span>
@@ -875,11 +976,23 @@
 <span class="w">    </span><span class="n">optional_ptr</span><span class="o">&lt;</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Ty2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y2</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>Constructs an Arrow from x and y data for plotting <a href="">plotpp::Figure</a>. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>x1y1</strong> the start coordinates of the vector </li>
+<li><strong>x2y2</strong> the end coordinates of the vector. Can be absolute or relative. </li>
+</ul>
 <h3 id="function-label">function label</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">label</span><span class="p">(</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">label</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>adds a label to the plot which can be seen in legends </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>label</strong> a string to set the label name shown in the legend </li>
+</ul>
+<p><strong>Return</strong>: the class itself for method chaining </p>
 <h3 id="function-label_1">function label</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">label</span><span class="p">(</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">label</span>
@@ -908,11 +1021,18 @@
 <h3 id="function-linewidth">function lineWidth</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">lineWidth</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: The line width </p>
 <h3 id="function-linewidth_1">function lineWidth</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">lineWidth</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">lw</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>Changes the width of the line. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>lw</strong> The new linewidth </li>
+</ul>
+<p><strong>Return</strong>: The class itself for method chaining </p>
 <h3 id="function-linewidth_2">function lineWidth</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">lineWidth</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">lw</span>
@@ -921,37 +1041,58 @@
 <h3 id="function-datarelation">function dataRelation</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">DataRelation</span><span class="w"> </span><span class="n">dataRelation</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p>Returns the relation of [x2, y2]. </p>
+<p><strong>Return</strong>: DataRelation</p>
+<ul>
+<li><code>DataRelation::absolute</code> if the end coordinates [x2, y2] are absolute to the origin of the <a href="../classplotpp_1_1_figure/">Figure</a></li>
+<li><code>DataRelation::relative</code> if the end coordinates [x2, y2] are relative to [x1, y1] </li>
+</ul>
 <h3 id="function-datarelation_1">function dataRelation</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">dataRelation</span><span class="p">(</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">dr</span>
+<span class="w">    </span><span class="n">DataRelation</span><span class="w"> </span><span class="n">dr</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>Changes the relation of the start and end data points. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>lw</strong> The new linewidth </li>
+</ul>
+<p><strong>Return</strong>: The Class itself for method chaining </p>
+<p>The relationship of the start [x1, y1] coordinates and end [x2, y2] coordinates can be set with the enum plotpp::DataRelation. If set to</p>
+<ul>
+<li><code>DataRelation::absolute</code> [x2, y2] will be absolute to the origin of the plot</li>
+<li><code>DataRelation::relative</code> [x2, y2] will be relative to the start point [x1, y1]</li>
+</ul>
 <h3 id="function-datarelation_2">function dataRelation</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dataRelation</span><span class="p">(</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">dr</span>
+<span class="w">    </span><span class="n">DataRelation</span><span class="w"> </span><span class="n">dr</span>
 <span class="p">)</span>
 </code></pre></div>
 <h3 id="function-arrowheadstyle">function arrowHeadStyle</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">ArrowHeadStyle</span><span class="w"> </span><span class="n">arrowHeadStyle</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: The style of the arrow head (<a href="../../Namespaces/namespaceplotpp/#enum-arrowheadstyle">plotpp::ArrowHeadStyle</a>) </p>
 <h3 id="function-arrowheadstyle_1">function arrowHeadStyle</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">arrowHeadStyle</span><span class="p">(</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ahs</span>
+<span class="w">    </span><span class="n">ArrowHeadStyle</span><span class="w"> </span><span class="n">ahs</span>
 <span class="p">)</span>
 </code></pre></div>
 <h3 id="function-arrowheadstyle_2">function arrowHeadStyle</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">arrowHeadStyle</span><span class="p">(</span>
-<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">ahs</span>
+<span class="w">    </span><span class="n">ArrowHeadStyle</span><span class="w"> </span><span class="n">ahs</span>
 <span class="p">)</span>
 </code></pre></div>
 <h3 id="function-color">function color</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Color</span><span class="w"> </span><span class="n">color</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: The color of the line (<a href="../classplotpp_1_1_color/">plotpp::Color</a>) </p>
 <h3 id="function-color_1">function color</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">color</span><span class="p">(</span>
 <span class="w">    </span><span class="n">Color</span><span class="w"> </span><span class="n">col</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>Sets the color of the line. </p>
+<p><strong>Return</strong>: The class itself for method chaining </p>
 <h3 id="function-color_2">function color</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">color</span><span class="p">(</span>
 <span class="w">    </span><span class="n">Color</span><span class="w"> </span><span class="n">col</span>
@@ -962,15 +1103,25 @@
 <span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fptr</span>
 <span class="p">)</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p>Prints the plot command for gnuplot. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>fptr</strong> The file or stream that the plot command should be written to </li>
+</ul>
 <p><strong>Reimplements</strong>: <a href="../classplotpp_1_1_i_plot/#function-printplot">plotpp::IPlot::printPlot</a></p>
 <h3 id="function-printdata">function printData</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">printData</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fptr</span>
 <span class="p">)</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p>Prints the data for gnuplot. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>fptr</strong> The file or stream that the data should be written to </li>
+</ul>
 <p><strong>Reimplements</strong>: <a href="../classplotpp_1_1_i_plot/#function-printdata">plotpp::IPlot::printData</a></p>
 <hr />
-<p>Updated on 2025-01-25 at 18:42:30 +0100</p>
+<p>Updated on 2025-01-26 at 18:30:59 +0100</p>
 
 
 
@@ -1030,7 +1181,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.edit", "content.action.view", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "navigation.expand", "search.highlight", "search.share", "search.suggest", "toc.follow", "content.code.copy", "content.code.highlight", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.edit", "content.action.view", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "navigation.expand", "search.share", "search.suggest", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
