@@ -56,7 +56,7 @@ namespace plotpp{
 		inline IPlot&& label(std::string&& label) && {this->label_ = std::move(label); return std::move(*this);}
 	
 	protected:
-		inline IPlot& uid(size_t& uid_io){
+		virtual inline IPlot& uid(size_t& uid_io){
 			this->uid_ = uid_io; 
 			uid_io += 1;
 			return *this;
