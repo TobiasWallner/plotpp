@@ -1,34 +1,20 @@
 #include <vector>
 #include <plotpp.hpp>
 
+#include "functions.hpp" //linspace, apply_func
+
 int main() {
+	
+	std::vector<float> x = linspace<float>(-2, 2, 100);
+	std::vector<double> y = apply_func(x, [](double x){return -x + x * x * x;});
+	
 	using namespace plotpp;
 	
-	{
-		std::vector<double> x(20);
-		for(size_t i=0; i < x.size(); ++i) x[i] = i;
-		
-		std::vector<double> y1(20);
-		for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
-		
-		Figure fig("Line Plot from XY");
-		fig.add(line(&x, &y1).label("1/x*30"));
-		fig.show();
-		//fig.save("line-plot.svg");
-		//fig.save("line-plot.gp");
-		//fig.save("line-plot.png");
-	}
+	Figure fig("Line Plot from XY");
+	fig.add(line(&x, std::move(y)).label("f1"));
+	fig.grid();
+	fig.show();
+	fig.save("line-plot.svg");
 	
-	{
-		std::vector<double> y(20);
-		for(size_t i=0; i < y.size(); ++i) y[i] = i*i;
-		
-		Figure fig("Line Plot from Y");
-		fig.add(line(std::move(y)).label("x^2").color(0.8, 0.1, 0.1));
-		fig.show();
-		fig.save("line-plot.svg");
-		//fig.save("line-plot.gp");
-		//fig.save("line-plot.png");
-	}
     return 0;
 }

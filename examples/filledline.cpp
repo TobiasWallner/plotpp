@@ -21,7 +21,7 @@ int main(){
 		.show();
 		
 	Figure("filled line tan")
-		.add(line(&x, &tan).fill().color(0.8, 0.2, 0.2))
+		.add(line(&x, &tan).fill().color({0.8, 0.2, 0.2}))
 		.xGrid()
 		.show();
 	
