@@ -83,7 +83,7 @@ build_gcc/CMakeCache.txt: CMakeLists.txt build_gcc/build/Release/generators/cona
 	cmake -S . -B build_gcc -G $(BUILD_GENERATOR) -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN_FILE)
 
 # private: compile the project
-build_gcc\examples\Release\.timestamp: build_gcc/CMakeCache.txt plotpp/*
+build_gcc\examples\Release\.timestamp: build_gcc/CMakeCache.txt plotpp/* examples/*
 	cmake --build build_gcc --config Release
 	$(TIMESTAMP)
 
