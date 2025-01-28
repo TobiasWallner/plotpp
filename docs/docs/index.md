@@ -9,7 +9,7 @@ Allows plotting from custom containers/vectors if they use `begin()` and `end()`
 
 ## **Requirements**
 
-- Gnuplot: [Homepage](http://gnuplot.info/index.html){ data-preview } [Windows Download](https://sourceforge.net/projects/gnuplot/files/gnuplot/) [Linux install](https://riptutorial.com/gnuplot/example/11275/installation-or-setup):  
+- Gnuplot: [Homepage](http://gnuplot.info/index.html) [Windows Download](https://sourceforge.net/projects/gnuplot/files/gnuplot/) [Linux install](https://riptutorial.com/gnuplot/example/11275/installation-or-setup):  
 	*Note: The project can be build without gnuplot,
 	since this library will only communicate with gnuplot through pipes. 
 	But you will need gnuplot to display the graphical plots.*
@@ -21,39 +21,34 @@ Allows plotting from custom containers/vectors if they use `begin()` and `end()`
 
 A [conan](https://conan.io/) recipe is provided
 
-## **Examples**
+## **Example**
 
-You can see all examples in the `examples/` folder.
+=== "Code"
+    ```cpp
+	#include <vector>
+	#include <plotpp.hpp>
 
-### **Line Plot**
+	#include "functions.hpp" //linspace, apply_func
 
-<div style="display: flex; align-items: flex-start;">
-
-	<div style="margin-right: 20px; width: 60%;">
-```cpp
-int main() {
-	using namespace plotpp;
-
-	{
-		std::vector<double> x(20);
-		for(size_t i=0; i < x.size(); ++i) x[i] = i;
-
-		std::vector<double> y1(20);
-		for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
-
+	int main() {
+		
+		std::vector<float> x = linspace<float>(-2, 2, 100);
+		std::vector<double> y = apply_func(x, [](double x){return -x + x * x * x;});
+		
+		using namespace plotpp;
+		
 		Figure fig("Line Plot from XY");
-		fig.add(line(&x, &y1).label("1/x*30"));
+		fig.add(line(&x, std::move(y)).label("f1"));
+		fig.grid();
 		fig.show();
+		fig.save("line-plot.svg");
+		
+		return 0;
 	}
-}
-```
-	</div>
+	```
 
-	<div style="width: 40%;">
-		<img src="line-plot.svg" alt="Image" width="300">
-	</div>
-
-</div>
+=== "Output"
+    ![Image of a line plot](example_output.png)
 
 
 ## **Integration**
@@ -78,35 +73,35 @@ TODO
 
 Note: not yet added to the [ConanCenter](https://conan.io/center)
 
-`conanfile.txt`
-```ini
-[requires]
-plotpp/<version>
+=== "conanfile.txt"
+	```ini
+	[requires]
+	plotpp/<version>
 
-[generators]
-CMakeDeps
-CMakeToolchain
+	[generators]
+	CMakeDeps
+	CMakeToolchain
 
-[layout]
-cmake_layout
-```
+	[layout]
+	cmake_layout
+	```
 
-`conanfile.py`
-```py
-from conan import ConanFile
-from conan.tools.cmake import cmake_layout
+=== "conanfile.py"
+	```py
+	from conan import ConanFile
+	from conan.tools.cmake import cmake_layout
 
 
-class ExampleRecipe(ConanFile):
-    settings = "os", "compiler", "build_type", "arch"
-    generators = "CMakeDeps", "CMakeToolchain"
+	class ExampleRecipe(ConanFile):
+		settings = "os", "compiler", "build_type", "arch"
+		generators = "CMakeDeps", "CMakeToolchain"
 
-    def requirements(self):
-        self.requires("plotpp/<version>")
+		def requirements(self):
+			self.requires("plotpp/<version>")
 
-    def layout(self):
-        cmake_layout(self)
-```
+		def layout(self):
+			cmake_layout(self)
+	```
 
 build instructions with conan
 ```bash

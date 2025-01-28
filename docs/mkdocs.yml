@@ -15,12 +15,11 @@ copyright: Copyright &copy; Tobias Wallner
 
 nav:
     - Home: index.md
-    - Plotting Styles: 
-        - Overview: plotting_styles/index.md
-        - Line: plotting_styles/Line.md
+    - Plotting Styles: plotting_styles/index.md
     - API:
-        - Classes: API/Classes/index.md
+        - Overview: API/Namespaces/namespaceplotpp.md
         - Namespaces: API/Namespaces/index.md
+        - Classes: API/Classes/index.md
         - Examples: API/Examples/index.md
 theme:
   name: material
@@ -30,10 +29,11 @@ theme:
     - content.action.edit
     - content.action.view
     - navigation.sections
-    - navigation.tabs # Uses tabs in the header instead of at the left of the page
+    #- navigation.tabs # Uses tabs in the header instead of at the left of the page
     - navigation.top
     - navigation.tracking
     - navigation.expand
+    - navigation.indexes
     - search.share
     - search.suggest
     - toc.follow
@@ -41,6 +41,22 @@ theme:
     - content.code.annotate
     
 markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - meta
   - pymdownx.highlight:
       use_pygments: true
   - pymdownx.superfences
+  - pymdownx.extra
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tasklist
+  - pymdownx.tilde
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower

@@ -1,4 +1,3 @@
-
 # Line Plot
 ----
 
@@ -54,7 +53,18 @@ template<std::ranges::forward_range Tx, std::ranges::forward_range Ty>
 class Line : public IPlot;
 ```
 
-Inherrits from IPlot.
+Contains information on how to draw a line in a [Figure](Figure.md).
+Inherrits from [IPlot](TODO).
+
+### Constructor
+
+```C++
+Line(optional_ptr<Tx> x, optional_ptr<Ty> y);
+```
+
+Constructs a Line from two [optional_ptr](TODO) containing the x- and y-coordinates to draw the line. 
+
+**Parameter:** [optional_ptr](TODO)<Tx, Ty> **x, y:** The x- and y-coordinates to draw the line. The x-values are optional and may be assigned a `nullptr`. The y-values are mandatory. The Tx- and Ty-types for the x- and y-values have to be [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have `begin()` and `end()` iterators that allow incrementation with the `operator++`) as per the classes template definition.
 
 ### Line.lineType()
 ----
@@ -302,8 +312,8 @@ virtual void printPlot(FILE* fptr) const override;
 ```
 
 The user normally does not need to call this function. 
-Overrides the implementation inherrited from [IPlot].
-Writing, opening, and closing files is completelly handelled by [Figure](TODO) or [Multifigure](TODO).
+Overrides the implementation inherrited from [IPlot](TODO).
+Writing, opening, and closing files is completelly handelled by [Figure](Figure.md) or [Multifigure](TODO).
 
 Writes the plot command for Gnuplot into the provided file stream.
 
@@ -318,7 +328,7 @@ virtual void printData(FILE* fptr) const override;
 
 The user normally does not need to call this function. 
 Overrides the implementation inherrited from [IPlot].
-Writing, opening, and closing files is completelly handelled by [Figure](TODO) or [Multifigure](TODO).
+Writing, opening, and closing files is completelly handelled by [Figure](Figure.md) or [Multifigure](TODO).
 
 Writes the plot data for Gnuplot into the provided file stream.
 
