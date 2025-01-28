@@ -40,8 +40,17 @@ namespace plotpp{
 	Figure& Figure::yMin(float v){this->min_y_ = v; return *this;}
 	Figure& Figure::yMax(float v){this->max_y_ = v; return *this;}
 	
-	Figure& Figure::xLogBase(float base){this->log_x_base_ = base; return *this;}
-	Figure& Figure::yLogBase(float base){this->log_y_base_ = base; return *this;}
+	Figure& Figure::xLogBase(float base){
+		this->log_x_base_ = base; 
+		this->xLog(true);
+		return *this;
+	}
+	
+	Figure& Figure::yLogBase(float base){
+		this->log_y_base_ = base; 
+		this->yLog(true);
+		return *this;
+	}
 	
 	Figure& Figure::xReverse(bool b){this->reverse_x_ = b; return *this;}
 	Figure& Figure::yReverse(bool b){this->reverse_y_ = b; return *this;}

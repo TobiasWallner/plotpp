@@ -48,13 +48,11 @@ namespace plotpp{
 		inline const PlotTitle& label() const {return this->label_;}
 		inline PlotTitle& label() {return this->label_;}
 		
-		inline IPlot& label(const char* label) & {this->label_ = label; return *this;}
-		inline IPlot&& label(const char* label) && {this->label_ = label; return std::move(*this);}
-		inline IPlot& label(std::string_view label) & {this->label_ = label; return *this;}
-		inline IPlot&& label(std::string_view label) && {this->label_ = label; return std::move(*this);}
-		inline IPlot& label(std::string&& label) & {this->label_ = std::move(label); return *this;}
-		inline IPlot&& label(std::string&& label) && {this->label_ = std::move(label); return std::move(*this);}
-	
+		inline IPlot& label(const PlotTitle& label) & {this->label_ = label; return *this;}
+		inline IPlot&& label(const PlotTitle& label) && {this->label_ = label; return std::move(*this);}
+		inline IPlot& label(PlotTitle&& label) & {this->label_ = std::move(label); return *this;}
+		inline IPlot&& label(PlotTitle&& label) && {this->label_ = std::move(label); return std::move(*this);}
+		
 	protected:
 		virtual inline IPlot& uid(size_t& uid_io){
 			this->uid_ = uid_io; 

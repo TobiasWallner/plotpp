@@ -23,7 +23,7 @@ namespace plotpp{
 	
 		Figure() = default;
 		Figure(const Figure&) = delete;
-		Figure(Figure&&)=default;
+		Figure(Figure&&) = default;
 		
 		Figure(std::string title_str);
 		
@@ -33,8 +33,10 @@ namespace plotpp{
 		
 		Figure& title(const Text& title);
 		Figure& title(Text&& title);
+		
 		Figure& xLabel(const Text& xlabel);
 		Figure& xLabel(Text&& xlabel);
+		
 		Figure& yLabel(const Text& ylabel);
 		Figure& yLabel(Text&& ylabel);
 	
@@ -47,6 +49,8 @@ namespace plotpp{
 		inline Figure& yLim(float y_min, float y_max){return this->yMin(y_min).yMax(y_max).yAutoscale(false);}
 		inline Figure& lim(float x_min, float x_max, float y_min, float y_max){return this->xLim(x_min, x_max).yLim(y_min, y_max);}
 
+		Figure& xLog(bool b = true);
+		Figure& yLog(bool b = true);
 		
 		Figure& xLogBase(float base);
 		Figure& yLogBase(float base);
@@ -56,9 +60,8 @@ namespace plotpp{
 		
 		Figure& xAutoscale(bool b = true);
 		Figure& yAutoscale(bool b = true);
+		Figure& autoscale(bool b = true){return this->xAutoscale(b).yAutoscale(b);}
 		
-		Figure& xLog(bool b = true);
-		Figure& yLog(bool b = true);
 		
 		Figure& xGrid(bool b = true);
 		Figure& yGrid(bool b = true);
