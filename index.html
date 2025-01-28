@@ -76,7 +76,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Plotpp" class="md-header__button md-logo" aria-label="Plotpp" data-md-component="logo">
       
@@ -176,70 +178,6 @@
       
         
           
-            
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-    
-  
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
-        
-  
-    
-  
-  Home
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="plotting_styles/" class="md-tabs__link">
-          
-  
-  Plotting Styles
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="API/Classes/" class="md-tabs__link">
-          
-  
-  API
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ul>
-  </div>
-</nav>
-          
         
       
       <main class="md-main" data-md-component="main">
@@ -253,10 +191,8 @@
                     
 
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Plotpp" class="md-nav__button md-logo" aria-label="Plotpp" data-md-component="logo">
       
@@ -361,26 +297,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Example
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#line-plot" class="md-nav__link">
-    <span class="md-ellipsis">
-      Line Plot
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -473,107 +394,52 @@
   
   
   
-    
-    
-    
-      
-      
+    <li class="md-nav__item">
+      <a href="plotting_styles/" class="md-nav__link">
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
   
   <span class="md-ellipsis">
     Plotting Styles
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            Plotting Styles
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="plotting_styles/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Overview
-  </span>
-  
-
       </a>
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
   
   
-    <li class="md-nav__item">
-      <a href="plotting_styles/Line/" class="md-nav__link">
+    
+    
+      
         
-  
-  <span class="md-ellipsis">
-    Line
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
-    </li>
-  
-
-    
+        
+          
+        
       
+        
+          
+        
       
-  
-  
-  
-  
-    
-    
-    
-      
-      
+        
+          
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -582,16 +448,24 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="API/Namespaces/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     API
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
@@ -607,11 +481,11 @@
   
   
     <li class="md-nav__item">
-      <a href="API/Classes/" class="md-nav__link">
+      <a href="API/Namespaces/namespaceplotpp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Classes
+    Overview
   </span>
   
 
@@ -622,17 +496,19 @@
               
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="API/Namespaces/" class="md-nav__link">
+      <a href="API/Classes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Namespaces
+    Classes
   </span>
   
 
@@ -724,26 +600,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Example
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#line-plot" class="md-nav__link">
-    <span class="md-ellipsis">
-      Line Plot
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -860,7 +721,7 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 <p><a href="https://tobiaswallner.github.io/plotpp/">Documentation</a></p>
 <h2 id="requirements"><strong>Requirements</strong></h2>
 <ul>
-<li>Gnuplot: <a href="http://gnuplot.info/index.html">Homepage</a>{ data-preview } <a href="https://sourceforge.net/projects/gnuplot/files/gnuplot/">Windows Download</a> <a href="https://riptutorial.com/gnuplot/example/11275/installation-or-setup">Linux install</a>:<br />
+<li>Gnuplot: <a href="http://gnuplot.info/index.html">Homepage</a> <a href="https://sourceforge.net/projects/gnuplot/files/gnuplot/">Windows Download</a> <a href="https://riptutorial.com/gnuplot/example/11275/installation-or-setup">Linux install</a>:<br />
 <em>Note: The project can be build without gnuplot,
     since this library will only communicate with gnuplot through pipes. 
     But you will need gnuplot to display the graphical plots.</em></li>
@@ -871,36 +732,37 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 <li>{fmt}: <a href="https://github.com/fmtlib/fmt">GitHub</a>, <a href="https://fmt.dev/11.0/">Documentation</a>, <a href="https://conan.io/center/recipes/fmt?version=">Conan</a></li>
 </ul>
 <p>A <a href="https://conan.io/">conan</a> recipe is provided</p>
-<h2 id="examples"><strong>Examples</strong></h2>
-<p>You can see all examples in the <code>examples/</code> folder.</p>
-<h3 id="line-plot"><strong>Line Plot</strong></h3>
-<div style="display: flex; align-items: flex-start;">
+<h2 id="example"><strong>Example</strong></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="example-code" name="__tabbed_1" type="radio" /><input id="example-output" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="example-code">Code</label><label for="example-output">Output</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;plotpp.hpp&gt;</span>
 
-    <div style="margin-right: 20px; width: 60%;">
-<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;functions.hpp&quot;</span><span class="c1"> //linspace, apply_func</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linspace</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">-2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">apply_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="p">[](</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">){</span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;});</span>
+
 <span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">plotpp</span><span class="p">;</span>
 
-<span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
-<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Figure</span><span class="w"> </span><span class="n">fig</span><span class="p">(</span><span class="s">&quot;Line Plot from XY&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">fig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">line</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">y</span><span class="p">)).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;f1&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">fig</span><span class="p">.</span><span class="n">grid</span><span class="p">();</span>
+<span class="w">    </span><span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+<span class="w">    </span><span class="n">fig</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="s">&quot;line-plot.svg&quot;</span><span class="p">);</span>
 
-<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">y1</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
-<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">y1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="n">y1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.</span><span class="o">/</span><span class="n">i</span><span class="o">*</span><span class="mi">30</span><span class="p">;</span>
-
-<span class="w">        </span><span class="n">Figure</span><span class="w"> </span><span class="n">fig</span><span class="p">(</span><span class="s">&quot;Line Plot from XY&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="n">fig</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">line</span><span class="p">(</span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">y1</span><span class="p">).</span><span class="n">label</span><span class="p">(</span><span class="s">&quot;1/x*30&quot;</span><span class="p">));</span>
-<span class="w">        </span><span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-    </div>
-
-    <div style="width: 40%;">
-        <img src="line-plot.svg" alt="Image" width="300">
-    </div>
-
 </div>
-
+<div class="tabbed-block">
+<p><img alt="Image of a line plot" src="example_output.png" /></p>
+</div>
+</div>
+</div>
 <h2 id="integration"><strong>Integration</strong></h2>
 <h3 id="cmake"><strong><a href="https://cmake.org/">CMake</a></strong></h3>
 <div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.15</span><span class="p">)</span>
@@ -915,7 +777,9 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 <p>TODO</p>
 <h3 id="conan-package-manager"><strong><a href="https://conan.io/">Conan Package Manager</a></strong></h3>
 <p>Note: not yet added to the <a href="https://conan.io/center">ConanCenter</a></p>
-<p><code>conanfile.txt</code>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="conan-package-manager-conanfiletxt" name="__tabbed_2" type="radio" /><input id="conan-package-manager-conanfilepy" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="conan-package-manager-conanfiletxt">conanfile.txt</label><label for="conan-package-manager-conanfilepy">conanfile.py</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">[requires]</span>
 <span class="na">plotpp/&lt;version&gt;</span>
 
@@ -925,8 +789,9 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 
 <span class="k">[layout]</span>
 <span class="na">cmake_layout</span>
-</code></pre></div></p>
-<p><code>conanfile.py</code>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">conan</span> <span class="kn">import</span> <span class="n">ConanFile</span>
 <span class="kn">from</span> <span class="nn">conan.tools.cmake</span> <span class="kn">import</span> <span class="n">cmake_layout</span>
 
@@ -940,7 +805,10 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 
     <span class="k">def</span> <span class="nf">layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">cmake_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</code></pre></div></p>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>build instructions with conan
 <div class="highlight"><pre><span></span><code><span class="c1"># install dependencies</span>
 conan<span class="w"> </span>install<span class="w"> </span>.<span class="w"> </span>--build<span class="o">=</span>missing<span class="w"> </span>--output-folder<span class="w"> </span>build
@@ -1040,7 +908,7 @@ Note: you would also need to add and link against fmt</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["content.action.edit", "content.action.view", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "navigation.expand", "search.share", "search.suggest", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.action.edit", "content.action.view", "navigation.sections", "navigation.top", "navigation.tracking", "navigation.expand", "navigation.indexes", "search.share", "search.suggest", "toc.follow", "content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="assets/javascripts/bundle.88dd0f4e.min.js"></script>
