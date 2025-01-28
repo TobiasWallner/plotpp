@@ -21,20 +21,6 @@ Dependencies
 
 A [conan](https://conan.io/) recipe is provided
 
-Features
-========
-### Plotting Styles
-- Line/filled Line/filled Curves
-- Poins/Scatter/XError/YError/XYError
-- Arrows/Vectors/Quiver
-- Heatmap
-- Boxes
-- Boxplot
-- Circle
-- Pie-Charts
-- Impulses
-- Steps/filled Steps
-
 Examples
 ========
 
@@ -45,22 +31,21 @@ Line Plot
 
 ```C++
 int main() {
+	std::vector<float> x = linspace<float>(-2, 2, 100);
+	std::vector<double> y = apply_func(x, [](double x){return -x + x * x * x;});
+	
 	using namespace plotpp;
 	
-	{
-		std::vector<double> x(20);
-		for(size_t i=0; i < x.size(); ++i) x[i] = i;
-		
-		std::vector<double> y1(20);
-		for(size_t i=0; i < y1.size(); ++i) y1[i] = 1./i*30;
-		
-		Figure fig("Line Plot from XY");
-		fig.add(line(&x, &y1).label("1/x*30"));
-		fig.show();
-	}
+	Figure fig("Line Plot from XY");
+	fig.add(line(&x, std::move(y)).label("f1"));
+	fig.grid();
+	fig.show();
+	fig.save("line-plot.svg");
+	
+    return 0;
 }
 ```
-![Image of a line plot](images/line-plot.png)
+![Image of a line plot](images/line-plot.svg)
 
 Arrow Plot
 ----------
