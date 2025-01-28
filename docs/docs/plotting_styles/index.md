@@ -9,7 +9,7 @@ Plotting Styles
     
 	**Line Plot**
 	
-	[Class Line](../API/Classes/classplotpp_1_1_line.md) | [Example](../API/Examples/line_8cpp-example/#example-line.cpp)
+	[Class Line](../API/Classes/classplotpp_1_1_line.md) | [Example](../API/Examples/line_8cpp-example.md)
 
 -   ![Image of a point plot](point-plot.svg)
 
@@ -17,7 +17,7 @@ Plotting Styles
 
     **Point/Scatter Plot**  
 	
-	[Class Points](../API/Classes/classplotpp_1_1_points.md) | [Example](../API/Examples/line_8cpp-example/#example-points.cpp)
+	[Class Points](../API/Classes/classplotpp_1_1_points.md) | [Example](../API/Examples/points_8cpp-example.md)
 
 </div>
 
