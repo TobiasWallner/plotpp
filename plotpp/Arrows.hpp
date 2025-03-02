@@ -17,6 +17,8 @@
 
 namespace plotpp{
 	
+	/// \example arrows.cpp
+	
 	/**
 		\brief class for plotting arrows in plotpp::Figure
 		
@@ -33,6 +35,13 @@ namespace plotpp{
 	public:
 		/**
 			\brief Constructs an Arrow from x and y data for plotting plotpp::Figure
+			
+			For easier construction use the following functions instead. They will automatically create the correct optional_ptr type.
+			- arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2), absolute coordinates
+			- vector(U1&& x1, U2&& y1, U3&& x2, U4&& y2), alias for arrows()
+			- quiver(U1&& x1, U2&& y1, U3&& x2, U4&& y2), relative coordinates
+			
+			
 			\param x1, y1 the start coordinates of the vector
 			\param x2, y2 the end coordinates of the vector. Can be absolute or relative.
 		*/
@@ -80,7 +89,7 @@ namespace plotpp{
 			If set to 
 			- `DataRelation::absolute` [x2, y2] will be absolute to the origin of the plot
 			- `DataRelation::relative` [x2, y2] will be relative to the start point [x1, y1]
-			
+			- default is `DataRelation::absolute`
 			\param lw The new linewidth
 			\returns The Class itself for method chaining 
 		*/
@@ -141,13 +150,13 @@ namespace plotpp{
 		optional_ptr<const Tx2> x2_;
 		optional_ptr<const Ty2> y2_;
 		std::optional<Color> opt_color = std::nullopt;
-		DataRelation data_relation = DataRelation::relative; // relation from [x1, y1] to [x2, y2]
+		DataRelation data_relation = DataRelation::absolute; // relation from [x1, y1] to [x2, y2]
 		float line_width = 1.5;
 		ArrowHeadStyle arrow_head_style = ArrowHeadStyle::filled_head;
 	};
 	
 	/**
-		\brief helper constructor function
+		\brief helper constructor function to construct an arrows, where all coordinates are absolute to the graphs origin.
 		
 		Function that constructs an Arrow. 
 		This will automatically derive correct types from the data-ranges and converts them into an optional_ptr that may or may not be the owner of the data.
@@ -157,13 +166,13 @@ namespace plotpp{
 		- data that is moved (The Arrow will own the data, aka. destruct it)
 		Further the datatype has to be a [forward range](https://en.cppreference.com/w/cpp/ranges/forward_range) because of the constructor Arrows::Arrows
 		
-		\param x1, y1 The start coordinates of the Arrow
-		\param x2, y2 The end coordinates of the Arrow
+		\param x1, y1 The start coordinates of the Arrow 
+		\param x2, y2 The end coordinates of the Arrow (absolute to the graphs origin)
 		
-		\returns 
+		\returns an Arrow class for plotting
 	*/
 	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3, PtrOrMoved U4>
-	auto arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2) {
+	inline auto arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2) {
 		using Tx1 = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty1 = remove_ptr_t<std::remove_reference_t<U2>>;
 		using Tx2 = remove_ptr_t<std::remove_reference_t<U3>>;
@@ -176,7 +185,51 @@ namespace plotpp{
 	}
 	
 	/**
+		\brief helper constructor function to construct vectors, where all coordinates are absolute to the graphs origin.
 		
+		Alias of arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2). 
+		Function that constructs vectors where all coordinates are absolute to the graphs origin. 
+		This will automatically derive correct types from the data-ranges and converts them into an optional_ptr that may or may not be the owner of the data.
+		
+		\tparam U1, U2, U3, U4 Can either be: 
+		- a pointer to data (The Arrow will **not** own the data, aka. not deconstruct it) or 
+		- data that is moved (The Arrow will own the data, aka. destruct it)
+		Further the datatype has to be a [forward range](https://en.cppreference.com/w/cpp/ranges/forward_range) because of the constructor Arrows::Arrows
+		
+		\param x1, y1 The start coordinates of the Arrow 
+		\param x2, y2 The end coordinates of the Arrow (absolute to the graphs origin)
+		
+		\returns an Arrow class for plotting
 	*/
+	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3, PtrOrMoved U4>
+	inline auto vector(U1&& x1, U2&& y1, U3&& x2, U4&& y2){
+		return arrows(std::forward<U1>(x1), std::forward<U2>(y1), std::forward<U3>(x2), std::forward<U4>(y2));
+	}
+	
+	/**
+		\brief helper constructor function to construct quivers (arrows), [x, y] are absolute starting positions and [u, v] are relative to the start of the arrow [x, y].
+		
+		equivalent of calling `arrows(x, y, u, v).dataRelation(DataRelation::relative)`.
+		Function that constructs vectors where all [u, v] are relative to the arrows start [x, y]. 
+		This will automatically derive correct types from the data-ranges and converts them into an optional_ptr that may or may not be the owner of the data.
+		
+		\tparam U1, U2, U3, U4 Can either be: 
+		- a pointer to data (The Arrow will **not** own the data, aka. not deconstruct it) or 
+		- data that is moved (The Arrow will own the data, aka. destruct it)
+		Further the datatype has to be a [forward range](https://en.cppreference.com/w/cpp/ranges/forward_range) because of the constructor Arrows::Arrows
+		
+		\param x, y The start coordinates of the Arrow 
+		\param u, v The end coordinates of the Arrow (relative to the arrows start [x, y])
+		
+		\returns an Arrow class for plotting
+	*/
+	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3, PtrOrMoved U4>
+	inline auto quiver(U1&& x, U2&& y, U3&& u, U4&& v){
+		return arrows(
+					std::forward<U1>(x), 
+					std::forward<U2>(y), 
+					std::forward<U3>(u), 
+					std::forward<U4>(v)).dataRelation(DataRelation::relative);
+	}
 	
 }
