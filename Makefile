@@ -44,6 +44,12 @@ else ifeq ($(OS),Darwin)
     OPEN_BROWSER = open
 endif
 
+ifeq ($(OS),Windows_NT)
+    FIND_FILES = $(shell dir /s /b $(1))
+else
+    FIND_FILES = $(shell find $(1) -type f)
+endif
+
 #############################################################
 #					 Conan Package Manager
 #############################################################
@@ -136,7 +142,7 @@ docs/docs/API/.timestamp: docs/doxybook2-config.json docs/doxygen/.timestamp
 	$(TIMESTAMP)
 
 # private: build the website with mkdocs from the markdown files
-docs/site/.timestamp: docs/mkdocs.yml docs/docs/* docs/docs/API/.timestamp
+docs/site/.timestamp: docs/mkdocs.yml $(call FIND_FILES,"docs/docs") docs/docs/API/.timestamp
 	mkdocs build -f docs/mkdocs.yml
 	$(TIMESTAMP)
 
