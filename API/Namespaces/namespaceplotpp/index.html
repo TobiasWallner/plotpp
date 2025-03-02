@@ -520,6 +520,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#function-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      function vector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-quiver" class="md-nav__link">
+    <span class="md-ellipsis">
+      function quiver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#function-boxes" class="md-nav__link">
     <span class="md-ellipsis">
       function boxes
@@ -1140,6 +1158,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#function-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      function vector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-quiver" class="md-nav__link">
+    <span class="md-ellipsis">
+      function quiver
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#function-boxes" class="md-nav__link">
     <span class="md-ellipsis">
       function boxes
@@ -1588,11 +1624,11 @@
 <tbody>
 <tr>
 <td>class</td>
-<td><strong><a href="../../Classes/classplotpp_1_1_arrows/">plotpp::Arrows</a></strong> <br>class for plotting arrows in <a href="">plotpp::Figure</a></td>
+<td><strong><a href="../../Classes/classplotpp_1_1_arrows/">plotpp::Arrows</a></strong> <br>class for plotting arrows/vectors/quivers in <a href="">plotpp::Figure</a></td>
 </tr>
 <tr>
 <td>class</td>
-<td><strong><a href="../../Classes/classplotpp_1_1_boxes/">plotpp::Boxes</a></strong></td>
+<td><strong><a href="../../Classes/classplotpp_1_1_boxes/">plotpp::Boxes</a></strong> <br>class for plotting boxes into a <a href="">plotpp::Figure</a></td>
 </tr>
 <tr>
 <td>class</td>
@@ -1726,7 +1762,15 @@
 </tr>
 <tr>
 <td>template &lt;PtrOrMoved U1,PtrOrMoved U2,PtrOrMoved U3,PtrOrMoved U4&gt; <br>auto</td>
-<td><strong><a href="./#function-arrows">arrows</a></strong>(U1 &amp;&amp; x1, U2 &amp;&amp; y1, U3 &amp;&amp; x2, U4 &amp;&amp; y2)<br>helper constructor function</td>
+<td><strong><a href="./#function-arrows">arrows</a></strong>(U1 &amp;&amp; x1, U2 &amp;&amp; y1, U3 &amp;&amp; x2, U4 &amp;&amp; y2)<br>helper constructor function to construct an arrows, where all coordinates are absolute to the graphs origin.</td>
+</tr>
+<tr>
+<td>template &lt;PtrOrMoved U1,PtrOrMoved U2,PtrOrMoved U3,PtrOrMoved U4&gt; <br>auto</td>
+<td><strong><a href="./#function-vector">vector</a></strong>(U1 &amp;&amp; x1, U2 &amp;&amp; y1, U3 &amp;&amp; x2, U4 &amp;&amp; y2)<br>helper constructor function to construct vectors, where all coordinates are absolute to the graphs origin.</td>
+</tr>
+<tr>
+<td>template &lt;PtrOrMoved U1,PtrOrMoved U2,PtrOrMoved U3,PtrOrMoved U4&gt; <br>auto</td>
+<td><strong><a href="./#function-quiver">quiver</a></strong>(U1 &amp;&amp; x, U2 &amp;&amp; y, U3 &amp;&amp; u, U4 &amp;&amp; v)<br>helper constructor function to construct quivers (arrows), [x, y] are absolute starting positions and [u, v] are relative to the start of the arrow [x, y].</td>
 </tr>
 <tr>
 <td>template &lt;PtrOrMoved U1,PtrOrMoved U2&gt; <br>auto</td>
@@ -2462,18 +2506,18 @@
 <span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U2</span><span class="p">,</span>
 <span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U3</span><span class="p">,</span>
 <span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U4</span><span class="o">&gt;</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">arrows</span><span class="p">(</span>
+<span class="kr">inline</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">arrows</span><span class="p">(</span>
 <span class="w">    </span><span class="n">U1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span>
 <span class="w">    </span><span class="n">U2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span>
 <span class="w">    </span><span class="n">U3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span>
 <span class="w">    </span><span class="n">U4</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y2</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>helper constructor function </p>
+<p>helper constructor function to construct an arrows, where all coordinates are absolute to the graphs origin. </p>
 <p><strong>Parameters</strong>: </p>
 <ul>
 <li><strong>x1y1</strong> The start coordinates of the Arrow </li>
-<li><strong>x2y2</strong> The end coordinates of the Arrow</li>
+<li><strong>x2y2</strong> The end coordinates of the Arrow (absolute to the graphs origin)</li>
 </ul>
 <p><strong>Template Parameters</strong>: </p>
 <ul>
@@ -2485,19 +2529,79 @@
 </li>
 <li>data that is moved (The Arrow will own the data, aka. destruct it) Further the datatype has to be a <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">forward range</a> because of the constructor <a href="../../Classes/classplotpp_1_1_arrows/#function-arrows">Arrows::Arrows</a></li>
 </ul>
-<p><strong>Return</strong>: </p>
+<p><strong>Return</strong>: an Arrow class for plotting </p>
 <p>Function that constructs an Arrow. This will automatically derive correct types from the data-ranges and converts them into an <a href="../../Classes/classoptional__ptr/">optional_ptr</a> that may or may not be the owner of the data.</p>
+<h3 id="function-vector">function vector</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U1</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U2</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U3</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U4</span><span class="o">&gt;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">vector</span><span class="p">(</span>
+<span class="w">    </span><span class="n">U1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span>
+<span class="w">    </span><span class="n">U2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span>
+<span class="w">    </span><span class="n">U3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span>
+<span class="w">    </span><span class="n">U4</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y2</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>helper constructor function to construct vectors, where all coordinates are absolute to the graphs origin. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>x1y1</strong> The start coordinates of the Arrow </li>
+<li><strong>x2y2</strong> The end coordinates of the Arrow (absolute to the graphs origin)</li>
+</ul>
+<p><strong>Template Parameters</strong>: </p>
+<ul>
+<li>
+<p><strong>U1U2U3U4</strong> Can either be:</p>
+</li>
+<li>
+<p>a pointer to data (The Arrow will <strong>not</strong> own the data, aka. not deconstruct it) or</p>
+</li>
+<li>data that is moved (The Arrow will own the data, aka. destruct it) Further the datatype has to be a <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">forward range</a> because of the constructor <a href="../../Classes/classplotpp_1_1_arrows/#function-arrows">Arrows::Arrows</a></li>
+</ul>
+<p><strong>Return</strong>: an Arrow class for plotting </p>
+<p>Alias of <a href="./#function-arrows">arrows(U1&amp;&amp; x1, U2&amp;&amp; y1, U3&amp;&amp; x2, U4&amp;&amp; y2)</a>. Function that constructs vectors where all coordinates are absolute to the graphs origin. This will automatically derive correct types from the data-ranges and converts them into an <a href="../../Classes/classoptional__ptr/">optional_ptr</a> that may or may not be the owner of the data.</p>
+<h3 id="function-quiver">function quiver</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U1</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U2</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U3</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U4</span><span class="o">&gt;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">quiver</span><span class="p">(</span>
+<span class="w">    </span><span class="n">U1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x</span><span class="p">,</span>
+<span class="w">    </span><span class="n">U2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="p">,</span>
+<span class="w">    </span><span class="n">U3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">u</span><span class="p">,</span>
+<span class="w">    </span><span class="n">U4</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">v</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>helper constructor function to construct quivers (arrows), [x, y] are absolute starting positions and [u, v] are relative to the start of the arrow [x, y]. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>xy</strong> The start coordinates of the Arrow </li>
+<li><strong>uv</strong> The end coordinates of the Arrow (relative to the arrows start [x, y])</li>
+</ul>
+<p><strong>Template Parameters</strong>: </p>
+<ul>
+<li>
+<p><strong>U1U2U3U4</strong> Can either be:</p>
+</li>
+<li>
+<p>a pointer to data (The Arrow will <strong>not</strong> own the data, aka. not deconstruct it) or</p>
+</li>
+<li>data that is moved (The Arrow will own the data, aka. destruct it) Further the datatype has to be a <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">forward range</a> because of the constructor <a href="../../Classes/classplotpp_1_1_arrows/#function-arrows">Arrows::Arrows</a></li>
+</ul>
+<p><strong>Return</strong>: an Arrow class for plotting </p>
+<p>equivalent of calling <code>arrows(x, y, u, v).dataRelation(DataRelation::relative)</code>. Function that constructs vectors where all [u, v] are relative to the arrows start [x, y]. This will automatically derive correct types from the data-ranges and converts them into an <a href="../../Classes/classoptional__ptr/">optional_ptr</a> that may or may not be the owner of the data.</p>
 <h3 id="function-boxes">function boxes</h3>
 <div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U1</span><span class="p">,</span>
 <span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U2</span><span class="o">&gt;</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">boxes</span><span class="p">(</span>
+<span class="kr">inline</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">boxes</span><span class="p">(</span>
 <span class="w">    </span><span class="n">U1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x</span><span class="p">,</span>
 <span class="w">    </span><span class="n">U2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span>
 <span class="p">)</span>
 </code></pre></div>
 <h3 id="function-boxes_1">function boxes</h3>
 <div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U2</span><span class="o">&gt;</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">boxes</span><span class="p">(</span>
+<span class="kr">inline</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">boxes</span><span class="p">(</span>
 <span class="w">    </span><span class="n">U2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -2830,7 +2934,7 @@
 <span class="p">)</span>
 </code></pre></div>
 <hr />
-<p>Updated on 2025-01-28 at 17:40:02 +0100</p>
+<p>Updated on 2025-03-02 at 14:13:16 +0100</p>
 
 
 

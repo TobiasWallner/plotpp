@@ -682,7 +682,7 @@
 
 
 <h1 id="plotpparrows">plotpp::Arrows</h1>
-<p>class for plotting arrows in <a href="">plotpp::Figure</a> <a href="#detailed-description">More...</a></p>
+<p>class for plotting arrows/vectors/quivers in <a href="">plotpp::Figure</a> <a href="#detailed-description">More...</a></p>
 <p><code>#include &lt;Arrows.hpp&gt;</code></p>
 <p>Inherits from <a href="../classplotpp_1_1_i_plot/">plotpp::IPlot</a></p>
 <h2 id="public-functions">Public Functions</h2>
@@ -853,13 +853,18 @@
 <span class="n">std</span><span class="o">::</span><span class="n">ranges</span><span class="o">::</span><span class="n">forward_range</span><span class="w"> </span><span class="n">Ty2</span><span class="o">&gt;</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">plotpp</span><span class="o">::</span><span class="n">Arrows</span><span class="p">;</span>
 </code></pre></div>
-<p>class for plotting arrows in <a href="">plotpp::Figure</a></p>
+<p>class for plotting arrows/vectors/quivers in <a href="">plotpp::Figure</a></p>
 <p><strong>Template Parameters</strong>: </p>
 <ul>
 <li><strong>Tx1Ty1Tx2Ty2</strong> Generic types that store the data for plotting and are <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">forward ranges</a> (aka. have <code>begin()</code> and <code>end()</code> iterators)</li>
 </ul>
-<p><strong>See</strong>: <a href="../../Namespaces/namespaceplotpp/#function-arrows">arrows<PtrOrMoved, PtrOrMoved, PtrOrMoved, PtrOrMoved></a> function to help construct an Arrow. </p>
 <p><a href="./">Arrows</a> contains the start and end coordinates for vectors. The relationship between the datasets ([x1, y1] and [x2, y2]) can be set using plotpp::DataRelation. In every case [x1, y1] will be the absolute start coordinate of the vector and [x2, y2] can the absolute end coordinate or relative to the start.</p>
+<p>To construct arrows/vectors/quivers <strong>See</strong></p>
+<ul>
+<li><a href="../../Namespaces/namespaceplotpp/#function-arrows">arrows(U1&amp;&amp; x1, U2&amp;&amp; y1, U3&amp;&amp; x2, U4&amp;&amp; y2)</a>, absolute coordinates</li>
+<li><a href="../../Namespaces/namespaceplotpp/#function-vector">vector(U1&amp;&amp; x1, U2&amp;&amp; y1, U3&amp;&amp; x2, U4&amp;&amp; y2)</a>, alias for <a href="../../Namespaces/namespaceplotpp/#function-arrows">arrows()</a></li>
+<li><a href="../../Namespaces/namespaceplotpp/#function-quiver">quiver(U1&amp;&amp; x1, U2&amp;&amp; y1, U3&amp;&amp; x2, U4&amp;&amp; y2)</a>, relative coordinates </li>
+</ul>
 <h2 id="public-functions-documentation">Public Functions Documentation</h2>
 <h3 id="function-arrows">function Arrows</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="p">(</span>
@@ -874,6 +879,12 @@
 <ul>
 <li><strong>x1y1</strong> the start coordinates of the vector </li>
 <li><strong>x2y2</strong> the end coordinates of the vector. Can be absolute or relative. </li>
+</ul>
+<p>For easier construction use the following functions instead. They will automatically create the correct <a href="../classoptional__ptr/">optional_ptr</a> type.</p>
+<ul>
+<li><a href="../../Namespaces/namespaceplotpp/#function-arrows">arrows(U1&amp;&amp; x1, U2&amp;&amp; y1, U3&amp;&amp; x2, U4&amp;&amp; y2)</a>, absolute coordinates</li>
+<li><a href="../../Namespaces/namespaceplotpp/#function-vector">vector(U1&amp;&amp; x1, U2&amp;&amp; y1, U3&amp;&amp; x2, U4&amp;&amp; y2)</a>, alias for <a href="../../Namespaces/namespaceplotpp/#function-arrows">arrows()</a></li>
+<li><a href="../../Namespaces/namespaceplotpp/#function-quiver">quiver(U1&amp;&amp; x1, U2&amp;&amp; y1, U3&amp;&amp; x2, U4&amp;&amp; y2)</a>, relative coordinates</li>
 </ul>
 <h3 id="function-label">function label</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">label</span><span class="p">(</span>
@@ -946,16 +957,13 @@
 <span class="p">)</span>
 </code></pre></div>
 <p>Changes the relation of the start and end data points. </p>
-<p><strong>Parameters</strong>: </p>
-<ul>
-<li><strong>lw</strong> The new linewidth </li>
-</ul>
-<p><strong>Return</strong>: The Class itself for method chaining </p>
 <p>The relationship of the start [x1, y1] coordinates and end [x2, y2] coordinates can be set with the enum plotpp::DataRelation. If set to</p>
 <ul>
 <li><code>DataRelation::absolute</code> [x2, y2] will be absolute to the origin of the plot</li>
 <li><code>DataRelation::relative</code> [x2, y2] will be relative to the start point [x1, y1]</li>
+<li>default is <code>DataRelation::absolute</code>lwThe new linewidth </li>
 </ul>
+<p>The Class itself for method chaining </p>
 <h3 id="function-datarelation_2">function dataRelation</h3>
 <div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Arrows</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dataRelation</span><span class="p">(</span>
 <span class="w">    </span><span class="n">DataRelation</span><span class="w"> </span><span class="n">dr</span>
@@ -1014,7 +1022,7 @@
 </ul>
 <p><strong>Reimplements</strong>: <a href="../classplotpp_1_1_i_plot/#function-printdata">plotpp::IPlot::printData</a></p>
 <hr />
-<p>Updated on 2025-01-28 at 17:40:02 +0100</p>
+<p>Updated on 2025-03-02 at 14:13:16 +0100</p>
 
 
 
