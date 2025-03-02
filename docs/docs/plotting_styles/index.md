@@ -19,5 +19,13 @@ Plotting Styles
 	
 	[Class Points](../API/Classes/classplotpp_1_1_points.md) | [Example](../API/Examples/points_8cpp-example.md)
 
+-   ![Image of a arrow plot](arrows-plot.svg)
+
+    ---
+
+    **Arrow/Vector/Quiver Plot**  
+	
+	[Class Arrows](../API/Classes/classplotpp_1_1_arrows.md) | [Example](../API/Examples/arrows_8cpp-example.md)
+
 </div>
 
