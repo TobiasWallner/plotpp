@@ -26,6 +26,14 @@ Plotting Styles
     **Arrow/Vector/Quiver Plot**  
 	
 	[Class Arrows](../API/Classes/classplotpp_1_1_arrows.md) | [Example](../API/Examples/arrows_8cpp-example.md)
+	
+-   ![Image of a boxes plot](boxes-with-named-xtics-plot.svg)
+
+    ---
+
+    **Boxes Plot**  
+	
+	[Class Boxes](../API/Classes/classplotpp_1_1_boxes.md) | [Example](../API/Examples/boxes_8cpp-example.md)
 
 </div>
 
