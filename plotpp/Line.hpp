@@ -54,8 +54,8 @@ namespace plotpp{
 			- line(Ux&& x, Uy&& y) 
 			- line(Uy&& y) 
 			
-			@param x Optional pointer to the x-coordinate range.
-			@param y Pointer to the y-coordinate range.
+			@param x optional_ptr to the x-coordinate range.
+			@param y optional_ptr to the y-coordinate range.
 		*/
 		Line(optional_ptr<Tx> x, optional_ptr<Ty> y)
 			: x_(std::move(x))
