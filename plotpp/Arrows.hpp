@@ -20,7 +20,7 @@ namespace plotpp{
 	/// \example arrows.cpp
 	
 	/**
-		\brief class for plotting arrows in plotpp::Figure
+		\brief class for plotting arrows/vectors/quivers in plotpp::Figure
 		
 		Arrows contains the start and end coordinates for vectors. 
 		The relationship between the datasets ([x1, y1] and [x2, y2]) can be set using \ref plotpp::DataRelation. 
@@ -28,7 +28,10 @@ namespace plotpp{
 		
 		\tparam Tx1, Ty1, Tx2, Ty2 Generic types that store the data for plotting and are [forward ranges](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have `begin()` and `end()` iterators)
 		
-		\see  arrows<PtrOrMoved, PtrOrMoved, PtrOrMoved, PtrOrMoved> function to help construct an Arrow.
+		To construct arrows/vectors/quivers **See**
+			- arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2), absolute coordinates
+			- vector(U1&& x1, U2&& y1, U3&& x2, U4&& y2), alias for arrows()
+			- quiver(U1&& x1, U2&& y1, U3&& x2, U4&& y2), relative coordinates
 	*/
 	template<std::ranges::forward_range Tx1, std::ranges::forward_range Ty1, std::ranges::forward_range Tx2, std::ranges::forward_range Ty2>
 	class Arrows : public IPlot{
