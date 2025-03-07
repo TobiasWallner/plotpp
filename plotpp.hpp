@@ -10,6 +10,7 @@
 #include "plotpp/XError.hpp"
 #include "plotpp/YError.hpp"
 #include "plotpp/XYError.hpp"
+#include "plotpp/YErrorLine.hpp"
 #include "plotpp/Boxes.hpp"
 #include "plotpp/Color.hpp"
 #include "plotpp/Colormaps.hpp"

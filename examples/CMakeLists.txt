@@ -42,6 +42,7 @@ set(EXAMPLES
     filledcurves
     impulses
     steps
+	yerrorline
 )
 
 # Add each example executable
