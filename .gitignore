@@ -4,15 +4,6 @@ build_gcc/*
 conan_profiles/*
 
 # Ignore file types
-*.fig
-*.html
-*.jpg
-*.pdf
-*.png
-*.tex
-*.webp
-*.gp
-*.svg
 **/.timestamp
 
 # Ignore specific files

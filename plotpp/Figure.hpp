@@ -45,9 +45,9 @@ namespace plotpp{
 		Figure& yMin(float v);
 		Figure& yMax(float v);
 		
-		inline Figure& xLim(float x_min, float x_max){return this->xMin(x_min).xMax(x_max).xAutoscale(false);}
-		inline Figure& yLim(float y_min, float y_max){return this->yMin(y_min).yMax(y_max).yAutoscale(false);}
-		inline Figure& lim(float x_min, float x_max, float y_min, float y_max){return this->xLim(x_min, x_max).yLim(y_min, y_max);}
+		inline Figure& xlim(float x_min, float x_max){return this->xMin(x_min).xMax(x_max).xAutoscale(false);}
+		inline Figure& ylim(float y_min, float y_max){return this->yMin(y_min).yMax(y_max).yAutoscale(false);}
+		inline Figure& lim(float x_min, float x_max, float y_min, float y_max){return this->xlim(x_min, x_max).ylim(y_min, y_max);}
 
 		Figure& xLog(bool b = true);
 		Figure& yLog(bool b = true);

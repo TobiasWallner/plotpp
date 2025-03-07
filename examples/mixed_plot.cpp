@@ -33,8 +33,7 @@ int main() {
 	fig.add(arrows(&arrow_x1, &arrow_y1, &arrow_x2, &arrow_y2).label("arrow plot").color(color_map::reds[6]));
 	
 	fig.show();
-	fig.save("mixed-plot.gp");
-	fig.save("mixed-plot.jpg");
+	fig.save("mixed-plot.svg");
 	
     return 0;
 }

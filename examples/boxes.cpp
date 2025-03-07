@@ -17,7 +17,7 @@ int main() {
 
 	
 	Figure fig2("Boxes with text");
-	fig2.yLim(0, 10);
+	fig2.ylim(0, 10);
 	fig2.xtics({"house", "bottel", "basket", "number", "apple"});
 	fig2.add(boxes(&ydata).label("boxes with names"));
 	fig2.show();

@@ -50,7 +50,7 @@ int main(){
 	);
 	mplt.at(1, 1).add(line(&x, tan(x)).label("Bottom-Right"));
 	mplt.show();
-	mplt.save("multiplot.jpg");
+	mplt.save("multiplot.svg");
 	
 	return 0;
 }

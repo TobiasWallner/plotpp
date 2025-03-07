@@ -1,7 +1,7 @@
 #include <iostream>
 
 template<typename ValueType = float>
-inline std::vector<ValueType> linspace(ValueType from, ValueType to, size_t N){
+std::vector<ValueType> linspace(ValueType from, ValueType to, size_t N){
 	std::vector<ValueType> result;
 	result.reserve(N);
 	for (size_t i = 0; i < N; ++i) result.emplace_back(((to - from) * i) / (N-1) + from);

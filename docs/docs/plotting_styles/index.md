@@ -52,7 +52,13 @@ Plotting Styles
 	**YErrorLine**  
 	[Class YError](../API/Classes/yerrorline_1_1_impulses.md) | [Example](../API/Examples/yerrorline_8cpp-example.md)
 	
-	
+-	![Image of an filled curve plot](filledcurves-plot.svg)
+
+    ---
+	**Filled Curve**  
+	[Class FilledCurve](../API/Classes/filledcurves_1_1_boxes.md) | [Example](../API/Examples/filledcurves_8cpp-example.md)
+
+
 -   ![Image of a arrow plot](arrows-plot.svg)
 	
 	---
@@ -67,47 +73,39 @@ Plotting Styles
 	[Class Boxes](../API/Classes/classplotpp_1_1_boxes.md) | [Example](../API/Examples/boxes_8cpp-example.md)
 
 
--	![Image of an boxplot plot]()
+-	![Image of an boxplot plot](boxplot-plot.svg)
 
     ---
 	**Boxplot**  
-	[Class Boxplot]() | [Example]()
+	[Class Boxplot](../API/Classes/boxplot_1_1_boxes.md) | [Example](../API/Examples/boxplot_8cpp-example.md)
 	
 	
--	![Image of an filled curve plot]()
-
-    ---
-	**Filled Curve**  
-	[Class FilledCurve]() | [Example]()
-
-	
-	
--	![Image of an heatmap plot]()
+-	![Image of an heatmap plot](headmap-plot.svg)
 
     ---
 	**Heatmap**  
-	[Class Heatmap]() | [Example]()
+	[Class Heatmap](../API/Classes/heatmap_1_1_boxes.md) | [Example](../API/Examples/heatmap_8cpp-example.md)
 	
 	
--	![Image of an circle plot]()
+-	![Image of an circle plot](circle-plot.svg)
 
     ---
 	**Circle**  
-	[Class Circle]() | [Example]()	
+	[Class Circle](../API/Classes/circle_1_1_boxes.md) | [Example](../API/Examples/circle_8cpp-example.md)	
 
 	
--	![Image of an piechart plot]()
+-	![Image of an piechart plot](piechart-plot.svg)
 
     ---
 	**Piechart**  
-	[Class Circle]() | [Example]()
+	[Class Circle](../API/Classes/piechart_1_1_boxes.md) | [Example](../API/Examples/piechart_8cpp-example.md)
 
 	
--	![Image of an multi-plot plot]()
+-	![Image of an multi-plot plot](multiplot.svg)
 
     ---
 	**Multi Plot**  
-	[Class Circle]() | [Example]()	
+	[Class Circle](../API/Classes/multiplot_1_1_boxes.md) | [Example](../API/Examples/multiplot_8cpp-example.md)	
 	
 
 </div>
