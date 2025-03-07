@@ -330,8 +330,6 @@ namespace plotpp{
 			// ==========
 			
 			if(this->isFilled()){
-				if(this->line_type != LineType::none) fmt::print(fptr, ", \\\n");
-
 				// data and line type
 				fmt::print(fptr, "$d{:d} using 1:2:(0) with filledcurves {} {}", 
 					this->IPlot::uid(),
@@ -350,6 +348,7 @@ namespace plotpp{
 			// ==========
 			
 			if(this->line_type != LineType::none){
+				if(this->isFilled()) fmt::print(fptr, ", \\\n\t");
 				fmt::print(fptr, 
 					"$d{:d} using 1:2 with lines lw {:.2f} {} {} {}", 
 					this->IPlot::uid(), 

@@ -77,7 +77,7 @@ namespace plotpp{
 			const auto xerrEnd = std::end(*xerror_);
 			const auto yerrEnd = std::end(*yerror_);
 
-			for (; xitr != xEnd && yitr != yEnd && xerrItr != xerrEnd && yerrItr != yerrEnd; ++xitr, (void)++yitr, (void)yerrItr)
+			for (; xitr != xEnd && yitr != yEnd && xerrItr != xerrEnd && yerrItr != yerrEnd; ++xitr, (void)++yitr, (void)++yerrItr, (void)++xerrItr)
 				fmt::print(fptr, "{} {} {} {}\n", *xitr, *yitr, *xerrItr, *yerrItr);
 			
 			fmt::print(fptr, "e\n");
