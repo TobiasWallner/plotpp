@@ -924,6 +924,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#function-yerrorline" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yerrorline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-yerrorline_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yerrorline
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1562,6 +1580,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#function-yerrorline" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yerrorline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-yerrorline_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function yerrorline
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1705,6 +1741,10 @@
 <tr>
 <td>class</td>
 <td><strong><a href="../../Classes/classplotpp_1_1_y_error/">plotpp::YError</a></strong></td>
+</tr>
+<tr>
+<td>class</td>
+<td><strong><a href="../../Classes/classplotpp_1_1_y_error_line/">plotpp::YErrorLine</a></strong> <br>Represents a <a href="">YErrorLine</a> plot from x- and y-coordiantes.</td>
 </tr>
 </tbody>
 </table>
@@ -1943,6 +1983,14 @@
 <tr>
 <td>template &lt;PtrOrMoved U1,PtrOrMoved U2,PtrOrMoved U3&gt; <br>auto</td>
 <td><strong><a href="./#function-yerror">yerror</a></strong>(U1 &amp;&amp; x, U2 &amp;&amp; y, U3 &amp;&amp; yerr)</td>
+</tr>
+<tr>
+<td>template &lt;PtrOrMoved Ux,PtrOrMoved Uy,PtrOrMoved Uerr&gt; <br>auto</td>
+<td><strong><a href="./#function-yerrorline">yerrorline</a></strong>(Ux &amp;&amp; x, Uy &amp;&amp; y, Uerr &amp;&amp; err)<br>Construction helper function to create a <a href="">YErrorLine</a> instance with x- and y-coordinate ranges.</td>
+</tr>
+<tr>
+<td>template &lt;PtrOrMoved Uy,PtrOrMoved Uerr&gt; <br>auto</td>
+<td><strong><a href="./#function-yerrorline">yerrorline</a></strong>(Uy &amp;&amp; y, Uerr &amp;&amp; err)<br>Construction helper function to create a <a href="">YErrorLine</a> instance with x and y coordinate ranges.</td>
 </tr>
 </tbody>
 </table>
@@ -2933,8 +2981,39 @@
 <span class="w">    </span><span class="n">U3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">yerr</span>
 <span class="p">)</span>
 </code></pre></div>
+<h3 id="function-yerrorline">function yerrorline</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Ux</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Uy</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Uerr</span><span class="o">&gt;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">yerrorline</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Ux</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Uy</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Uerr</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">err</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Construction helper function to create a <a href="">YErrorLine</a> instance with x- and y-coordinate ranges. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>x</strong> : [PtrOrMoved] - The x-coordinate data. Can be passed by pointer <code>&amp;x</code> or moved <code>std::move(x)</code>. Also has to satisfy <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">std::ranges::forward_range</a></li>
+<li><strong>y</strong> : [PtrOrMoved] - The y-coordinate data. can be passed by pointer <code>&amp;x</code> or moved <code>std::move(x)</code>. Also has to satisfy <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">std::ranges::forward_range</a></li>
+</ul>
+<p><strong>Return</strong>: A <a href="../../Classes/classplotpp_1_1_y_error_line/">YErrorLine</a> instance. </p>
+<h3 id="function-yerrorline_1">function yerrorline</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Uy</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Uerr</span><span class="o">&gt;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">yerrorline</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Uy</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">y</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Uerr</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">err</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Construction helper function to create a <a href="">YErrorLine</a> instance with x and y coordinate ranges. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>y</strong> : [PtrOrMoved] - The y-coordinate data. can be passed by pointer <code>&amp;x</code> or moved <code>std::move(x)</code>. Also has to satisfy <a href="https://en.cppreference.com/w/cpp/ranges/forward_range">std::ranges::forward_range</a></li>
+</ul>
+<p><strong>Return</strong>: A <a href="../../Classes/classplotpp_1_1_y_error_line/">YErrorLine</a> instance. </p>
 <hr />
-<p>Updated on 2025-03-02 at 14:13:16 +0100</p>
+<p>Updated on 2025-03-07 at 15:56:00 +0100</p>
 
 
 
