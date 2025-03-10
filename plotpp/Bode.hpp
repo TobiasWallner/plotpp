@@ -46,6 +46,7 @@ namespace plotpp{
 		Multiplot mplt(rows, columns, title);
 		mplt.at(0, 0).add(Line(freq, std::move(amp))).xLabel(freqLabel).yLabel(ampLabel).xLog();
 		mplt.at(1, 0).add(Line(std::move(freq), std::move(phi))).xLabel(freqLabel).yLabel(phaseLabel).xLog();
+		mplt.grid();
 		return mplt;
 	}
 
