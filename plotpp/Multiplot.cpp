@@ -67,6 +67,116 @@ namespace plotpp{
 		return this->figs_[index];
 	}
 	
+	Multiplot& Multiplot::xLabel(const Text& xlabel){
+		for(Figure& fig : *this) fig.xLabel(xlabel);
+		return *this;
+	}	
+	Multiplot& Multiplot::yLabel(const Text& ylabel){
+		for(Figure& fig : *this) fig.yLabel(ylabel);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::xMin(float v){
+		for(Figure& fig : *this) fig.xMin(v);
+		return *this;
+	}
+			
+	Multiplot& Multiplot::xMax(float v){
+		for(Figure& fig : *this) fig.xMax(v);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::yMin(float v){
+		for(Figure& fig : *this) fig.yMin(v);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::yMax(float v){
+		for(Figure& fig : *this) fig.yMax(v);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::xlim(float x_min, float x_max){
+		for(Figure& fig : *this) fig.xlim(x_min, x_max);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::ylim(float y_min, float y_max){
+		for(Figure& fig : *this) fig.ylim(y_min, y_max);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::lim(float x_min, float x_max, float y_min, float y_max){
+		for(Figure& fig : *this) fig.lim(x_min, x_max, y_min, y_max);
+		return *this;
+	}
+	
+	
+	Multiplot& Multiplot::xLog(bool b){
+		for(Figure& fig : *this) fig.xLog(b);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::yLog(bool b){
+		for(Figure& fig : *this) fig.yLog(b);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::xLogBase(float base){
+		for(Figure& fig : *this) fig.xLogBase(base);
+		return *this;
+	}
+		
+	Multiplot& Multiplot::yLogBase(float base){
+		for(Figure& fig : *this) fig.yLogBase(base);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::xReverse(bool b){
+		for(Figure& fig : *this) fig.xReverse(b);
+		return *this;
+	}
+		
+	Multiplot& Multiplot::yReverse(bool b){
+		for(Figure& fig : *this) fig.yReverse(b);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::showLegend(bool b){
+		for(Figure& fig : *this) fig.showLegend(b);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::xAutoscale(bool b){
+		for(Figure& fig : *this) fig.xAutoscale(b);
+		return *this;
+	}
+		
+	Multiplot& Multiplot::yAutoscale(bool b){
+		for(Figure& fig : *this) fig.yAutoscale(b);
+		return *this;
+	}
+
+	Multiplot& Multiplot::autoscale(bool b){
+		for(Figure& fig : *this) fig.autoscale(b);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::xGrid(bool b){
+		for(Figure& fig : *this) fig.xGrid(b);
+		return *this;
+	}
+
+	Multiplot& Multiplot::yGrid(bool b){
+		for(Figure& fig : *this) fig.yGrid(b);
+		return *this;
+	}
+	
+	Multiplot& Multiplot::grid(bool b){
+		for(Figure& fig : *this) fig.grid(b);
+		return *this;
+	}
+	
 	Multiplot::iterator Multiplot::begin() {return this->figs_.begin();}
 	Multiplot::const_iterator Multiplot::begin() const {return this->figs_.begin();}
 	Multiplot::const_iterator Multiplot::cbegin() const {return this->figs_.cbegin();}

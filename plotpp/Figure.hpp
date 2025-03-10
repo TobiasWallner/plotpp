@@ -45,9 +45,9 @@ namespace plotpp{
 		Figure& yMin(float v);
 		Figure& yMax(float v);
 		
-		inline Figure& xlim(float x_min, float x_max){return this->xMin(x_min).xMax(x_max).xAutoscale(false);}
-		inline Figure& ylim(float y_min, float y_max){return this->yMin(y_min).yMax(y_max).yAutoscale(false);}
-		inline Figure& lim(float x_min, float x_max, float y_min, float y_max){return this->xlim(x_min, x_max).ylim(y_min, y_max);}
+		Figure& xlim(float x_min, float x_max);
+		Figure& ylim(float y_min, float y_max);
+		Figure& lim(float x_min, float x_max, float y_min, float y_max);
 
 		Figure& xLog(bool b = true);
 		Figure& yLog(bool b = true);
@@ -60,8 +60,7 @@ namespace plotpp{
 		
 		Figure& xAutoscale(bool b = true);
 		Figure& yAutoscale(bool b = true);
-		Figure& autoscale(bool b = true){return this->xAutoscale(b).yAutoscale(b);}
-		
+		Figure& autoscale(bool b = true);
 		
 		Figure& xGrid(bool b = true);
 		Figure& yGrid(bool b = true);

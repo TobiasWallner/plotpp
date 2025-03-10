@@ -40,6 +40,10 @@ namespace plotpp{
 	Figure& Figure::yMin(float v){this->min_y_ = v; return *this;}
 	Figure& Figure::yMax(float v){this->max_y_ = v; return *this;}
 	
+	Figure& Figure::xlim(float x_min, float x_max){return this->xMin(x_min).xMax(x_max).xAutoscale(false);}
+	Figure& Figure::ylim(float y_min, float y_max){return this->yMin(y_min).yMax(y_max).yAutoscale(false);}
+	Figure& Figure::lim(float x_min, float x_max, float y_min, float y_max){return this->xlim(x_min, x_max).ylim(y_min, y_max);}
+	
 	Figure& Figure::xLogBase(float base){
 		this->log_x_base_ = base; 
 		this->xLog(true);
@@ -57,6 +61,8 @@ namespace plotpp{
 	
 	Figure& Figure::xAutoscale(bool b){this->autoscale_x_ = b; return *this;}
 	Figure& Figure::yAutoscale(bool b){this->autoscale_y_ = b; return *this;}
+	
+	Figure& Figure::autoscale(bool b){return this->xAutoscale(b).yAutoscale(b);}
 	
 	Figure& Figure::xLog(bool b){this->log_x_ = b; return *this;}
 	Figure& Figure::yLog(bool b){this->log_y_ = b; return *this;}
@@ -118,9 +124,7 @@ namespace plotpp{
 		this->xtics_values_.clear();
 		return *this;
 	}
-	
-	
-			
+		
 	const Figure& Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
 		if(filename.empty()) filename = title_;
 		

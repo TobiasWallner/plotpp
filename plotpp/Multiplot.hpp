@@ -73,6 +73,150 @@ namespace plotpp{
 		*/
 		const Figure& at(size_t row, size_t col) const;
 		
+		/**
+			@brief sets the label of the x-axis for all sub-figures
+			@param xlabel : Text - the new formated text
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& xLabel(const Text& xlabel);
+		
+		/**
+			@brief sets the label of the y-axis for all sub-figures
+			@param xlabel : Text - the new formated text
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& yLabel(const Text& ylabel);
+		
+		/**
+			@brief sets the minimum of the x-axis of all sub-figures
+		*/
+		Multiplot& xMin(float v);
+		
+		/**
+			@brief sets the maximum of the x-axis of all sub-figures
+		*/
+		Multiplot& xMax(float v);
+		
+		/**
+			@brief sets the minimum of the y-axis of all sub-figures
+		*/
+		Multiplot& yMin(float v);
+		
+		/**
+			@brief sets the maximum of the y-axis of all sub-figures
+		*/
+		Multiplot& yMax(float v);
+		
+		/**
+			@brief sets the minumum and the maximum of the x-axis of all sub-figures
+		*/
+		Multiplot& xlim(float x_min, float x_max);
+		
+		/**
+			@brief sets the minumum and the maximum of the y-axis of all sub-figures
+		*/
+		Multiplot& ylim(float y_min, float y_max);
+		
+		/**
+			@brief sets the minumum and the maximum of the x-axis and the y-axis of all sub-figures
+		*/
+		Multiplot& lim(float x_min, float x_max, float y_min, float y_max);
+		
+		/**
+			@brief enables or disables log scaling for the x-axis of all sub-figures
+			@param b : bool - if `true` enables logarithmic scaling of the x-axis and disables it otherwise
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& xLog(bool b = true);
+		
+		/**
+			@brief enables or disables log scaling for the y-axis of all sub-figures
+			@param b : bool - if `true` enables logarithmic scaling of the y-axis and disables it otherwise
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& yLog(bool b = true);
+		
+		/**
+			@brief sets the logarithmic base for the x-axis of all sub-figures
+			
+			Note: this function also activate logarithmic scaling like xLog(bool b) would
+			
+			@param base : float - the new base of the logarithm for axis scaling
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& xLogBase(float base);
+		
+		/**
+			@brief sets the logarithmic base for the y-axis of all sub-figures
+			
+			Note: this function also activate logarithmic scaling like yLog(bool b) would
+			
+			@param base : float - the new base of the logarithm for axis scaling
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& yLogBase(float base);
+		
+		/**
+			@brief enables or disables the reversal of the x-axis of all sub-figures
+			@param b : bool - if `true` (default) reverses the direction of the x-axis
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& xReverse(bool b = true);
+		
+		/**
+			@brief enables or disables the reversal of the y-axis of all sub-figures
+			@param b : bool - if `true` (default) reverses the direction of the y-axis
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& yReverse(bool b = true);
+		
+		/**
+			@brief enables or disables autoscaling of the x-axis for all sub-figures
+			@param b : bool - if `true` (default) enables autoscaling of the x-axis
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& xAutoscale(bool b = true);
+		
+		/**
+			@brief enables or disables autoscaling of the y-axis for all sub-figures
+			@param b : bool - if `true` (default) enables autoscaling of the y-axis
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& yAutoscale(bool b = true);
+		
+		/**
+			@brief enables or disables autoscaling of both axis for all sub-figures
+			@param b : bool - if `true` (default) enables autoscaling of both axis
+			@returns Multiplot - reference to self
+		*/
+		Multiplot& autoscale(bool b = true);
+		
+		/**
+			@brief enables or disables the legend of all sub-figures
+			@param b : bool - if `true` (default) enables the legend
+		*/
+		Multiplot& showLegend(bool b = true);
+		
+		/**
+			@brief Sets the x-axis grid on all sub-figures
+			@param b : bool - if `true` (default) enables the grid else disables the grid
+			@returns Multiplot& - reference to self
+		*/
+		Multiplot& xGrid(bool b = true);
+		
+		/**
+			@brief Sets the y-axis grid on all sub-figures
+			@param b : bool - if `true` (default) enables the grid else disables the grid
+			@returns Multiplot& - reference to self
+		*/
+		Multiplot& yGrid(bool b = true);
+		
+		/**
+			@brief Sets the grid on all sub-figures
+			@param b : bool - if `true` (default) enables the grid else disables the grid
+			@returns Multiplot& - reference to self
+		*/
+		Multiplot& grid(bool b = true);
 		
 		///	@returns the start iterator to iterate over the figures (Figure) contained in the multiplot
 		iterator begin();
