@@ -121,7 +121,7 @@ namespace plotpp{
 	
 	
 			
-	Figure& Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) {
+	const Figure& Figure::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
 		if(filename.empty()) filename = title_;
 		
 		if(filetype == OutputFileType::NONE){

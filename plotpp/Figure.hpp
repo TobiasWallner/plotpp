@@ -123,9 +123,17 @@ namespace plotpp{
 		
 		Figure& clear_xtics();
 		
-		Figure& save(	std::string filename = "", 
+		const Figure& save(std::string filename = "", 
 					OutputFileType filetype=OutputFileType::NONE, 
-					TerminalType terminalType = TerminalType::NONE);
+					TerminalType terminalType = TerminalType::NONE) const;
+					
+		inline Figure& save(std::string filename = "", 
+					OutputFileType filetype=OutputFileType::NONE, 
+					TerminalType terminalType = TerminalType::NONE){
+			const Figure* cthis = this;
+			cthis->save(filename, filetype, terminalType);
+			return *this;
+		}
 		
 		Figure& show(OutputFileType filetype);
 		
@@ -136,16 +144,13 @@ namespace plotpp{
 			TerminalType terminalType = TerminalType::NONE,
 			std::string saveAs = "") const;
 			
-		/*
-			wrapper of `plot()` that returns a non-const object if called from a non-const object
-		*/
 		inline Figure& plot(
 			FILE* fptr, 
 			TerminalType terminalType = TerminalType::NONE,
 			std::string saveAs = "")
 		{
-			const Figure* fig = this;
-			fig->plot(fptr, terminalType, saveAs);
+			const Figure* cthis = this;
+			cthis->plot(fptr, terminalType, saveAs);
 			return *this;
 		}
 		
