@@ -79,13 +79,14 @@ namespace plotpp{
 	size_t Multiplot::rows() const {return this->rows_;}
 	size_t Multiplot::columns() const {return this->columns_;}
 	
-	void Multiplot::resize(size_t rows, size_t columns){
+	Multiplot& Multiplot::resize(size_t rows, size_t columns){
 		this->figs_.resize(rows * columns);
 		this->rows_ = rows;
 		this->columns_ = columns;
+		return *this;
 	}
 			
-	void Multiplot::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
+	const Multiplot& Multiplot::save(std::string filename, OutputFileType filetype, TerminalType terminalType) const {
 		if(filename.empty()) filename = this->title_;
 		
 		if(filetype == OutputFileType::NONE){
@@ -130,25 +131,28 @@ namespace plotpp{
 				throw std::runtime_error("Could not close the pipe stream");
 			}
 		}
+		return *this;
 	}	
 	
-	void Multiplot::show(OutputFileType filetype) {
+	Multiplot& Multiplot::show(OutputFileType filetype) {
 		if(filetype == OutputFileType::gp){
 			this->plot(stdout, TerminalType::NONE);
 		}else{
 			this->show(to_terminal(filetype));
 		}
+		return *this;
 	}
 			
-	void Multiplot::show(TerminalType TerminalType) {
+	Multiplot& Multiplot::show(TerminalType TerminalType) {
 		this->plot(this->gnuplot_pipe(), TerminalType);
+		return *this;
 	}
 	
-	void Multiplot::plot(FILE* fptr, TerminalType TerminalType, std::string saveAs) const {
+	const Multiplot& Multiplot::plot(FILE* fptr, TerminalType TerminalType, std::string saveAs) const {
 		if(TerminalType != TerminalType::NONE) fmt::print(fptr, "set terminal {:s}\n", to_command(TerminalType));
 		if(!saveAs.empty()) fmt::print(fptr, "set output '{}'\n", saveAs);
 		
-		fmt::print(fptr, "set multiplot layout {:d},{:d} title \n\n", this->rows_, this->columns_, this->title_);
+		fmt::print(fptr, "set multiplot layout {:d},{:d} title {}\n\n", this->rows_, this->columns_, this->title_);
 		
 		{
 			size_t row = 0;
@@ -169,6 +173,8 @@ namespace plotpp{
 		fmt::print(fptr, "\nunset multiplot\n");
 		if(!saveAs.empty()) fmt::print(fptr, "set output\n");
 		std::fflush(fptr);
+		
+		return *this;
 	}
 	
 }
