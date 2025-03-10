@@ -3,8 +3,9 @@
 #include <memory>
 
 /*
-	A pointer type that takes posession of the memory if moved into the optional_ptr 
-	or holds a non-owning reference/pointer otherwise
+	A pointer type that takes posession of the memory (shared pointer) if moved into the optional_ptr 
+	or holds a non-owning reference/pointer (raw pointer) otherwise
+	
 */
 
 template<typename T>
