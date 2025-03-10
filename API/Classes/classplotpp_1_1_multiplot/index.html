@@ -652,6 +652,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#function-save_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      function save
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#function-show" class="md-nav__link">
     <span class="md-ellipsis">
       function show
@@ -671,6 +680,15 @@
         
           <li class="md-nav__item">
   <a href="#function-plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      function plot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-plot_1" class="md-nav__link">
     <span class="md-ellipsis">
       function plot
     </span>
@@ -749,31 +767,31 @@
 </tr>
 <tr>
 <td></td>
-<td><strong><a href="./#function-multiplot">Multiplot</a></strong>() =default</td>
+<td><strong><a href="./#function-multiplot">Multiplot</a></strong>() =default<br>default constructor</td>
 </tr>
 <tr>
 <td></td>
-<td><strong><a href="./#function-multiplot">Multiplot</a></strong>(<a href="../classplotpp_1_1_text/">Text</a> title ="")</td>
+<td><strong><a href="./#function-multiplot">Multiplot</a></strong>(<a href="../classplotpp_1_1_text/">Text</a> title ="")<br>construct with title</td>
 </tr>
 <tr>
 <td></td>
-<td><strong><a href="./#function-multiplot">Multiplot</a></strong>(size_t rows, size_t columns, <a href="../classplotpp_1_1_text/">Text</a> title ="")</td>
+<td><strong><a href="./#function-multiplot">Multiplot</a></strong>(size_t rows, size_t columns, <a href="../classplotpp_1_1_text/">Text</a> title ="")<br>construct a multiplot</td>
 </tr>
 <tr>
 <td></td>
-<td><strong><a href="./#function-multiplot">Multiplot</a></strong>(<a href="./">Multiplot</a> &amp;&amp; ) =default</td>
+<td><strong><a href="./#function-multiplot">Multiplot</a></strong>(<a href="./">Multiplot</a> &amp;&amp; ) =default<br>move constructor</td>
 </tr>
 <tr>
 <td><a href="./">Multiplot</a> &amp;</td>
-<td><strong><a href="./#function-operator=">operator=</a></strong>(<a href="./">Multiplot</a> &amp;&amp; ) =default</td>
+<td><strong><a href="./#function-operator=">operator=</a></strong>(<a href="./">Multiplot</a> &amp;&amp; ) =default<br>move assignment</td>
 </tr>
 <tr>
 <td><a href="../classplotpp_1_1_figure/">Figure</a> &amp;</td>
-<td><strong><a href="./#function-at">at</a></strong>(size_t row, size_t col)</td>
+<td><strong><a href="./#function-at">at</a></strong>(size_t row, size_t col)<br>Access a figure in the multiplot at a specific row and column index.</td>
 </tr>
 <tr>
 <td>const <a href="../classplotpp_1_1_figure/">Figure</a> &amp;</td>
-<td><strong><a href="./#function-at">at</a></strong>(size_t row, size_t col) const</td>
+<td><strong><a href="./#function-at">at</a></strong>(size_t row, size_t col) const<br>Access a figure in the multiplot at a specific row and column index.</td>
 </tr>
 <tr>
 <td>iterator</td>
@@ -812,24 +830,32 @@
 <td><strong><a href="./#function-columns">columns</a></strong>() const</td>
 </tr>
 <tr>
-<td>void</td>
-<td><strong><a href="./#function-resize">resize</a></strong>(size_t rows, size_t columns)</td>
+<td><a href="./">Multiplot</a> &amp;</td>
+<td><strong><a href="./#function-resize">resize</a></strong>(size_t rows, size_t columns)<br>resize the dimensions, number of rows and columns</td>
 </tr>
 <tr>
-<td>void</td>
-<td><strong><a href="./#function-save">save</a></strong>(std::string filename ="", OutputFileType filetype =OutputFileType::NONE, TerminalType TerminalType =TerminalType::NONE) const</td>
+<td>const <a href="./">Multiplot</a> &amp;</td>
+<td><strong><a href="./#function-save">save</a></strong>(std::string filename ="", OutputFileType filetype =OutputFileType::NONE, TerminalType terminalType =TerminalType::NONE) const<br>Saves a figure to a file like: .png, .svg, .pdf, ... etc.</td>
 </tr>
 <tr>
-<td>void</td>
-<td><strong><a href="./#function-show">show</a></strong>(OutputFileType filetype)</td>
+<td><a href="./">Multiplot</a> &amp;</td>
+<td><strong><a href="./#function-save">save</a></strong>(std::string filename ="", OutputFileType filetype =OutputFileType::NONE, TerminalType terminalType =TerminalType::NONE)</td>
 </tr>
 <tr>
-<td>void</td>
-<td><strong><a href="./#function-show">show</a></strong>(TerminalType terminalType =TerminalType::NONE)</td>
+<td><a href="./">Multiplot</a> &amp;</td>
+<td><strong><a href="./#function-show">show</a></strong>(TerminalType terminalType =TerminalType::NONE)<br>Plots or re-plots the figure in a window.</td>
 </tr>
 <tr>
-<td>void</td>
-<td><strong><a href="./#function-plot">plot</a></strong>(FILE * fptr, TerminalType TerminalType =TerminalType::NONE, std::string saveAs ="") const</td>
+<td><a href="./">Multiplot</a> &amp;</td>
+<td><strong><a href="./#function-show">show</a></strong>(OutputFileType filetype)<br>Plots or re-plots the figure in a window.</td>
+</tr>
+<tr>
+<td>const <a href="./">Multiplot</a> &amp;</td>
+<td><strong><a href="./#function-plot">plot</a></strong>(FILE * fptr, TerminalType terminalType =TerminalType::NONE, std::string saveAs ="") const<br>Plots the <a href="./">Multiplot</a> to the provided file stream.</td>
+</tr>
+<tr>
+<td><a href="./">Multiplot</a> &amp;</td>
+<td><strong><a href="./#function-plot">plot</a></strong>(FILE * fptr, TerminalType terminalType =TerminalType::NONE, std::string saveAs ="")</td>
 </tr>
 </tbody>
 </table>
@@ -844,15 +870,21 @@
 <h3 id="function-close">function close</h3>
 <div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
-<p>closes this figure. following calls to show() will thus create a new window. closes the pipe stream to the curren figure / gnuplot scession; </p>
+<p>closes this figure. following calls to <a href="./#function-show">show()</a> will thus create a new window. closes the pipe stream to the curren figure / gnuplot scession; </p>
 <h3 id="function-multiplot">function Multiplot</h3>
 <div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="k">default</span>
 </code></pre></div>
+<p>default constructor </p>
 <h3 id="function-multiplot_1">function Multiplot</h3>
 <div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="p">(</span>
 <span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>construct with title </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>title</strong> : <a href="../classplotpp_1_1_text/">Text</a> - The title of the multiplot </li>
+</ul>
 <h3 id="function-multiplot_2">function Multiplot</h3>
 <div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span>
@@ -860,87 +892,165 @@
 <span class="w">    </span><span class="n">Text</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>construct a multiplot </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>rows</strong> : size_t - The number of rows of figures </li>
+<li><strong>columns</strong> : size_t - The number of columns of figures </li>
+<li><strong>title</strong> : <a href="../classplotpp_1_1_text/">Text</a> - The title of the multiplot </li>
+</ul>
 <h3 id="function-multiplot_3">function Multiplot</h3>
 <div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="p">(</span>
 <span class="w">    </span><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
 <span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="k">default</span>
 </code></pre></div>
+<p>move constructor </p>
 <h3 id="function-operator">function operator=</h3>
 <div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">=</span><span class="p">(</span>
 <span class="w">    </span><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>
 <span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="k">default</span>
 </code></pre></div>
+<p>move assignment </p>
 <h3 id="function-at">function at</h3>
 <div class="highlight"><pre><span></span><code><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">at</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">row</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">col</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>Access a figure in the multiplot at a specific row and column index. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>row</strong> : size_t - The row index (starts at 0) </li>
+<li><strong>col</strong> : size_t - The column index (starts at 0) </li>
+</ul>
+<p><strong>Return</strong>: <a href="../classplotpp_1_1_figure/">Figure</a>&amp; - A reference to the figure at the [row, col] position </p>
 <h3 id="function-at_1">function at</h3>
 <div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">Figure</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">at</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">row</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">col</span>
 <span class="p">)</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p>Access a figure in the multiplot at a specific row and column index. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>row</strong> : size_t - The row index (starts at 0) </li>
+<li><strong>col</strong> : size_t - The column index (starts at 0) </li>
+</ul>
+<p><strong>Return</strong>: <a href="../classplotpp_1_1_figure/">Figure</a>&amp; - A reference to the figure at the [row, col] position </p>
 <h3 id="function-begin">function begin</h3>
 <div class="highlight"><pre><span></span><code><span class="n">iterator</span><span class="w"> </span><span class="n">begin</span><span class="p">()</span>
 </code></pre></div>
+<p><strong>Return</strong>: the start iterator to iterate over the figures (<a href="../classplotpp_1_1_figure/">Figure</a>) contained in the multiplot </p>
 <h3 id="function-begin_1">function begin</h3>
 <div class="highlight"><pre><span></span><code><span class="n">const_iterator</span><span class="w"> </span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: the start iterator to iterate over the figures (<a href="../classplotpp_1_1_figure/">Figure</a>) contained in the multiplot </p>
 <h3 id="function-cbegin">function cbegin</h3>
 <div class="highlight"><pre><span></span><code><span class="n">const_iterator</span><span class="w"> </span><span class="n">cbegin</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: the start iterator to iterate over the figures (<a href="../classplotpp_1_1_figure/">Figure</a>) contained in the multiplot </p>
 <h3 id="function-end">function end</h3>
 <div class="highlight"><pre><span></span><code><span class="n">iterator</span><span class="w"> </span><span class="n">end</span><span class="p">()</span>
 </code></pre></div>
+<p><strong>Return</strong>: the end iterator to iterate over the figures (<a href="../classplotpp_1_1_figure/">Figure</a>) contained in the multiplot </p>
 <h3 id="function-end_1">function end</h3>
 <div class="highlight"><pre><span></span><code><span class="n">const_iterator</span><span class="w"> </span><span class="n">end</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: the end iterator to iterate over the figures (<a href="../classplotpp_1_1_figure/">Figure</a>) contained in the multiplot </p>
 <h3 id="function-cend">function cend</h3>
 <div class="highlight"><pre><span></span><code><span class="n">const_iterator</span><span class="w"> </span><span class="n">cend</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: the end iterator to iterate over the figures (<a href="../classplotpp_1_1_figure/">Figure</a>) contained in the multiplot </p>
 <h3 id="function-size">function size</h3>
 <div class="highlight"><pre><span></span><code><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: the number of figures contained in the multiplot </p>
 <h3 id="function-rows">function rows</h3>
 <div class="highlight"><pre><span></span><code><span class="kt">size_t</span><span class="w"> </span><span class="n">rows</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: the number of rows contained in the multiplot </p>
 <h3 id="function-columns">function columns</h3>
 <div class="highlight"><pre><span></span><code><span class="kt">size_t</span><span class="w"> </span><span class="n">columns</span><span class="p">()</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p><strong>Return</strong>: the number of columns contained in the multiplot </p>
 <h3 id="function-resize">function resize</h3>
-<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">resize</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">resize</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">columns</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>resize the dimensions, number of rows and columns </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>rows</strong> : size_t - the new number of rows </li>
+<li><strong>columns</strong> : size_t the new number of columns </li>
+</ul>
 <h3 id="function-save">function save</h3>
-<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">save</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">save</span><span class="p">(</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">OutputFileType</span><span class="w"> </span><span class="n">filetype</span><span class="w"> </span><span class="o">=</span><span class="n">OutputFileType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
-<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">TerminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span>
 <span class="p">)</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
-<h3 id="function-show">function show</h3>
-<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">show</span><span class="p">(</span>
-<span class="w">    </span><span class="n">OutputFileType</span><span class="w"> </span><span class="n">filetype</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="function-show_1">function show</h3>
-<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">show</span><span class="p">(</span>
+<p>Saves a figure to a file like: .png, .svg, .pdf, ... etc. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>filename</strong> : std::string - The filename as which the plot should be stored in. If the file type is provided in the name (e.g.: image file "<em>.png", vector graphics "</em>.svg", gnuplot script "*.gp") the <code>filetype</code> and <code>TerminalType</code> will be automatically deduced. </li>
+<li><strong>filetype</strong> : OutputFileType - The output file type like : .png, .svg, .pdf. If set to <code>OutputFileType::NONE</code> (default) it is derived from the provided filename ending. </li>
+<li><strong>terminalType</strong> : TerminalType - The terminal that gnuplot should use to create the file. If set to <code>TerminalType::NONE</code> it is derived from the filetype. </li>
+</ul>
+<h3 id="function-save_1">function save</h3>
+<div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">save</span><span class="p">(</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OutputFileType</span><span class="w"> </span><span class="n">filetype</span><span class="w"> </span><span class="o">=</span><span class="n">OutputFileType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
 <span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span>
 <span class="p">)</span>
 </code></pre></div>
+<h3 id="function-show">function show</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">show</span><span class="p">(</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Plots or re-plots the figure in a window. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>terminalType</strong> : TerminalType - The terminal that gnuplot should use to creat the window and the plot. If <code>TerminalType::NONE</code> is provided, then gnuplot's default terminal will be used. </li>
+</ul>
+<h3 id="function-show_1">function show</h3>
+<div class="highlight"><pre><span></span><code><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">show</span><span class="p">(</span>
+<span class="w">    </span><span class="n">OutputFileType</span><span class="w"> </span><span class="n">filetype</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Plots or re-plots the figure in a window. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>filetype</strong> : OutputFileType - The file type as which the plot should be made and which should be used to deduce gnuplots plotting terminal from. </li>
+</ul>
+<p>Like <a href="./#function-show">show(TerminalType terminalType)</a> but will infere the terminal-type from the file-type. Except for the gnuplot script file type <code>OutputFileType::gp</code>. If that is provided the gnuplot script will be printed to stdout (the command line).</p>
 <h3 id="function-plot">function plot</h3>
-<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span>
 <span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fptr</span><span class="p">,</span>
-<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">TerminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">saveAs</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span>
 <span class="p">)</span><span class="w"> </span><span class="k">const</span>
 </code></pre></div>
+<p>Plots the <a href="./">Multiplot</a> to the provided file stream. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>fptr</strong> : FILE* - A filepointer to which the gnuplot script should be streamed to </li>
+<li><strong>terminalType</strong> : TerminalType - The terminal type that should be used for the plot. If <code>TerminalType::NONE</code> is provided, gnuplot's default one will be used </li>
+<li><strong>saveAs</strong> : std::string - [You should probably use save(std::string, OutputFileType, TerminalType) instead.] Filename under which to store the figure. If empty nothing will be stored. If not empty a command will be sent to save the current figure under that name. Note that this function will not derive the terminal type or plotting device from the file ending. So providing "plot.png", may not result in a PNG-file, if the wrong <code>terminalType</code> has been selected. </li>
+</ul>
+<p>Will be used as a backend of save(std::string, OutputFileType, TerminalType) and <a href="./#function-show">show(TerminalType)</a>, that create a pipe stream to gnuplot that will then be fed the gnuplot script - so use those functions instead. Alternatively it can be used for debugging by providing stdout to the parameter <code>fptr</code> which will print the gnuplot script for the plot to the standard output (command line terminal).</p>
+<h3 id="function-plot_1">function plot</h3>
+<div class="highlight"><pre><span></span><code><span class="kr">inline</span><span class="w"> </span><span class="n">Multiplot</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span>
+<span class="w">    </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fptr</span><span class="p">,</span>
+<span class="w">    </span><span class="n">TerminalType</span><span class="w"> </span><span class="n">terminalType</span><span class="w"> </span><span class="o">=</span><span class="n">TerminalType</span><span class="o">::</span><span class="n">NONE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">saveAs</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
 <hr />
-<p>Updated on 2025-03-07 at 21:09:46 +0100</p>
+<p>Updated on 2025-03-10 at 17:34:57 +0100</p>
 
 
 

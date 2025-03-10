@@ -538,6 +538,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#function-bode" class="md-nav__link">
+    <span class="md-ellipsis">
+      function bode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#function-boxes" class="md-nav__link">
     <span class="md-ellipsis">
       function boxes
@@ -1194,6 +1203,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#function-bode" class="md-nav__link">
+    <span class="md-ellipsis">
+      function bode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#function-boxes" class="md-nav__link">
     <span class="md-ellipsis">
       function boxes
@@ -1811,6 +1829,10 @@
 <tr>
 <td>template &lt;PtrOrMoved U1,PtrOrMoved U2,PtrOrMoved U3,PtrOrMoved U4&gt; <br>auto</td>
 <td><strong><a href="./#function-quiver">quiver</a></strong>(U1 &amp;&amp; x, U2 &amp;&amp; y, U3 &amp;&amp; u, U4 &amp;&amp; v)<br>helper constructor function to construct quivers (arrows), [x, y] are absolute starting positions and [u, v] are relative to the start of the arrow [x, y].</td>
+</tr>
+<tr>
+<td>template &lt;PtrOrMoved Uf,PtrOrMoved Uamp,PtrOrMoved Uphi&gt; <br><a href="../../Classes/classplotpp_1_1_multiplot/">Multiplot</a></td>
+<td><strong><a href="./#function-bode">bode</a></strong>(Uf &amp;&amp; frequencies, Uamp &amp;&amp; amplitudes, Uphi &amp;&amp; phases, std::string title ="Bode Diagram", std::string freqLabel ="Frequency in Hz", std::string ampLabel ="Amplitude in dB", std::string phaseLabel ="Phase in deg")<br>Creates a bode plotpp.</td>
 </tr>
 <tr>
 <td>template &lt;PtrOrMoved U1,PtrOrMoved U2&gt; <br>auto</td>
@@ -2639,6 +2661,33 @@
 </ul>
 <p><strong>Return</strong>: an Arrow class for plotting </p>
 <p>equivalent of calling <code>arrows(x, y, u, v).dataRelation(DataRelation::relative)</code>. Function that constructs vectors where all [u, v] are relative to the arrows start [x, y]. This will automatically derive correct types from the data-ranges and converts them into an <a href="../../Classes/classoptional__ptr/">optional_ptr</a> that may or may not be the owner of the data.</p>
+<h3 id="function-bode">function bode</h3>
+<div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Uf</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Uamp</span><span class="p">,</span>
+<span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">Uphi</span><span class="o">&gt;</span>
+<span class="n">Multiplot</span><span class="w"> </span><span class="n">bode</span><span class="p">(</span>
+<span class="w">    </span><span class="n">Uf</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">frequencies</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Uamp</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">amplitudes</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Uphi</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">phases</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;Bode Diagram&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">freqLabel</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;Frequency in Hz&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">ampLabel</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;Amplitude in dB&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">phaseLabel</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;Phase in deg&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Creates a bode plotpp. </p>
+<p><strong>Parameters</strong>: </p>
+<ul>
+<li><strong>frequencies</strong> : [PtrOrMoved] - The frequency values as a container with <code>begin()</code> and <code>end()</code> iterators that is either a pointer (raw or smart) or the moved container itself. </li>
+<li><strong>amplitudes</strong> : [PtrOrMoved] - The amplitudes values as a container with <code>begin()</code> and <code>end()</code> iterators that is either a pointer (raw or smart) or the moved container itself. </li>
+<li><strong>phases</strong> : [PtrOrMoved] - The phases values as a container with <code>begin()</code> and <code>end()</code> iterators that is either a pointer (raw or smart) or the moved container itself.</li>
+<li><strong>title</strong> : std::string - The title of the bode plot - <a href="../../Classes/classplotpp_1_1_multiplot/">Multiplot</a> (default: "Bode Diagram") </li>
+<li><strong>freqLabel</strong> : std::string - The label of the frequency-axis (default: "Frequency in Hz") </li>
+<li><strong>ampLabel</strong> : std::string - The label of the ampLabel-axis (default: "Frequency in Hz") </li>
+<li><strong>phaseLabel</strong> : std::string - The label of the phaseLabel-axis (default: "Frequency in Hz")</li>
+</ul>
+<p><strong>Return</strong>: <a href="../../Classes/classplotpp_1_1_multiplot/">Multiplot</a> - The generated bode plot. </p>
+<p>Creates a multiplot with two plots on top of each other. The top one will show the amplitued and the bottom will show the phase over the frequency. The freqency axis will be formated to be in log-scale.</p>
 <h3 id="function-boxes">function boxes</h3>
 <div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U1</span><span class="p">,</span>
 <span class="n">PtrOrMoved</span><span class="w"> </span><span class="n">U2</span><span class="o">&gt;</span>
@@ -3013,7 +3062,7 @@
 </ul>
 <p><strong>Return</strong>: A <a href="../../Classes/classplotpp_1_1_y_error_line/">YErrorLine</a> instance. </p>
 <hr />
-<p>Updated on 2025-03-07 at 21:09:45 +0100</p>
+<p>Updated on 2025-03-10 at 17:34:56 +0100</p>
 
 
 
