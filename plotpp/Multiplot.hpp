@@ -9,6 +9,7 @@
 
 namespace plotpp{
 	
+	/// @example multiplot.cpp
 	
 	class Multiplot{
 	private:
