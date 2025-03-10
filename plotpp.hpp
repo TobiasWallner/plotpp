@@ -20,3 +20,4 @@
 #include "plotpp/Filledcurves.hpp"
 #include "plotpp/Impulses.hpp"
 #include "plotpp/Steps.hpp"
+#include "plotpp/Bode.hpp"

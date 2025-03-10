@@ -107,6 +107,12 @@ Plotting Styles
 	**Multi Plot**  
 	[Class Circle](../API/Classes/multiplot_1_1_boxes.md) | [Example](../API/Examples/multiplot_8cpp-example.md)	
 	
+-	![Image of a bode plot](bode-plot.svg)
+
+	---
+	**Bode Plot**  
+	[Function bode()](../API/Namespaces/namespaceplotpp/#function-bode) | [Example](../API/Examples/bode_8cpp-example.md)
+
 
 </div>
 

@@ -43,6 +43,7 @@ set(EXAMPLES
     impulses
     steps
 	yerrorline
+	bode
 )
 
 # Add each example executable
