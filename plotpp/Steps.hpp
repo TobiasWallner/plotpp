@@ -6,6 +6,7 @@
 #include <memory>
 #include <type_traits>
 #include <optional>
+#include <ranges>
 
 // fmt
 #include <fmt/core.h>
@@ -125,10 +126,10 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xItr = std::cbegin(*(this->x_));
-				const auto xEnd = std::cend(*(this->x_));
-				auto yItr = std::cbegin(*(this->y_));
-				const auto yEnd = std::cend(*(this->y_));
+				auto xItr = std::ranges::cbegin(*(this->x_));
+				const auto xEnd = std::ranges::cend(*(this->x_));
+				auto yItr = std::ranges::cbegin(*(this->y_));
+				const auto yEnd = std::ranges::cend(*(this->y_));
 				for(; (xItr != xEnd) && (yItr != yEnd); ++xItr, (void)++yItr){
 					const auto& x = *xItr;
 					const auto& y = *yItr;
@@ -136,8 +137,8 @@ namespace plotpp{
 				}
 			}else{
 				size_t x = 0;
-				auto yItr = std::cbegin(*(this->y_));
-				const auto yEnd = std::cend(*(this->y_));
+				auto yItr = std::ranges::cbegin(*(this->y_));
+				const auto yEnd = std::ranges::cend(*(this->y_));
 				for(;yItr != yEnd; ++x, (void)++yItr){
 					const auto& y = *yItr;
 					fmt::print(fptr, "{} {}\n", x, y);

@@ -1,5 +1,7 @@
 #pragma once
 #include <type_traits>
+#include <ranges>
+
 namespace plotpp{
 
 	template <typename T>
@@ -17,8 +19,8 @@ namespace plotpp{
 
 	template<typename T>
 	concept ForwardRange = requires(T&& t){
-		{ std::begin(t) } -> ForwardIterator<>;
-		{ std::end(t) } -> ForwardIterator<>;
+		{ std::ranges::cbegin(t) } -> ForwardIterator<>;
+		{ std::ranges::cend(t) } -> ForwardIterator<>;
 	};
 
 }

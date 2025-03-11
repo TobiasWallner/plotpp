@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ranges>
+
 #include "plotpp/IPlot.hpp"
 
 namespace plotpp{
@@ -49,7 +51,7 @@ namespace plotpp{
 		virtual void printData(FILE* fptr) const {
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 			
-			for(auto yitr = std::begin(*y_); yitr!=std::end(*y_); ++yitr)
+			for(auto yitr = std::ranges::cbegin(*y_); yitr!=std::ranges::cend(*y_); ++yitr)
 				fmt::print(fptr, "{} {}\n", this->x_, *yitr);
 			
 			fmt::print(fptr, "e\n");

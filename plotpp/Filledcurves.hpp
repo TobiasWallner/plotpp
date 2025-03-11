@@ -6,6 +6,7 @@
 #include <memory>
 #include <type_traits>
 #include <optional>
+#include <ranges>
 
 // fmt
 #include <fmt/core.h>
@@ -76,12 +77,12 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xItr = std::cbegin(*(this->x_));
-				const auto xEnd = std::cend(*(this->x_));
-				auto y1Itr = std::cbegin(*(this->y1_));
-				const auto y1End = std::cend(*(this->y1_));
-				auto y2Itr = std::cbegin(*(this->y2_));
-				const auto y2End = std::cend(*(this->y2_));
+				auto xItr = std::ranges::cbegin(*(this->x_));
+				const auto xEnd = std::ranges::cend(*(this->x_));
+				auto y1Itr = std::ranges::cbegin(*(this->y1_));
+				const auto y1End = std::ranges::cend(*(this->y1_));
+				auto y2Itr = std::ranges::cbegin(*(this->y2_));
+				const auto y2End = std::ranges::cend(*(this->y2_));
 				for(; (xItr != xEnd) && (y1Itr != y1End) && (y2Itr != y2End); ++xItr, (void)++y1Itr, (void)++y2Itr){
 					const auto& x = *xItr;
 					const auto& y1 = *y1Itr;
@@ -90,10 +91,10 @@ namespace plotpp{
 				}
 			}else{
 				size_t x = 0;
-				auto y1Itr = std::cbegin(*(this->y1_));
-				const auto y1End = std::cend(*(this->y1_));
-				auto y2Itr = std::cbegin(*(this->y2_));
-				const auto y2End = std::cend(*(this->y2_));
+				auto y1Itr = std::ranges::cbegin(*(this->y1_));
+				const auto y1End = std::ranges::cend(*(this->y1_));
+				auto y2Itr = std::ranges::cbegin(*(this->y2_));
+				const auto y2End = std::ranges::cend(*(this->y2_));
 				for(; (y1Itr != y1End) && (y2Itr != y2End); ++x, (void)++y1Itr, (void)++y2Itr){
 					const auto& y1 = *y1Itr;
 					const auto& y2 = *y2Itr;

@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <optional>
 #include <numeric>
+#include <ranges>
 
 // {fmt}
 #include <fmt/core.h>
@@ -73,19 +74,19 @@ namespace plotpp{
 		inline Piechart&& fillClear() && {this->fill_style.clear(); return std::move(*this);}
 		inline Piechart& fillPattern(int n) & {this->fill_style.pattern(n); return *this;}
 		inline Piechart&& fillPattern(int n) && {this->fill_style.pattern(n); return std::move(*this);}
-		
+		 
 		// ---- IPlot overloads ----
 		
 		void printData([[maybe_unused]]FILE* fptr) const {}
 		
 		void printPlot(FILE* fptr) const {
-			using NameItr = decltype(std::begin(*this->names_));
-			NameItr nameItr; 
-			NameItr nameEnd; 
+			using NameItr = decltype(std::ranges::cbegin(*this->names_));
+			NameItr nameItr{}; 
+			NameItr nameEnd{}; 
 			
 			if(this->names_){
-				nameItr = std::begin(*this->names_);
-				nameEnd = std::end(*this->names_);
+				nameItr = std::ranges::cbegin(*this->names_);
+				nameEnd = std::ranges::cend(*this->names_);
 			}else{
 				nameItr = nameEnd;
 			}

@@ -143,7 +143,21 @@ namespace plotpp{
 		}
 		
 		if(filetype==OutputFileType::gp){
-			FILE* fptr = fopen(filename.c_str(), "w");
+			#if (defined(__STDC_LIB_EXT1__) && (__STDC_WANT_LIB_EXT1__ == 1)) || defined(_MSC_VER)
+				FILE* fptr = nullptr;
+				errno_t error = fopen_s(&fptr, filename.c_str(), "w");
+				if(0 != error){
+					fmt::println(stderr, 
+					"Error [plotpp]: could not open the file '{}' for saving.\n"
+					"  fopen_s returned the error code: {}\n"
+					"  In file: {}, at line: {}", 
+					filename, static_cast<int>(error), __FILE__, __LINE__);
+					return *this;
+				}
+			#else
+				FILE* fptr = fopen(filename.c_str(), "w");
+			#endif
+		
 			this->plot(fptr, terminalType);
 			fclose(fptr);
 		}else{

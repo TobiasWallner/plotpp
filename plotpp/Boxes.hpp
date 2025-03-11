@@ -3,6 +3,7 @@
 #include <ostream>
 #include <iterator>
 #include <optional>
+#include <ranges>
 
 #include "plotpp/IPlot.hpp"
 
@@ -212,16 +213,16 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xitr = std::begin(*x_);
-				auto yitr = std::begin(*y_);
+				auto xitr = std::ranges::cbegin(*x_);
+				auto yitr = std::ranges::cbegin(*y_);
 				
-				for (; xitr != std::end(*x_) && yitr != std::end(*y_); ++xitr, (void)++yitr)
+				for (; xitr != std::ranges::cend(*x_) && yitr != std::ranges::cend(*y_); ++xitr, (void)++yitr)
 					fmt::print(fptr, "{} {}\n", *xitr, *yitr);
 			}else{
 				size_t x = 0;
-				auto yitr = std::begin(*y_);
+				auto yitr = std::ranges::cbegin(*y_);
 				
-				for (; yitr != std::end(*y_); ++x, (void)++yitr)
+				for (; yitr != std::ranges::cend(*y_); ++x, (void)++yitr)
 					fmt::print(fptr, "{} {}\n", x, *yitr);
 			}
 			fmt::print(fptr, "e\n");

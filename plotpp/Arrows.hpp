@@ -136,11 +136,11 @@ namespace plotpp{
 		*/
 		virtual void printData(FILE* fptr) const {
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
-			auto x1itr = std::begin(*x1_);
-			auto y1itr = std::begin(*y1_);
-			auto x2itr = std::begin(*x2_);
-			auto y2itr = std::begin(*y2_);
-			for(; x1itr != std::end(*x1_) && y1itr != std::end(*y1_) && x2itr != std::end(*x2_) && y2itr != std::end(*y2_)
+			auto x1itr = std::ranges::cbegin(*x1_);
+			auto y1itr = std::ranges::cbegin(*y1_);
+			auto x2itr = std::ranges::cbegin(*x2_);
+			auto y2itr = std::ranges::cbegin(*y2_);
+			for(; x1itr != std::ranges::cend(*x1_) && y1itr != std::ranges::cend(*y1_) && x2itr != std::ranges::cend(*x2_) && y2itr != std::ranges::cend(*y2_)
 				; (void)++x1itr, (void)++y1itr, (void)++x2itr, (void)++y2itr){
 				fmt::print(fptr, "{} {} {} {}\n", *x1itr, *y1itr, *x2itr, *y2itr);
 			}

@@ -372,14 +372,14 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n#x, y, error\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xItr = std::cbegin(*(this->x_));
-				const auto xEnd = std::cend(*(this->x_));
+				auto xItr = std::ranges::cbegin(*(this->x_));
+				const auto xEnd = std::ranges::cend(*(this->x_));
 				
-				auto yItr = std::cbegin(*(this->y_));
-				const auto yEnd = std::cend(*(this->y_));
+				auto yItr = std::ranges::cbegin(*(this->y_));
+				const auto yEnd = std::ranges::cend(*(this->y_));
 				
-				auto errItr = std::cbegin(*(this->err_));
-				const auto errEnd = std::cend(*(this->err_));
+				auto errItr = std::ranges::cbegin(*(this->err_));
+				const auto errEnd = std::ranges::cend(*(this->err_));
 				
 				for(; (xItr != xEnd) && (yItr != yEnd) && (errItr != errEnd); ++xItr, (void)++yItr, (void)++errItr){
 					const auto& x = *xItr;
@@ -390,11 +390,11 @@ namespace plotpp{
 			}else{
 				size_t x = 0;
 				
-				auto yItr = std::cbegin(*(this->y_));
-				const auto yEnd = std::cend(*(this->y_));
+				auto yItr = std::ranges::cbegin(*(this->y_));
+				const auto yEnd = std::ranges::cend(*(this->y_));
 				
-				auto errItr = std::cbegin(*(this->err_));
-				const auto errEnd = std::cend(*(this->err_));
+				auto errItr = std::ranges::cbegin(*(this->err_));
+				const auto errEnd = std::ranges::cend(*(this->err_));
 				
 				for(;(yItr != yEnd) && (errItr != errEnd); ++x, (void)++yItr, (void)++errItr){
 					const auto& y = *yItr;

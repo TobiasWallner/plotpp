@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <ranges>
 
 // plotpp
 #include "plotpp/TerminalType.hpp"
@@ -91,8 +92,8 @@ namespace plotpp{
 		
 		template<class T>
 		Figure& xtics(const T& tic_labels){
-			auto itr = std::begin(tic_labels);
-			const auto end = std::end(tic_labels);
+			auto itr = std::ranges::cbegin(tic_labels);
+			const auto end = std::ranges::cend(tic_labels);
 			size_t i = 0;
 			this->clear_xtics();
 			for(; itr != end; ++itr, (void)++i){
@@ -106,11 +107,11 @@ namespace plotpp{
 		
 		template<ForwardRange T>
 		Figure& xtics(const T& tic_labels, std::vector<double> values){
-			auto labels_itr = std::begin(tic_labels);
-			const auto labels_end = std::end(tic_labels);
+			auto labels_itr = std::ranges::cbegin(tic_labels);
+			const auto labels_end = std::ranges::cend(tic_labels);
 			
-			auto values_itr = std::begin(values);
-			const auto values_end = std::end(values);
+			auto values_itr = std::ranges::cbegin(values);
+			const auto values_end = std::ranges::cend(values);
 			
 			this->clear_xtics();
 			for(; labels_itr != labels_end && values_itr != values_end; ++labels_itr, (void)++values_itr){

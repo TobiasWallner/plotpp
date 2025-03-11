@@ -3,6 +3,7 @@
 // std
 #include <ostream>
 #include <optional>
+#include <ranges>
 
 // {fmt}
 #include <fmt/core.h>
@@ -68,13 +69,13 @@ namespace plotpp{
 		virtual void printData(FILE* fptr) const {
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
-			auto xitr = std::begin(*x_);
-			auto yitr = std::begin(*y_);
-			auto yerrItr = std::begin(*yerror_);
+			auto xitr = std::ranges::cbegin(*x_);
+			auto yitr = std::ranges::cbegin(*y_);
+			auto yerrItr = std::ranges::cbegin(*yerror_);
 			
-			const auto xEnd = std::end(*x_);
-			const auto yEnd = std::end(*y_);
-			const auto yerrEnd = std::end(*yerror_);
+			const auto xEnd = std::ranges::cend(*x_);
+			const auto yEnd = std::ranges::cend(*y_);
+			const auto yerrEnd = std::ranges::cend(*yerror_);
 
 			for (; xitr != xEnd && yitr != yEnd && yerrItr != yerrEnd; ++xitr, (void)++yitr, (void)++yerrItr)
 				fmt::print(fptr, "{} {} {}\n", *xitr, *yitr, *yerrItr);

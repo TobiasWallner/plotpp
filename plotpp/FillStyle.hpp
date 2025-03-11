@@ -75,7 +75,7 @@ namespace plotpp{
 		
 	private:
 		Type type_ = Type::Solid;
-		float opacity_ = 0.6;
+		float opacity_ = 0.6f;
 		int pattern_ = 1;
 		bool transparent_ = true;
 		bool border_ = false;	
