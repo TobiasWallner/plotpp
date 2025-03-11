@@ -644,8 +644,12 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 <li>C++20</li>
 </ul>
 <h2 id="dependencies"><strong>Dependencies</strong></h2>
+<p>All dependencies are managed using <a href="https://github.com/cpm-cmake/CPM.cmake">CPM</a>, a setup-free CMake dependency management system.
+So if you already use CMake for your C++ project, you do not have to do anything. 
+Just include this CMake project however you like and all dependencies will be downloaded and build for you.</p>
 <ul>
-<li>{fmt}: <a href="https://github.com/fmtlib/fmt">GitHub</a>, <a href="https://fmt.dev/11.0/">Documentation</a>, <a href="https://conan.io/center/recipes/fmt?version=">Conan</a></li>
+<li><a href="https://github.com/cpm-cmake/CPM.cmake">CPM</a>: Setup-free CMake dependency management</li>
+<li>{fmt}: formating and printing library, <a href="https://github.com/fmtlib/fmt">GitHub</a>, <a href="https://fmt.dev/11.0/">Documentation</a></li>
 </ul>
 <h2 id="example"><strong>Example</strong></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="example-output" name="__tabbed_1" type="radio" /><input id="example-code" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="example-output">Output</label><label for="example-code">Code</label></div>
