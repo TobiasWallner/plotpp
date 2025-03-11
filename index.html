@@ -316,60 +316,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#cmake" class="md-nav__link">
+  <a href="#cmake-cpm" class="md-nav__link">
     <span class="md-ellipsis">
-      CMake
+      CMake: CPM
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#cpm-cmake-package-manager" class="md-nav__link">
+  <a href="#cmake-add-subdirectory" class="md-nav__link">
     <span class="md-ellipsis">
-      CPM (CMake Package Manager)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#conan-package-manager" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conan Package Manager
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Conan Package Manager">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#conan-faq" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conan FAQ
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manually-with-add_subdirectory" class="md-nav__link">
-    <span class="md-ellipsis">
-      Manually with add_subdirectory
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manual-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Manual Build
+      CMake: Add Subdirectory
     </span>
   </a>
   
@@ -619,60 +577,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#cmake" class="md-nav__link">
+  <a href="#cmake-cpm" class="md-nav__link">
     <span class="md-ellipsis">
-      CMake
+      CMake: CPM
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#cpm-cmake-package-manager" class="md-nav__link">
+  <a href="#cmake-add-subdirectory" class="md-nav__link">
     <span class="md-ellipsis">
-      CPM (CMake Package Manager)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#conan-package-manager" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conan Package Manager
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Conan Package Manager">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#conan-faq" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conan FAQ
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manually-with-add_subdirectory" class="md-nav__link">
-    <span class="md-ellipsis">
-      Manually with add_subdirectory
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manual-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Manual Build
+      CMake: Add Subdirectory
     </span>
   </a>
   
@@ -731,10 +647,12 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 <ul>
 <li>{fmt}: <a href="https://github.com/fmtlib/fmt">GitHub</a>, <a href="https://fmt.dev/11.0/">Documentation</a>, <a href="https://conan.io/center/recipes/fmt?version=">Conan</a></li>
 </ul>
-<p>A <a href="https://conan.io/">conan</a> recipe is provided</p>
 <h2 id="example"><strong>Example</strong></h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="example-code" name="__tabbed_1" type="radio" /><input id="example-output" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="example-code">Code</label><label for="example-output">Output</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="example-output" name="__tabbed_1" type="radio" /><input id="example-code" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="example-output">Output</label><label for="example-code">Code</label></div>
 <div class="tabbed-content">
+<div class="tabbed-block">
+<p><img alt="Image of a line plot" src="example_output.png" /></p>
+</div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;plotpp.hpp&gt;</span>
@@ -758,100 +676,27 @@ Allows plotting from custom containers/vectors if they use <code>begin()</code> 
 <span class="p">}</span>
 </code></pre></div>
 </div>
-<div class="tabbed-block">
-<p><img alt="Image of a line plot" src="example_output.png" /></p>
 </div>
 </div>
-</div>
-<h2 id="integration"><strong>Integration</strong></h2>
-<h3 id="cmake"><strong><a href="https://cmake.org/">CMake</a></strong></h3>
-<div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.15</span><span class="p">)</span>
-<span class="nb">project</span><span class="p">(</span><span class="s">PROJECT_NAME</span><span class="w"> </span><span class="s">CXX</span><span class="p">)</span>
+<h2 id="integration">Integration</h2>
+<h3 id="cmake-cpm">CMake: <a href="https://github.com/cpm-cmake/CPM.cmake">CPM</a></h3>
+<p>Get and include the <a href="https://github.com/cpm-cmake/CPM.cmake">CPM</a> script, then use <a href="https://github.com/cpm-cmake/CPM.cmake?tab=readme-ov-file#usage"><code>CPMAddPackage()</code></a> to add git repositories as libraries to your project</p>
+<div class="highlight"><pre><span></span><code><span class="nb">include</span><span class="p">(</span><span class="s">CPM.cmake</span><span class="p">)</span>
 
-<span class="nb">find_package</span><span class="p">(</span><span class="s">plotpp</span><span class="w"> </span><span class="s">CONFIG</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">CPMAddPackage</span><span class="p">(</span><span class="s2">&quot;gh:TobiasWallner/plotpp#main&quot;</span><span class="p">)</span>
 
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">main</span><span class="w"> </span><span class="s">src/main.cpp</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">main</span><span class="w"> </span><span class="s">plotpp::plotpp</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="cpm-cmake-package-manager"><strong>CPM (CMake Package Manager)</strong></h3>
-<p>TODO</p>
-<h3 id="conan-package-manager"><strong><a href="https://conan.io/">Conan Package Manager</a></strong></h3>
-<p>Note: not yet added to the <a href="https://conan.io/center">ConanCenter</a></p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="conan-package-manager-conanfiletxt" name="__tabbed_2" type="radio" /><input id="conan-package-manager-conanfilepy" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="conan-package-manager-conanfiletxt">conanfile.txt</label><label for="conan-package-manager-conanfilepy">conanfile.py</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="k">[requires]</span>
-<span class="na">plotpp/&lt;version&gt;</span>
-
-<span class="k">[generators]</span>
-<span class="na">CMakeDeps</span>
-<span class="na">CMakeToolchain</span>
-
-<span class="k">[layout]</span>
-<span class="na">cmake_layout</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">conan</span> <span class="kn">import</span> <span class="n">ConanFile</span>
-<span class="kn">from</span> <span class="nn">conan.tools.cmake</span> <span class="kn">import</span> <span class="n">cmake_layout</span>
-
-
-<span class="k">class</span> <span class="nc">ExampleRecipe</span><span class="p">(</span><span class="n">ConanFile</span><span class="p">):</span>
-    <span class="n">settings</span> <span class="o">=</span> <span class="s2">&quot;os&quot;</span><span class="p">,</span> <span class="s2">&quot;compiler&quot;</span><span class="p">,</span> <span class="s2">&quot;build_type&quot;</span><span class="p">,</span> <span class="s2">&quot;arch&quot;</span>
-    <span class="n">generators</span> <span class="o">=</span> <span class="s2">&quot;CMakeDeps&quot;</span><span class="p">,</span> <span class="s2">&quot;CMakeToolchain&quot;</span>
-
-    <span class="k">def</span> <span class="nf">requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="p">(</span><span class="s2">&quot;plotpp/&lt;version&gt;&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">cmake_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-<p>build instructions with conan
-<div class="highlight"><pre><span></span><code><span class="c1"># install dependencies</span>
-conan<span class="w"> </span>install<span class="w"> </span>.<span class="w"> </span>--build<span class="o">=</span>missing<span class="w"> </span>--output-folder<span class="w"> </span>build
-
-<span class="c1"># generate build scripts (for the build tool e.g.: -G &quot;Ninja Multi-Config&quot;)</span>
-cmake<span class="w"> </span>-S<span class="w"> </span>.<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DBUILD_EXAMPLES<span class="o">=</span>ON<span class="w"> </span>-DCMAKE_TOOLCHAIN_FILE<span class="o">=</span>build/Release/generators/conan_toolchain.cmake
-
-<span class="c1"># build the project</span>
-cmake<span class="w"> </span>--build<span class="w"> </span>build_gcc<span class="w"> </span>--config<span class="w"> </span>Release
-</code></pre></div></p>
-<h4 id="conan-faq"><strong>Conan FAQ</strong></h4>
-<ul>
-<li>How can I make Conan use a different CMake generator?<br />
-    Add to your profile:
-<div class="highlight"><pre><span></span><code><span class="k">[conf]</span>
-<span class="na">tools.cmake.cmaketoolchain</span><span class="o">:</span><span class="s">generator=Ninja</span>
-</code></pre></div></li>
-<li>Conan selects the wrong compiler?
-    Add to your profile:
-<div class="highlight"><pre><span></span><code><span class="k">[conf]</span>
-<span class="na">tools.build</span><span class="o">:</span><span class="s">compiler_executables={&quot;c&quot; : &quot;gcc&quot;, &quot;cpp&quot; : &quot;g++&quot;}</span>
-</code></pre></div></li>
-<li>Where can I find the default profile?
-<div class="highlight"><pre><span></span><code>conan<span class="w"> </span>profile<span class="w"> </span>path<span class="w"> </span>default
-</code></pre></div></li>
-<li>I want to create a library but with <code>conan create . --build=missing</code> it cannot find the header files
-    Enable transitive headers in your <code>conanfile.py</code>:
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">requires</span><span class="p">(</span><span class="s2">&quot;&lt;library/version&gt;&quot;</span><span class="p">,</span> <span class="n">transitive_headers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div></li>
-</ul>
-<h3 id="manually-with-add_subdirectory"><strong>Manually with <a href="https://cmake.org/cmake/help/latest/command/add_subdirectory.html">add_subdirectory</a></strong></h3>
-<p>Manually download the library and add it via <code>add_subdirectory</code>.
-<div class="highlight"><pre><span></span><code><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">path/to/Plotpp</span><span class="p">)</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">PROJECT_NAME</span><span class="w"> </span><span class="s">main.cpp</span><span class="p">)</span>
 <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">YOUR_PROJECT_NAME</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">plotpp</span><span class="p">)</span>
 </code></pre></div>
-Note: you would also need to add and link against fmt</p>
-<h3 id="manual-build"><strong>Manual Build</strong></h3>
-<ul>
-<li>include the folder containing <code>plotpp.hpp</code></li>
-<li>compile and link all <code>*.cpp</code> files in <code>plotpp/</code></li>
-</ul>
+<p>Optionally: set a download cache for your libraries by setting the environment variable <code>CPM_SOURCE_CACHE</code> to a directory of your choice</p>
+<h3 id="cmake-add-subdirectory">CMake: <a href="https://cmake.org/cmake/help/latest/command/add_subdirectory.html">Add Subdirectory</a></h3>
+<p>clone plotpp into your project
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/TobiasWallner/plotpp.git
+</code></pre></div></p>
+<p>include the project into CMake via <a href="https://cmake.org/cmake/help/latest/command/add_subdirectory.html"><code>add_subdirectory</code></a>
+<div class="highlight"><pre><span></span><code><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">Path/to/plotpp</span><span class="p">)</span>
+
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">YOUR_PROJECT_NAME</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">plotpp</span><span class="p">)</span>
+</code></pre></div></p>
 
 
 
