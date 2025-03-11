@@ -51,18 +51,6 @@ else
 endif
 
 #############################################################
-#					 Conan Package Manager
-#############################################################
-
-.PHONY: init-conan-lib
-init-conan-lib:
-	conan new cmake_lib -d name="tryout" -d version=0.1
-
-.PHONY: create-conan-lib
-create-conan-lib:
-	conan create . --build=missing
-
-#############################################################
 #					Build C++ GCC with CMake
 #############################################################
 
@@ -78,15 +66,11 @@ create-conan-lib:
 # rebuild-gcc
 # 	re-compiles the whole project
 
-# private: install/build dependencies with conan
-build_gcc/build/Release/generators/conan_toolchain.cmake: conanfile.py conan_profiles/gcc.ini
-	conan install . --profile conan_profiles/gcc.ini --build=missing --output-folder build_gcc
-	
 # private: generate the build configuration for ninja
 BUILD_GENERATOR = "Ninja Multi-Config"
-TOOLCHAIN_FILE = build/Release/generators/conan_toolchain.cmake
+CPM_SOURCE_CACHE  = "C:\CPM_SOURCE_CACHE"
 build_gcc/CMakeCache.txt: CMakeLists.txt build_gcc/build/Release/generators/conan_toolchain.cmake
-	cmake -S . -B build_gcc -G $(BUILD_GENERATOR) -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=$(TOOLCHAIN_FILE)
+	cmake -S . -B build_gcc -G $(BUILD_GENERATOR) -DBUILD_EXAMPLES=ON -DCPM_SOURCE_CACHE=$(CPM_SOURCE_CACHE)
 
 # private: compile the project
 build_gcc\examples\Release\.timestamp: build_gcc/CMakeCache.txt plotpp/* examples/*
