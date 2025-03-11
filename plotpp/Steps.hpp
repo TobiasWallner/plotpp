@@ -21,6 +21,8 @@
 
 namespace plotpp{
 
+	/// @example steps.cpp
+
 	template<ForwardRange Tx, ForwardRange Ty>
 	class Steps : public IPlot{	
 	public:

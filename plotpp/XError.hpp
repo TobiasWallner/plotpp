@@ -14,7 +14,9 @@
 #include "plotpp/PointType.hpp"
 
 namespace plotpp{
-			
+	
+	/// @example xerror.cpp
+	
 	template<class Tx, class Ty, class Txerr>
 	class XError : public IPlot{
 	public:

@@ -29,7 +29,7 @@
 namespace plotpp{
 
 	/**
-		@example YErrorLine.cpp
+		@example yerrorline.cpp
 	*/ 
 
 	/**

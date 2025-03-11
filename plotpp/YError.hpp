@@ -15,6 +15,8 @@
 
 namespace plotpp{
 
+	/// @example yerror.cpp
+
 	template<class Tx, class Ty, class Tyerr>
 	class YError : public IPlot{
 	public:

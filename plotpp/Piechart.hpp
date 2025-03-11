@@ -20,6 +20,8 @@
 
 namespace plotpp{
 	
+	/// @example piechart.cpp
+	
 	template<ForwardRange Tnames>
 	class Piechart : public IPlot {
 	public:

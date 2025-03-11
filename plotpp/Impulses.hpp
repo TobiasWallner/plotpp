@@ -20,6 +20,8 @@
 
 namespace plotpp{
 
+	/// @example impulses.cpp
+
 	template<ForwardRange Tx, ForwardRange Ty>
 	class Impulses : public IPlot{	
 	public:

@@ -39,6 +39,9 @@ plot $d0 matrix with image title 'Heatmap'
 */
 
 namespace plotpp{
+	
+	/// @example heatmap.cpp
+	
 	/*
 		Heat Map for custom matrix like objects
 	*/

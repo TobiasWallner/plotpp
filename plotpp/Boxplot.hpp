@@ -6,6 +6,7 @@
 
 namespace plotpp{
 
+	/// @example boxplot.cpp
 
 	template<class Tx, ForwardRange Ty>
 	class Boxplot : public IPlot{

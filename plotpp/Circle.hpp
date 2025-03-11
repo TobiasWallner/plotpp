@@ -15,11 +15,13 @@
 
 
 namespace plotpp{
+	
+	/// @example circle.cpp
 
 	class Circle : public IPlot{
 	public:
 	
-		Circle(float x, float y, float radius, float startAngle, float endAngle);
+		Circle(float x, float y, float radius, float startAngle = 0.0f, float endAngle = 360.0f);
 	
 		// ---- setters getters ----
 		

@@ -20,6 +20,8 @@
 
 namespace plotpp{
 
+	/// @example filledcurves.cpp
+
 	template<ForwardRange Tx, ForwardRange Ty1, ForwardRange Ty2>
 	class Filledcurves : public IPlot{	
 	public:
