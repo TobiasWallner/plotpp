@@ -3,7 +3,6 @@ build_gcc/
 build_clang/
 build_msvc/
 .vs/
-conan_profiles/
 
 # Ignore file types
 **/.timestamp
