@@ -17,7 +17,12 @@ Allows plotting from custom containers/vectors if they use `begin()` and `end()`
 
 ## **Dependencies**
 
-- {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/), [Conan](https://conan.io/center/recipes/fmt?version=)
+All dependencies are managed using [CPM](https://github.com/cpm-cmake/CPM.cmake), a setup-free CMake dependency management system.
+So if you already use CMake for your C++ project, you do not have to do anything. 
+Just include this CMake project however you like and all dependencies will be downloaded and build for you.
+
+- [CPM](https://github.com/cpm-cmake/CPM.cmake): Setup-free CMake dependency management
+- {fmt}: formating and printing library, [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/)
 
 ## **Example**
 
