@@ -3,9 +3,13 @@ cmake_minimum_required(VERSION 3.18.0)
 # project building process: 
 project(plotpp LANGUAGES CXX VERSION 0.1)
 
+include(get_cpm_latest.cmake)
+
 # -----------------------------------------------------------------
 # 					Add Modules / Dependencies
 # -----------------------------------------------------------------
+
+message(STATUS "======================== Plotpp: Fetching External Libraries =========================")
 
 message(STATUS "Searching for Gnuplot >= 5.4")
 find_package(Gnuplot 5.4)
@@ -18,10 +22,20 @@ else()
                     "    - On Fedora: sudo dnf install gnuplot\n"
                     "    - On macOS (with Homebrew): brew install gnuplot\n"
                     "    - On Windows: Download the installer from https://sourceforge.net/projects/gnuplot/\n"
-	                "    You will still be able to compile your project but it will not be able to talk to gnuplot and plot figures")
+	                "    You will still be able to compile your project, but it will not be able to talk to gnuplot and plot figures")
 endif()
+ 
+add_subdirectory(opstream)
 
-find_package(fmt REQUIRED)
+# {fmt}
+# Github: https://github.com/fmtlib/fmt
+# Documentation: https://fmt.dev/11.0/
+CPMAddPackage("gh:fmtlib/fmt#master")
+
+# zip-iterator
+# Github: https://github.com/CommitThis/zip-iterator
+#CPMAddPackage("gh:CommitThis/zip-iterator#master")
+#CPMAddPackage("gh:TobiasWallner/zip-iterator#256cd6247d447761c5b768ee2a6703335c66c605") # fork
 
 # ------------------------------------------------------------------------------------------
 # 					Add source files, link dependencies, set compiler options
