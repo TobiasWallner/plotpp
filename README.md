@@ -19,8 +19,6 @@ Dependencies
 ------------
 - {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/), [Conan](https://conan.io/center/recipes/fmt?version=)
 
-A [conan](https://conan.io/) recipe is provided
-
 Examples
 ========
 
@@ -92,121 +90,32 @@ int main(){
 
 ![Multiplot Image](images/multiplot.jpg)
 
-Integration
-===========
+## Integration
 
-[CMake](https://cmake.org/)
----------------------------
+### CMake: [CPM](https://github.com/cpm-cmake/CPM.cmake)
+
+Get and include the [CPM](https://github.com/cpm-cmake/CPM.cmake) script, then use [`CPMAddPackage()`](https://github.com/cpm-cmake/CPM.cmake?tab=readme-ov-file#usage) to add git repositories as libraries to your project
+
 ```cmake
-cmake_minimum_required(VERSION 3.15)
-project(PROJECT_NAME CXX)
+include(CPM.cmake)
 
-find_package(plotpp CONFIG REQUIRED)
+CPMAddPackage("gh:TobiasWallner/plotpp#main")
 
-add_executable(main src/main.cpp)
-target_link_libraries(main plotpp::plotpp)
-```
-
-[Conan](https://conan.io/) **TO be done**
---------------------------
-`conanfile.txt`
-```conanfile
-[requires]
-plotpp/<version>
-
-[generators]
-CMakeDeps
-CMakeToolchain
-
-[layout]
-cmake_layout
-```
-
-`conanfile.py`
-```py
-from conan import ConanFile
-from conan.tools.cmake import cmake_layout
-
-
-class ExampleRecipe(ConanFile):
-    settings = "os", "compiler", "build_type", "arch"
-    generators = "CMakeDeps", "CMakeToolchain"
-
-    def requirements(self):
-        self.requires("plotpp/<version>")
-
-    def layout(self):
-        cmake_layout(self)
-```
-
-build instructions with conan
-```bash
-# install dependencies
-conan install . --build=missing --output-folder build
-
-# Optional: set your prefered compile
-set CC=<path/to/C-compiler>
-set CXX=<path/to/C++-compiler>
-set LD=<path/to/Linker>
-
-# generate build scripts (for the build tool e.g.: -G "Ninja Multi-Config")
-cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
-
-# build the project
-cmake --build build_gcc --config Release
-```
-
-### Conan FAQ
-+ 	How can I make Conan use a different CMake generator?  
-	Add to your profile:
-```
-[conf]
-tools.cmake.cmaketoolchain:generator=Ninja
-```
-+	Conan selects the wrong compiler?
-	Add to your profile:
-```
-[conf]
-tools.build:compiler_executables={"c" : "gcc", "cpp" : "g++"}
-```
-+	Where can I find the default profile?
-```bash
-conan profile path default
-```
-+	I want to create a library but with `conan create . --build=missing` it cannot find the header files
-	Enable transitive headers in your `conanfile.py`:
-```py
-def requirements(self):
-	self.requires("<library/version>", transitive_headers=True)
-```
-
-Manually with [add_subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
-------------------------
-Manually download the library and add it via `add_subdirectory`.
-```cmake
-add_subdirectory(path/to/Plotpp)
-add_executable(PROJECT_NAME main.cpp)
 target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
 ```
-Note: you would also need to add and link against fmt
 
-Manual Build
-------------
-- include the folder containing `plotpp.hpp`
-- compile and link all `*.cpp` files in `plotpp/`
+Optionally: set a download cache for your libraries by setting the environment variable `CPM_SOURCE_CACHE` to a directory of your choice
 
-# Build the Documentation
+### CMake: [Add Subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
 
-- [Doxygen](https://doxygen.nl/index.html) to analyse the code, extract all symbols and doc-comments.
-- [doxybook2](https://github.com/matusnovak/doxybook2) to convert the XML files from Doxygen into MarkDown pages.
-- [mkdocs](https://www.mkdocs.org/) to build the website
-  - [Material](https://squidfunk.github.io/mkdocs-material/) as a theme for mkdocs
-  
-Build the documentation with:
+clone plotpp into your project
 ```bash
-doxygen
-if not exist $(MD_OUTPUT) mkdir docs\docs\API
-doxybook2 --input docs\doxygen\xml --output docs\docs\API --config docs/doxybook2-config.json
-mkdocs build -f docs/mkdocs.yml
+git clone https://github.com/TobiasWallner/plotpp.git
 ```
 
+include the project into CMake via [`add_subdirectory`](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
+```cmake
+add_subdirectory(Path/to/plotpp)
+
+target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
+```

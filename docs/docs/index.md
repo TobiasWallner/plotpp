@@ -19,9 +19,10 @@ Allows plotting from custom containers/vectors if they use `begin()` and `end()`
 
 - {fmt}: [GitHub](https://github.com/fmtlib/fmt), [Documentation](https://fmt.dev/11.0/), [Conan](https://conan.io/center/recipes/fmt?version=)
 
-A [conan](https://conan.io/) recipe is provided
-
 ## **Example**
+
+=== "Output"
+    ![Image of a line plot](example_output.png)
 
 === "Code"
     ```cpp
@@ -47,111 +48,32 @@ A [conan](https://conan.io/) recipe is provided
 	}
 	```
 
-=== "Output"
-    ![Image of a line plot](example_output.png)
+## Integration
 
+### CMake: [CPM](https://github.com/cpm-cmake/CPM.cmake)
 
-## **Integration**
-
-### **[CMake](https://cmake.org/)**
+Get and include the [CPM](https://github.com/cpm-cmake/CPM.cmake) script, then use [`CPMAddPackage()`](https://github.com/cpm-cmake/CPM.cmake?tab=readme-ov-file#usage) to add git repositories as libraries to your project
 
 ```cmake
-cmake_minimum_required(VERSION 3.15)
-project(PROJECT_NAME CXX)
+include(CPM.cmake)
 
-find_package(plotpp CONFIG REQUIRED)
+CPMAddPackage("gh:TobiasWallner/plotpp#main")
 
-add_executable(main src/main.cpp)
-target_link_libraries(main plotpp::plotpp)
-```
-
-### **CPM (CMake Package Manager)**
-
-TODO
-
-### **[Conan Package Manager](https://conan.io/)**
-
-Note: not yet added to the [ConanCenter](https://conan.io/center)
-
-=== "conanfile.txt"
-	```ini
-	[requires]
-	plotpp/<version>
-
-	[generators]
-	CMakeDeps
-	CMakeToolchain
-
-	[layout]
-	cmake_layout
-	```
-
-=== "conanfile.py"
-	```py
-	from conan import ConanFile
-	from conan.tools.cmake import cmake_layout
-
-
-	class ExampleRecipe(ConanFile):
-		settings = "os", "compiler", "build_type", "arch"
-		generators = "CMakeDeps", "CMakeToolchain"
-
-		def requirements(self):
-			self.requires("plotpp/<version>")
-
-		def layout(self):
-			cmake_layout(self)
-	```
-
-build instructions with conan
-```bash
-# install dependencies
-conan install . --build=missing --output-folder build
-
-# generate build scripts (for the build tool e.g.: -G "Ninja Multi-Config")
-cmake -S . -B build -DBUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=build/Release/generators/conan_toolchain.cmake
-
-# build the project
-cmake --build build_gcc --config Release
-```
-
-#### **Conan FAQ**
-+ 	How can I make Conan use a different CMake generator?  
-	Add to your profile:
-```ini
-[conf]
-tools.cmake.cmaketoolchain:generator=Ninja
-```
-+	Conan selects the wrong compiler?
-	Add to your profile:
-```ini
-[conf]
-tools.build:compiler_executables={"c" : "gcc", "cpp" : "g++"}
-```
-+	Where can I find the default profile?
-```bash
-conan profile path default
-```
-+	I want to create a library but with `conan create . --build=missing` it cannot find the header files
-	Enable transitive headers in your `conanfile.py`:
-```py
-def requirements(self):
-	self.requires("<library/version>", transitive_headers=True)
-```
-
-### **Manually with [add_subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)**
-
-Manually download the library and add it via `add_subdirectory`.
-```cmake
-add_subdirectory(path/to/Plotpp)
-add_executable(PROJECT_NAME main.cpp)
 target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
 ```
-Note: you would also need to add and link against fmt
 
-### **Manual Build**
+Optionally: set a download cache for your libraries by setting the environment variable `CPM_SOURCE_CACHE` to a directory of your choice
 
-- include the folder containing `plotpp.hpp`
-- compile and link all `*.cpp` files in `plotpp/`
+### CMake: [Add Subdirectory](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
 
+clone plotpp into your project
+```bash
+git clone https://github.com/TobiasWallner/plotpp.git
+```
 
+include the project into CMake via [`add_subdirectory`](https://cmake.org/cmake/help/latest/command/add_subdirectory.html)
+```cmake
+add_subdirectory(Path/to/plotpp)
+
+target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
+```
