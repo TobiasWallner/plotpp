@@ -23,6 +23,12 @@ Plotting Styles
 	**Impulses**  
 	[Class Impulses](../API/Classes/classplotpp_1_1_impulses.md) | [Example](../API/Examples/impulses_8cpp-example.md)
 
+-	![Image of a steps plot](steps-plot.svg)
+
+    ---
+	**Impulses**  
+	[Class Impulses](../API/Classes/steps_1_1_impulses.md) | [Example](../API/Examples/steps_8cpp-example.md)
+
 
 -	![Image of an xerror plot](xerror-plot.svg)
 

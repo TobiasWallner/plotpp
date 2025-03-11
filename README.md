@@ -119,3 +119,9 @@ add_subdirectory(Path/to/plotpp)
 
 target_link_libraries(YOUR_PROJECT_NAME PUBLIC plotpp)
 ```
+
+## Compiles with:
+
+- GCC version 13.2.0
+- Clang version 16.0.3
+- Visual Studio 17 2022
