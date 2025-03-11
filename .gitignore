@@ -1,7 +1,9 @@
 # Ignore folders
-build_gcc/*
-.vs/*
-conan_profiles/*
+build_gcc/
+build_clang/
+build_msvc/
+.vs/
+conan_profiles/
 
 # Ignore file types
 **/.timestamp
@@ -11,4 +13,4 @@ TODO.txt
 CMakeUserPresets.json
 
 # Allow
-!images/*
+!images/
