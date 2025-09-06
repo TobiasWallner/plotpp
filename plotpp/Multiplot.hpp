@@ -57,6 +57,16 @@ namespace plotpp{
 		/// move assignment
 		Multiplot& operator=(Multiplot&&) = default;
 
+		/// @brief Sets the title of the multiplot
+		/// @param title The new title
+		/// @return Self for multi chaining
+		Multiplot& title(const Text& title);
+
+		/// @brief Sets the title of the multiplot
+		/// @param title The new title
+		/// @return Self for multi chaining
+		Multiplot& title(Text&& title);
+
 		/**
 			@brief Access a figure in the multiplot at a specific row and column index
 			@param row : size_t - The row index (starts at 0)

@@ -57,6 +57,16 @@ namespace plotpp{
 		}
 	}
 
+	Multiplot& Multiplot::title(const Text& title){
+		this->title_ = title;
+		return *this;
+	}
+	
+	Multiplot& Multiplot::title(Text&& title){
+		this->title_ = std::move(title);
+		return *this;
+	}
+
 	Figure& Multiplot::at(size_t row, size_t col) {
 		const size_t index = col + row * this->columns_;
 		return this->figs_[index];
