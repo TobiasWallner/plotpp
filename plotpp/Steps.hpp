@@ -128,10 +128,10 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xItr = std::ranges::cbegin(*(this->x_));
-				const auto xEnd = std::ranges::cend(*(this->x_));
-				auto yItr = std::ranges::cbegin(*(this->y_));
-				const auto yEnd = std::ranges::cend(*(this->y_));
+				auto xItr = plotpp::cbegin(*(this->x_));
+				const auto xEnd = plotpp::cend(*(this->x_));
+				auto yItr = plotpp::cbegin(*(this->y_));
+				const auto yEnd = plotpp::cend(*(this->y_));
 				for(; (xItr != xEnd) && (yItr != yEnd); ++xItr, (void)++yItr){
 					const auto& x = *xItr;
 					const auto& y = *yItr;
@@ -139,8 +139,8 @@ namespace plotpp{
 				}
 			}else{
 				size_t x = 0;
-				auto yItr = std::ranges::cbegin(*(this->y_));
-				const auto yEnd = std::ranges::cend(*(this->y_));
+				auto yItr = plotpp::cbegin(*(this->y_));
+				const auto yEnd = plotpp::cend(*(this->y_));
 				for(;yItr != yEnd; ++x, (void)++yItr){
 					const auto& y = *yItr;
 					fmt::print(fptr, "{} {}\n", x, y);
@@ -175,7 +175,7 @@ namespace plotpp{
 		Deduces the template parameters for `Steps` and constructs it with perfect argument forwarding.
 		This guarantees that no unnecessary copies are made for what could be huge datasets for `x` and `y`.
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2>
+	template<class U1, class U2>
 	auto steps(U1&& x, U2&& y) 
 	{
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
@@ -186,7 +186,7 @@ namespace plotpp{
 	}
 
 	/*constructor helper*/
-	template<PtrOrMoved U2>
+	template<class U2>
 	auto steps(U2&& y) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;

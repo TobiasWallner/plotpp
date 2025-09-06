@@ -52,7 +52,7 @@ namespace plotpp{
 		virtual void printData(FILE* fptr) const {
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 			
-			for(auto yitr = std::ranges::cbegin(*y_); yitr!=std::ranges::cend(*y_); ++yitr)
+			for(auto yitr = plotpp::cbegin(*y_); yitr!=plotpp::cend(*y_); ++yitr)
 				fmt::print(fptr, "{} {}\n", this->x_, *yitr);
 			
 			fmt::print(fptr, "e\n");
@@ -79,14 +79,14 @@ namespace plotpp{
 	};
 
 	/*constructor helper*/
-	template<PtrOrMoved U1, PtrOrMoved U2>
+	template<class U1, class U2>
 	auto boxplot(const U1& x_scalar, U2&& y_range) {
 		using Tx = U1;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Boxplot<Tx, Ty>(x_scalar, optional_ptr<Ty>(std::forward<U2>(y_range)));
 	}
 	
-	template<PtrOrMoved U2>
+	template<class U2>
 	auto boxplot(U2&& y_range) {
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
 		return Boxplot<int, Ty>(1, optional_ptr<Ty>(std::forward<U2>(y_range)));

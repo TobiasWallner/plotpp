@@ -31,8 +31,8 @@ namespace plotpp{
 		The Point class holds information about how to draw a point plot in a figure.
 		It supports various customizations such as point type, color, and fill styles.
 		
-		@tparam Tx Type for x-coordinate range, must satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have forward `begin()` and `end()` iterators)
-		@tparam Ty Type for y-coordinate range, must satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range) ()
+		@tparam Tx Type for x-coordinate range, must satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have forward `begin()` and `end()` iterators)
+		@tparam Ty Type for y-coordinate range, must satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range) ()
 	*/
 	template<class Tx, class Ty>
 	class Points : public IPlot{
@@ -206,16 +206,16 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xitr = std::ranges::cbegin(*x_);
-				auto yitr = std::ranges::cbegin(*y_);
+				auto xitr = plotpp::cbegin(*x_);
+				auto yitr = plotpp::cbegin(*y_);
 				
-				for (; xitr != std::ranges::cend(*x_) && yitr != std::ranges::cend(*y_); ++xitr, (void)++yitr)
+				for (; xitr != plotpp::cend(*x_) && yitr != plotpp::cend(*y_); ++xitr, (void)++yitr)
 					fmt::print(fptr, "{} {}\n", *xitr, *yitr);
 			}else{
 				size_t x = 0;
-				auto yitr = std::ranges::cbegin(*y_);
+				auto yitr = plotpp::cbegin(*y_);
 				
-				for (; yitr != std::ranges::cend(*y_); ++x, (void)++yitr)
+				for (; yitr != plotpp::cend(*y_); ++x, (void)++yitr)
 					fmt::print(fptr, "{} {}\n", x, *yitr);
 			}
 			fmt::print(fptr, "e\n");
@@ -233,11 +233,11 @@ namespace plotpp{
 	
 	/**
 		@brief Construction helper function to create a Plot instance with x- and y-coordinate ranges.
-		@param x : PtrOrMoved - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param x : class - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A Points instance.
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2>
+	template<class U1, class U2>
 	auto points(U1&& x, U2&& y) {
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
@@ -251,19 +251,19 @@ namespace plotpp{
 		
 		Wrapper to for the function points(U1&& x, U2&& y), to provide another common name used for this kind of plots.
 		
-		@param x : PtrOrMoved - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param x : class - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A Points instance.
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2>
+	template<class U1, class U2>
 	auto scatter(U1&& x, U2&& y) {return points(std::forward<U1>(x), std::forward<U2>(y));}
 	
 	/**
 		@brief Construction helper function to create a Plot instance with x- and y-coordinate ranges.
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A Points instance.
 	*/
-	template<PtrOrMoved U2>
+	template<class U2>
 	auto points(U2&& y) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
@@ -277,10 +277,10 @@ namespace plotpp{
 		
 		Wrapper to for the function points(U2&& y), to provide another common name used for this kind of plots.
 		
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A Points instance.
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2>
+	template<class U1, class U2>
 	auto scatter(U2&& y) {return points(std::forward<U2>(y));}
 
 }

@@ -79,12 +79,12 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xItr = std::ranges::cbegin(*(this->x_));
-				const auto xEnd = std::ranges::cend(*(this->x_));
-				auto y1Itr = std::ranges::cbegin(*(this->y1_));
-				const auto y1End = std::ranges::cend(*(this->y1_));
-				auto y2Itr = std::ranges::cbegin(*(this->y2_));
-				const auto y2End = std::ranges::cend(*(this->y2_));
+				auto xItr = plotpp::cbegin(*(this->x_));
+				const auto xEnd = plotpp::cend(*(this->x_));
+				auto y1Itr = plotpp::cbegin(*(this->y1_));
+				const auto y1End = plotpp::cend(*(this->y1_));
+				auto y2Itr = plotpp::cbegin(*(this->y2_));
+				const auto y2End = plotpp::cend(*(this->y2_));
 				for(; (xItr != xEnd) && (y1Itr != y1End) && (y2Itr != y2End); ++xItr, (void)++y1Itr, (void)++y2Itr){
 					const auto& x = *xItr;
 					const auto& y1 = *y1Itr;
@@ -93,10 +93,10 @@ namespace plotpp{
 				}
 			}else{
 				size_t x = 0;
-				auto y1Itr = std::ranges::cbegin(*(this->y1_));
-				const auto y1End = std::ranges::cend(*(this->y1_));
-				auto y2Itr = std::ranges::cbegin(*(this->y2_));
-				const auto y2End = std::ranges::cend(*(this->y2_));
+				auto y1Itr = plotpp::cbegin(*(this->y1_));
+				const auto y1End = plotpp::cend(*(this->y1_));
+				auto y2Itr = plotpp::cbegin(*(this->y2_));
+				const auto y2End = plotpp::cend(*(this->y2_));
 				for(; (y1Itr != y1End) && (y2Itr != y2End); ++x, (void)++y1Itr, (void)++y2Itr){
 					const auto& y1 = *y1Itr;
 					const auto& y2 = *y2Itr;
@@ -119,7 +119,7 @@ namespace plotpp{
 		Deduces the template parameters for `Filledcurves` and constructs it with perfect argument forwarding.
 		This guarantees that no unnecessary copies are made for what could be huge datasets for `x` and `y`.
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3>
+	template<class U1, class U2, class U3>
 	auto filledcurves(U1&& x, U2&& y1, U3&& y2) 
 	{
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
@@ -132,7 +132,7 @@ namespace plotpp{
 	}
 
 	/*constructor helper*/
-	template<PtrOrMoved U2, PtrOrMoved U3>
+	template<class U2, class U3>
 	auto filledcurves(U2&& y1, U3&& y2) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty1 = remove_ptr_t<std::remove_reference_t<U2>>;

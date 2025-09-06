@@ -33,7 +33,7 @@ namespace plotpp{
 			- vector(U1&& x1, U2&& y1, U3&& x2, U4&& y2), alias for arrows()
 			- quiver(U1&& x1, U2&& y1, U3&& x2, U4&& y2), relative coordinates
 	*/
-	template<std::ranges::forward_range Tx1, std::ranges::forward_range Ty1, std::ranges::forward_range Tx2, std::ranges::forward_range Ty2>
+	template<plotpp::ForwardRange Tx1, plotpp::ForwardRange Ty1, plotpp::ForwardRange Tx2, plotpp::ForwardRange Ty2>
 	class Arrows : public IPlot{
 	public:
 		/**
@@ -136,11 +136,11 @@ namespace plotpp{
 		*/
 		virtual void printData(FILE* fptr) const {
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
-			auto x1itr = std::ranges::cbegin(*x1_);
-			auto y1itr = std::ranges::cbegin(*y1_);
-			auto x2itr = std::ranges::cbegin(*x2_);
-			auto y2itr = std::ranges::cbegin(*y2_);
-			for(; x1itr != std::ranges::cend(*x1_) && y1itr != std::ranges::cend(*y1_) && x2itr != std::ranges::cend(*x2_) && y2itr != std::ranges::cend(*y2_)
+			auto x1itr = plotpp::cbegin(*x1_);
+			auto y1itr = plotpp::cbegin(*y1_);
+			auto x2itr = plotpp::cbegin(*x2_);
+			auto y2itr = plotpp::cbegin(*y2_);
+			for(; x1itr != plotpp::cend(*x1_) && y1itr != plotpp::cend(*y1_) && x2itr != plotpp::cend(*x2_) && y2itr != plotpp::cend(*y2_)
 				; (void)++x1itr, (void)++y1itr, (void)++x2itr, (void)++y2itr){
 				fmt::print(fptr, "{} {} {} {}\n", *x1itr, *y1itr, *x2itr, *y2itr);
 			}
@@ -174,7 +174,7 @@ namespace plotpp{
 		
 		\returns an Arrow class for plotting
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3, PtrOrMoved U4>
+	template<class U1, class U2, class U3, class U4>
 	inline auto arrows(U1&& x1, U2&& y1, U3&& x2, U4&& y2) {
 		using Tx1 = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty1 = remove_ptr_t<std::remove_reference_t<U2>>;
@@ -204,7 +204,7 @@ namespace plotpp{
 		
 		\returns an Arrow class for plotting
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3, PtrOrMoved U4>
+	template<class U1, class U2, class U3, class U4>
 	inline auto vector(U1&& x1, U2&& y1, U3&& x2, U4&& y2){
 		return arrows(std::forward<U1>(x1), std::forward<U2>(y1), std::forward<U3>(x2), std::forward<U4>(y2));
 	}
@@ -226,7 +226,7 @@ namespace plotpp{
 		
 		\returns an Arrow class for plotting
 	*/
-	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3, PtrOrMoved U4>
+	template<class U1, class U2, class U3, class U4>
 	inline auto quiver(U1&& x, U2&& y, U3&& u, U4&& v){
 		return arrows(
 					std::forward<U1>(x), 

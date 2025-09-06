@@ -213,16 +213,16 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xitr = std::ranges::cbegin(*x_);
-				auto yitr = std::ranges::cbegin(*y_);
+				auto xitr = plotpp::cbegin(*x_);
+				auto yitr = plotpp::cbegin(*y_);
 				
-				for (; xitr != std::ranges::cend(*x_) && yitr != std::ranges::cend(*y_); ++xitr, (void)++yitr)
+				for (; xitr != plotpp::cend(*x_) && yitr != plotpp::cend(*y_); ++xitr, (void)++yitr)
 					fmt::print(fptr, "{} {}\n", *xitr, *yitr);
 			}else{
 				size_t x = 0;
-				auto yitr = std::ranges::cbegin(*y_);
+				auto yitr = plotpp::cbegin(*y_);
 				
-				for (; yitr != std::ranges::cend(*y_); ++x, (void)++yitr)
+				for (; yitr != plotpp::cend(*y_); ++x, (void)++yitr)
 					fmt::print(fptr, "{} {}\n", x, *yitr);
 			}
 			fmt::print(fptr, "e\n");
@@ -255,7 +255,7 @@ namespace plotpp{
 	};
 	
 	/*constructor helper*/
-	template<PtrOrMoved U1, PtrOrMoved U2>
+	template<class U1, class U2>
 	inline auto boxes(U1&& x, U2&& y) {
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;
@@ -264,7 +264,7 @@ namespace plotpp{
 					optional_ptr<Ty>(std::forward<U2>(y)));
 	}
 	
-	template<PtrOrMoved U2>
+	template<class U2>
 	inline auto boxes(U2&& y) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;

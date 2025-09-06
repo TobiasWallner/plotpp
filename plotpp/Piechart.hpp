@@ -82,13 +82,13 @@ namespace plotpp{
 		void printData([[maybe_unused]]FILE* fptr) const {}
 		
 		void printPlot(FILE* fptr) const {
-			using NameItr = decltype(std::ranges::cbegin(*this->names_));
+			using NameItr = decltype(plotpp::cbegin(*this->names_));
 			NameItr nameItr{}; 
 			NameItr nameEnd{}; 
 			
 			if(this->names_){
-				nameItr = std::ranges::cbegin(*this->names_);
-				nameEnd = std::ranges::cend(*this->names_);
+				nameItr = plotpp::cbegin(*this->names_);
+				nameEnd = plotpp::cend(*this->names_);
 			}else{
 				nameItr = nameEnd;
 			}
@@ -152,27 +152,27 @@ namespace plotpp{
 	
 	/*constructor helper*/
 	
-	template<PtrOrMoved U1, class U2>
+	template<class U1, class U2>
 	auto piechart(U1&& names, const U2& values) 
 	{
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		return Piechart<Tx>(optional_ptr<Tx>(std::forward<U1>(names)), values);
 	}
 	
-	template<PtrOrMoved U1, class U2>
+	template<class U1, class U2>
 	auto piechart(U1&& names, const U2* values) 
 	{
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		return Piechart<Tx>(optional_ptr<Tx>(std::forward<U1>(names)), *values);
 	}
 	
-	template<PtrOrMoved U2>
+	template<class U2>
 	auto piechart(const U2& values) {
 		using Tx = std::vector<int>; // placeholder type
 		return Piechart<Tx>(optional_ptr<Tx>(), values);
 	}
 	
-	template<PtrOrMoved U2>
+	template<class U2>
 	auto piechart(const U2* values) {
 		using Tx = std::vector<int>; // placeholder type
 		return Piechart<Tx>(optional_ptr<Tx>(), *values);

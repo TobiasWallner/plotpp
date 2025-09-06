@@ -72,13 +72,13 @@ namespace plotpp{
 		virtual void printData(FILE* fptr) const {
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 			
-			auto xitr = std::ranges::cbegin(*x_);
-			auto yitr = std::ranges::cbegin(*y_);
-			auto xerrItr = std::ranges::cbegin(*xerror_);
+			auto xitr = plotpp::cbegin(*x_);
+			auto yitr = plotpp::cbegin(*y_);
+			auto xerrItr = plotpp::cbegin(*xerror_);
 			
-			const auto xEnd = std::ranges::cend(*x_);
-			const auto yEnd = std::ranges::cend(*y_);
-			const auto xerrEnd = std::ranges::cend(*xerror_);
+			const auto xEnd = plotpp::cend(*x_);
+			const auto yEnd = plotpp::cend(*y_);
+			const auto xerrEnd = plotpp::cend(*xerror_);
 
 			for (; xitr != xEnd && yitr != yEnd && xerrItr != xerrEnd; ++xitr, (void)++yitr, (void)++xerrItr)
 				fmt::print(fptr, "{} {} {}\n", *xitr, *yitr, *xerrItr);
@@ -96,7 +96,7 @@ namespace plotpp{
 	};
 
 	/*constructor helper*/
-	template<PtrOrMoved U1, PtrOrMoved U2, PtrOrMoved U3>
+	template<class U1, class U2, class U3>
 	auto xerror(U1&& x, U2&& y, U3&& xerr) {
 		using Tx = remove_ptr_t<std::remove_reference_t<U1>>;
 		using Ty = remove_ptr_t<std::remove_reference_t<U2>>;

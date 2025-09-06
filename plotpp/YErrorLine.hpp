@@ -38,12 +38,12 @@ namespace plotpp{
 		The YErrorLine class holds information about how to draw a YErrorLine plot in a figure.
 		It supports various customizations such as YErrorLine type, color, and fill styles.
 		
-		@tparam Tx Type for x-coordinate range, must satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have forward `begin()` and `end()` iterators)
-		@tparam Ty Type for y-coordinate range, must satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range) ()
+		@tparam Tx Type for x-coordinate range, must satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have forward `begin()` and `end()` iterators)
+		@tparam Ty Type for y-coordinate range, must satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range) ()
 		
 		
 	*/
-	template<std::ranges::forward_range Tx, std::ranges::forward_range Ty, std::ranges::forward_range Terr>
+	template<plotpp::ForwardRange Tx, plotpp::ForwardRange Ty, plotpp::ForwardRange Terr>
 	class YErrorLine : public IPlot{	
 	public:
 		
@@ -372,14 +372,14 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n#x, y, error\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xItr = std::ranges::cbegin(*(this->x_));
-				const auto xEnd = std::ranges::cend(*(this->x_));
+				auto xItr = plotpp::cbegin(*(this->x_));
+				const auto xEnd = plotpp::cend(*(this->x_));
 				
-				auto yItr = std::ranges::cbegin(*(this->y_));
-				const auto yEnd = std::ranges::cend(*(this->y_));
+				auto yItr = plotpp::cbegin(*(this->y_));
+				const auto yEnd = plotpp::cend(*(this->y_));
 				
-				auto errItr = std::ranges::cbegin(*(this->err_));
-				const auto errEnd = std::ranges::cend(*(this->err_));
+				auto errItr = plotpp::cbegin(*(this->err_));
+				const auto errEnd = plotpp::cend(*(this->err_));
 				
 				for(; (xItr != xEnd) && (yItr != yEnd) && (errItr != errEnd); ++xItr, (void)++yItr, (void)++errItr){
 					const auto& x = *xItr;
@@ -390,11 +390,11 @@ namespace plotpp{
 			}else{
 				size_t x = 0;
 				
-				auto yItr = std::ranges::cbegin(*(this->y_));
-				const auto yEnd = std::ranges::cend(*(this->y_));
+				auto yItr = plotpp::cbegin(*(this->y_));
+				const auto yEnd = plotpp::cend(*(this->y_));
 				
-				auto errItr = std::ranges::cbegin(*(this->err_));
-				const auto errEnd = std::ranges::cend(*(this->err_));
+				auto errItr = plotpp::cbegin(*(this->err_));
+				const auto errEnd = plotpp::cend(*(this->err_));
 				
 				for(;(yItr != yEnd) && (errItr != errEnd); ++x, (void)++yItr, (void)++errItr){
 					const auto& y = *yItr;
@@ -419,11 +419,11 @@ namespace plotpp{
 
 	/**
 		@brief Construction helper function to create a YErrorLine instance with x- and y-coordinate ranges.
-		@param x : PtrOrMoved - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param x : class - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A YErrorLine instance.
 	*/
-	template<PtrOrMoved Ux, PtrOrMoved Uy, PtrOrMoved Uerr>
+	template<class Ux, class Uy, class Uerr>
 	auto yerrorline(Ux&& x, Uy&& y, Uerr&& err) 
 	{
 		using Tx = remove_ptr_t<std::remove_reference_t<Ux>>;
@@ -437,10 +437,10 @@ namespace plotpp{
 
 	/**
 		@brief Construction helper function to create a YErrorLine instance with x and y coordinate ranges.
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A YErrorLine instance.
 	*/
-	template<PtrOrMoved Uy, PtrOrMoved Uerr>
+	template<class Uy, class Uerr>
 	auto yerrorline(Uy&& y, Uerr&& err) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<Uy>>;

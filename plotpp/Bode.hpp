@@ -16,9 +16,9 @@ namespace plotpp{
 		The top one will show the amplitued and the bottom will show the phase over the frequency.
 		The freqency axis will be formated to be in log-scale.
 		
-		@param frequencies : PtrOrMoved - The frequency values as a container with `begin()` and `end()` iterators that is either a pointer (raw or smart) or the moved container itself. 
-		@param amplitudes : PtrOrMoved - The amplitudes values as a container with `begin()` and `end()` iterators that is either a pointer (raw or smart) or the moved container itself. 
-		@param phases : PtrOrMoved - The phases values as a container with `begin()` and `end()` iterators that is either a pointer (raw or smart) or the moved container itself. 
+		@param frequencies : class - The frequency values as a container with `begin()` and `end()` iterators that is either a pointer (raw or smart) or the moved container itself. 
+		@param amplitudes : class - The amplitudes values as a container with `begin()` and `end()` iterators that is either a pointer (raw or smart) or the moved container itself. 
+		@param phases : class - The phases values as a container with `begin()` and `end()` iterators that is either a pointer (raw or smart) or the moved container itself. 
 		
 		@param title : std::string - The title of the bode plot - Multiplot (default: "Bode Diagram")
 		@param freqLabel : std::string - The label of the frequency-axis (default: "Frequency in Hz")
@@ -27,7 +27,7 @@ namespace plotpp{
 		
 		@returns Multiplot - The generated bode plot.
 	*/
-	template<PtrOrMoved Uf, PtrOrMoved Uamp, PtrOrMoved Uphi>
+	template<class Uf, class Uamp, class Uphi>
 	Multiplot bode(	Uf&& frequencies, Uamp&& amplitudes, Uphi&& phases, 
 					std::string title = "Bode Diagram", 
 					std::string freqLabel = "Frequency in Hz", 

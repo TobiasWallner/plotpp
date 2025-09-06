@@ -38,12 +38,12 @@ namespace plotpp{
 		The Line class holds information about how to draw a line plot in a figure.
 		It supports various customizations such as line type, color, and fill styles.
 		
-		@tparam Tx Type for x-coordinate range, must satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have forward `begin()` and `end()` iterators)
-		@tparam Ty Type for y-coordinate range, must satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range) ()
+		@tparam Tx Type for x-coordinate range, must satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range) (aka. have forward `begin()` and `end()` iterators)
+		@tparam Ty Type for y-coordinate range, must satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range) ()
 		
 		
 	*/
-	template<std::ranges::forward_range Tx, std::ranges::forward_range Ty>
+	template<plotpp::ForwardRange Tx, plotpp::ForwardRange Ty>
 	class Line : public IPlot{	
 	public:
 		
@@ -371,10 +371,10 @@ namespace plotpp{
 			fmt::print(fptr, "$d{:d} << e\n", this->IPlot::uid());
 
 			if(this->x_){
-				auto xItr = std::ranges::cbegin(*(this->x_));
-				const auto xEnd = std::ranges::cend(*(this->x_));
-				auto yItr = std::ranges::cbegin(*(this->y_));
-				const auto yEnd = std::ranges::cend(*(this->y_));
+				auto xItr = plotpp::cbegin(*(this->x_));
+				const auto xEnd = plotpp::cend(*(this->x_));
+				auto yItr = plotpp::cbegin(*(this->y_));
+				const auto yEnd = plotpp::cend(*(this->y_));
 				for(; (xItr != xEnd) && (yItr != yEnd); ++xItr, (void)++yItr){
 					const auto& x = *xItr;
 					const auto& y = *yItr;
@@ -382,8 +382,8 @@ namespace plotpp{
 				}
 			}else{
 				size_t x = 0;
-				auto yItr = std::ranges::cbegin(*(this->y_));
-				const auto yEnd = std::ranges::cend(*(this->y_));
+				auto yItr = plotpp::cbegin(*(this->y_));
+				const auto yEnd = plotpp::cend(*(this->y_));
 				for(;yItr != yEnd; ++x, (void)++yItr){
 					const auto& y = *yItr;
 					fmt::print(fptr, "{} {}\n", x, y);
@@ -405,11 +405,11 @@ namespace plotpp{
 
 	/**
 		@brief Construction helper function to create a Line instance with x- and y-coordinate ranges.
-		@param x : PtrOrMoved - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param x : class - The x-coordinate data. Can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A Line instance.
 	*/
-	template<PtrOrMoved Ux, PtrOrMoved Uy>
+	template<class Ux, class Uy>
 	auto line(Ux&& x, Uy&& y) 
 	{
 		using Tx = remove_ptr_t<std::remove_reference_t<Ux>>;
@@ -421,10 +421,10 @@ namespace plotpp{
 
 	/**
 		@brief Construction helper function to create a Line instance with x and y coordinate ranges.
-		@param y : PtrOrMoved - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [std::ranges::forward_range](https://en.cppreference.com/w/cpp/ranges/forward_range)
+		@param y : class - The y-coordinate data. can be passed by pointer `&x` or moved `std::move(x)`. Also has to satisfy [plotpp::ForwardRange](https://en.cppreference.com/w/cpp/ranges/forward_range)
 		@return A Line instance.
 	*/
-	template<PtrOrMoved Uy>
+	template<class Uy>
 	auto line(Uy&& y) {
 		using Tx = std::vector<int>; // placeholder type
 		using Ty = remove_ptr_t<std::remove_reference_t<Uy>>;

@@ -44,6 +44,7 @@ set(EXAMPLES
     steps
 	yerrorline
 	bode
+    data_size
 )
 
 # Add each example executable

@@ -93,7 +93,7 @@ namespace plotpp{
 	};
 	
 	// Construction Helper
-	template<PtrOrMoved U1>
+	template<class U1>
 	auto heatmap(U1&& matrix, size_t rows, size_t columns,
 				 std::function<double(const remove_ptr_t<std::remove_reference_t<U1>>&, size_t, size_t)> at,
 				 Text title = "") {

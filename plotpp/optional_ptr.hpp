@@ -17,9 +17,9 @@ public:
 		: _mem()
 		, _ptr(nullptr) {}
 
-    //inline optional_ptr(T& ref) 
-	//	: _mem(std::make_shared<T>(ref))
-	//	, _ptr(this->_mem.get()) {}
+    inline optional_ptr(const T& ref) 
+		: _mem(std::make_shared<T>(ref))
+		, _ptr(this->_mem.get()) {}
 	
 	inline optional_ptr(T&& ref) 
 		: _mem(std::make_shared<T>(std::move(ref)))
@@ -59,7 +59,7 @@ private:
 
 // Concept that checks for correct ways of constructing an optional pointer
 template <typename T>
-concept PtrOrMoved = 
+concept PointerOrMoved = 
     std::is_pointer_v<std::remove_reference_t<T>> ||                       					// Raw pointer
     std::is_rvalue_reference_v<T&&> ||              					// Rvalue reference
     std::is_same_v<std::remove_reference_t<T>, std::unique_ptr<typename T::element_type>> || // std::unique_ptr
